@@ -10,6 +10,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ym-uic-full-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lean-logical-order:
     runs-on: ubuntu-latest
@@ -188,6 +192,11 @@ jobs:
         continue-on-error: true
         run: lake env lean Lean/Section03/T008F_SourceAnalyticity_FullAssembly.lean
 
+      - name: Compile U2 marked-shell three-channel bound
+        id: markedshell3
+        continue-on-error: true
+        run: lake env lean Lean/Section03/T009A_MarkedShell_ThreeChannelBound.lean
+
       - name: Require current logical batch
         if: always()
         run: |
@@ -221,3 +230,4 @@ jobs:
           test "${{ steps.sourcepolydisc.outcome }}" = "success"
           test "${{ steps.sourcederivmajor.outcome }}" = "success"
           test "${{ steps.sourcefull.outcome }}" = "success"
+          test "${{ steps.markedshell3.outcome }}" = "success"
