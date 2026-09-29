@@ -38,7 +38,8 @@ jobs:
             Lean/Section03/T008F_SourceAnalyticity_FullAssembly.lean \
             Lean/Section03/T009A_MarkedShell_ThreeChannelBound.lean \
             Lean/Section03/T009B_MarkedShell_CauchyExtraction.lean \
-            Lean/Section03/T009B_MarkedShell_Cauchy.lean; then
+            Lean/Section03/T009B_MarkedShell_Cauchy.lean \
+            Lean/Section03/T009C_MarkedShell_FullAssembly.lean; then
             echo "Forbidden proof placeholder/custom axiom in current batch"
             exit 1
           fi
@@ -88,6 +89,11 @@ jobs:
         continue-on-error: true
         run: lake env lean Lean/Section03/T009B_MarkedShell_Cauchy.lean
 
+      - name: Compile T009C marked-shell final assembly
+        id: t009c
+        continue-on-error: true
+        run: lake env lean Lean/Section03/T009C_MarkedShell_FullAssembly.lean
+
       - name: Require current batch
         if: always()
         run: |
@@ -100,3 +106,4 @@ jobs:
           test "${{ steps.t009a.outcome }}" = "success"
           test "${{ steps.t009b.outcome }}" = "success"
           test "${{ steps.t009bcauchy.outcome }}" = "success"
+          test "${{ steps.t009c.outcome }}" = "success"
