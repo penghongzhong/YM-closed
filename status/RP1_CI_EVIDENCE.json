@@ -1,0 +1,22 @@
+{
+  "certified_source_head": "8e14ed24b86d16de87192166b4c5976464898b71",
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
+  "mathlib_revision": "516d31250e96c4e8e76888c3d8e2e43a9642b9ee",
+  "fast": {"run_number":44,"run_id":36509839892,"job_id":109219360327,"raw_log_inspected":true,"conclusion":"success","final_gate":"SUCCESS","final_gate_utc":"2026-09-29T01:55:14.1990486Z"},
+  "full": {"run_number":44,"run_id":36509839844,"job_id":109219378656,"raw_log_inspected":true,"conclusion":"success","final_gate":"SUCCESS","final_gate_utc":"2026-09-29T01:57:10.5817913Z"},
+  "helper_files": [
+    {"file":"Lean/Repair/T013A_FiniteMetropolisEnergy.lean","raw_exit_code":0,"printed_theorems":4},
+    {"file":"Lean/Repair/T013B_UnitaryRectangleTelescoping.lean","raw_exit_code":0,"printed_theorems":3},
+    {"file":"Lean/Repair/T013C_QuaternionCommutator.lean","raw_exit_code":0,"printed_theorems":4},
+    {"file":"Lean/Repair/T013D_NoncentralCurvatureCertificate.lean","raw_exit_code":0,"printed_theorems":4},
+    {"file":"Lean/Repair/T013E_SlabScoreCompression.lean","raw_exit_code":0,"printed_theorems":4},
+    {"file":"Lean/Repair/T013F_FreshLinkCaptureArithmetic.lean","raw_exit_code":0,"printed_theorems":6}
+  ],
+  "printed_theorems_total":25,
+  "axioms":["propext","Classical.choice","Quot.sound"],
+  "sorryAx":false,
+  "source_violations":[],
+  "private_paths":[],
+  "continuous_measure_theorems_end_to_end_lean":false,
+  "global_I7":"OPEN"
+}
