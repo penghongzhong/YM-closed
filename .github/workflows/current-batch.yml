@@ -44,7 +44,8 @@ jobs:
             Lean/Section03/T010B_Supergeom.lean \
             Lean/Section03/T010C_UVShellSum.lean \
             Lean/Section03/T011A_CorrectedClock_Cancellation.lean \
-            Lean/Section03/T011B_CorrectedClock_Summability.lean; then
+            Lean/Section03/T011B_CorrectedClock_Summability.lean \
+            Lean/Section03/T011C_FiniteClockError.lean; then
             echo "Forbidden proof placeholder/custom axiom in current batch"
             exit 1
           fi
@@ -124,6 +125,11 @@ jobs:
         continue-on-error: true
         run: lake env lean Lean/Section03/T011B_CorrectedClock_Summability.lean
 
+      - name: Compile T011C finite-horizon clock error
+        id: t011c
+        continue-on-error: true
+        run: lake env lean Lean/Section03/T011C_FiniteClockError.lean
+
       - name: Require current batch
         if: always()
         run: |
@@ -142,3 +148,4 @@ jobs:
           test "${{ steps.t010c.outcome }}" = "success"
           test "${{ steps.t011a.outcome }}" = "success"
           test "${{ steps.t011b.outcome }}" = "success"
+          test "${{ steps.t011c.outcome }}" = "success"
