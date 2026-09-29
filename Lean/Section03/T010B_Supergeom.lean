@@ -1,5 +1,5 @@
 import Mathlib
-import Lean.Section03.T010A_Distance_GeometricTail
+import Section03.T010A_Distance_GeometricTail
 
 set_option autoImplicit false
 
@@ -52,7 +52,6 @@ theorem geometric_sum_from_one_le (q : ℝ) (K : ℕ) (hq0 : 0 ≤ q) (hq1 : q <
       mul_le_mul_of_nonneg_left (T010A.geometric_prefix_le q K hq0 hq1) hq0
     _ = q / (1 - q) := by ring
 
-/-- The full finite supergeometric sum, not merely its pointwise comparison. -/
 theorem supergeom_sum_bound (L nu R : ℝ) (K : ℕ)
     (hL : 2 ≤ L) (hnu : 0 < nu) (hR : 0 < R) :
     (Finset.range K).sum (fun n => Real.exp (-nu * L ^ (n + 1) * R)) ≤

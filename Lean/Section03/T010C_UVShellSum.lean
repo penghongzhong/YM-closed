@@ -1,6 +1,6 @@
 import Mathlib
-import Lean.Section03.T010A_Distance_GeometricTail
-import Lean.Section03.T010B_Supergeom
+import Section03.T010A_Distance_GeometricTail
+import Section03.T010B_Supergeom
 
 set_option autoImplicit false
 
@@ -22,7 +22,6 @@ theorem reverse_scale_sum (f : ℕ → ℝ) (K : ℕ) :
       rw [hs, ih, Finset.sum_range_succ]
       simp
 
-/-- Full UV covariance sum over the actual finite scale index set. -/
 theorem uv_shell_sum_bound (L mu R Binf Cstar : ℝ) (K : ℕ)
     (cov r : ℕ → ℝ) (hL : 2 ≤ L) (hmu : 0 < mu) (hR : 0 < R)
     (hC : 0 ≤ Cstar)
