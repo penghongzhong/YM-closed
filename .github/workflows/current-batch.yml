@@ -37,7 +37,8 @@ jobs:
             Lean/Section03/T008E_SourceAnalyticity_DerivativeMajorant.lean \
             Lean/Section03/T008F_SourceAnalyticity_FullAssembly.lean \
             Lean/Section03/T009A_MarkedShell_ThreeChannelBound.lean \
-            Lean/Section03/T009B_MarkedShell_CauchyExtraction.lean; then
+            Lean/Section03/T009B_MarkedShell_CauchyExtraction.lean \
+            Lean/Section03/T009B_MarkedShell_Cauchy.lean; then
             echo "Forbidden proof placeholder/custom axiom in current batch"
             exit 1
           fi
@@ -82,6 +83,11 @@ jobs:
         continue-on-error: true
         run: lake env lean Lean/Section03/T009B_MarkedShell_CauchyExtraction.lean
 
+      - name: Compile T009B one-variable Cauchy theorem
+        id: t009bcauchy
+        continue-on-error: true
+        run: lake env lean Lean/Section03/T009B_MarkedShell_Cauchy.lean
+
       - name: Require current batch
         if: always()
         run: |
@@ -93,3 +99,4 @@ jobs:
           test "${{ steps.f.outcome }}" = "success"
           test "${{ steps.t009a.outcome }}" = "success"
           test "${{ steps.t009b.outcome }}" = "success"
+          test "${{ steps.t009bcauchy.outcome }}" = "success"
