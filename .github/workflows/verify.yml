@@ -197,6 +197,11 @@ jobs:
         continue-on-error: true
         run: lake env lean Lean/Section03/T009A_MarkedShell_ThreeChannelBound.lean
 
+      - name: Compile U2 marked-shell Cauchy extraction
+        id: markedshellcauchy
+        continue-on-error: true
+        run: lake env lean Lean/Section03/T009B_MarkedShell_CauchyExtraction.lean
+
       - name: Require current logical batch
         if: always()
         run: |
@@ -231,3 +236,4 @@ jobs:
           test "${{ steps.sourcederivmajor.outcome }}" = "success"
           test "${{ steps.sourcefull.outcome }}" = "success"
           test "${{ steps.markedshell3.outcome }}" = "success"
+          test "${{ steps.markedshellcauchy.outcome }}" = "success"
