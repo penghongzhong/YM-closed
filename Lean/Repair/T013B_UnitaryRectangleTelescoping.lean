@@ -30,9 +30,11 @@ theorem unitary_cycle_square {E : Type*} [SeminormedAddCommGroup E] [NormedSpace
     ‖v0 - T1 (T2 (T3 (T4 v0)))‖ ^ 2 ≤
       4 * (‖v0 - T1 v1‖ ^ 2 + ‖v1 - T2 v2‖ ^ 2 +
         ‖v2 - T3 v3‖ ^ 2 + ‖v3 - T4 v0‖ ^ 2) := by
-  have he := cycle_identity T1.toLinearEquiv.toLinearMap T2.toLinearEquiv.toLinearMap
-    T3.toLinearEquiv.toLinearMap T4.toLinearEquiv.toLinearMap v0 v1 v2 v3
-  change v0 - T1 (T2 (T3 (T4 v0))) = _ at he
+  have he : v0 - T1 (T2 (T3 (T4 v0))) =
+      (v0 - T1 v1) + T1 (v1 - T2 v2) + T1 (T2 (v2 - T3 v3)) +
+        T1 (T2 (T3 (v3 - T4 v0))) := by
+    simp only [map_sub]
+    abel
   rw [he]
   have h := four_vector_square (v0 - T1 v1) (T1 (v1 - T2 v2))
     (T1 (T2 (v2 - T3 v3))) (T1 (T2 (T3 (v3 - T4 v0))))

@@ -9,8 +9,8 @@ theorem two_point_square {E : Type*} [SeminormedAddCommGroup E]
     (x y c : E) : ‖y - x‖ ^ 2 ≤ 2 * ‖y - c‖ ^ 2 + 2 * ‖x - c‖ ^ 2 := by
   have ht : ‖y - x‖ ≤ ‖y - c‖ + ‖x - c‖ := by
     calc
-      ‖y - x‖ ≤ ‖y - c‖ + ‖c - x‖ := norm_sub_le _ _ _
-      _ = _ := by rw [norm_sub_rev c x]
+      ‖y - x‖ = ‖(y - c) - (x - c)‖ := by congr 1; abel
+      _ ≤ ‖y - c‖ + ‖x - c‖ := norm_sub_le _ _
   have hs := mul_self_le_mul_self (norm_nonneg (y - x)) ht
   nlinarith [sq_nonneg (‖y - c‖ - ‖x - c‖)]
 
