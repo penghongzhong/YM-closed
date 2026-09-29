@@ -41,7 +41,8 @@ jobs:
             Lean/Section03/T009B_MarkedShell_Cauchy.lean \
             Lean/Section03/T009C_MarkedShell_FullAssembly.lean \
             Lean/Section03/T010A_Distance_GeometricTail.lean \
-            Lean/Section03/T010B_Supergeom.lean; then
+            Lean/Section03/T010B_Supergeom.lean \
+            Lean/Section03/T010C_UVShellSum.lean; then
             echo "Forbidden proof placeholder/custom axiom in current batch"
             exit 1
           fi
@@ -106,6 +107,11 @@ jobs:
         continue-on-error: true
         run: lake env lean Lean/Section03/T010B_Supergeom.lean
 
+      - name: Compile T010C UV shell-sum assembly
+        id: t010c
+        continue-on-error: true
+        run: lake env lean Lean/Section03/T010C_UVShellSum.lean
+
       - name: Require current batch
         if: always()
         run: |
@@ -121,3 +127,4 @@ jobs:
           test "${{ steps.t009c.outcome }}" = "success"
           test "${{ steps.t010a.outcome }}" = "success"
           test "${{ steps.t010b.outcome }}" = "success"
+          test "${{ steps.t010c.outcome }}" = "success"
