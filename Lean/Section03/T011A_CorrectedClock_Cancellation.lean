@@ -20,26 +20,25 @@ theorem corrected_clock_error_triangle
     (Gamma C x rho quad : ℝ)
     (hG : 0 < Gamma)
     (hx : 0 < x)
-    (hquad : |quad| ≤ x⁻²)
+    (hquad : |quad| ≤ x⁻¹ * x⁻¹)
     (hlin :
       |rho/Gamma + C^2/(Gamma^2*x^2)
         - C*rho/(Gamma^2*x)|
-        ≤ |rho|/Gamma + (C^2/Gamma^2)*x⁻²
+        ≤ |rho|/Gamma + (C^2/Gamma^2)*(x⁻¹*x⁻¹)
           + (|C|/Gamma^2)*|rho|*x⁻¹) :
     |rho/Gamma + C^2/(Gamma^2*x^2)
         - C*rho/(Gamma^2*x) + quad|
       ≤
-    |rho|/Gamma + (C^2/Gamma^2)*x⁻²
-      + (|C|/Gamma^2)*|rho|*x⁻¹ + x⁻² := by
+    |rho|/Gamma + (C^2/Gamma^2)*(x⁻¹*x⁻¹)
+      + (|C|/Gamma^2)*|rho|*x⁻¹ + x⁻¹*x⁻¹ := by
   calc
     |rho/Gamma + C^2/(Gamma^2*x^2)
         - C*rho/(Gamma^2*x) + quad|
-      ≤
-    |rho/Gamma + C^2/(Gamma^2*x^2)
+      ≤ |rho/Gamma + C^2/(Gamma^2*x^2)
         - C*rho/(Gamma^2*x)| + |quad| := abs_add _ _
     _ ≤
-    (|rho|/Gamma + (C^2/Gamma^2)*x⁻²
-      + (|C|/Gamma^2)*|rho|*x⁻¹) + x⁻² := by
+      (|rho|/Gamma + (C^2/Gamma^2)*(x⁻¹*x⁻¹)
+        + (|C|/Gamma^2)*|rho|*x⁻¹) + x⁻¹*x⁻¹ := by
       gcongr
 
 #print axioms corrected_clock_linear_cancellation
