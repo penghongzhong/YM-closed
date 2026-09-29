@@ -1,0 +1,88 @@
+name: YM UIC current-batch fast verification
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+concurrency:
+  group: ym-uic-current-batch-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  current-source-analyticity-batch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Elan and pinned Lean
+        shell: bash
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+          lake --version
+
+      - name: Resolve pinned Mathlib
+        run: lake update
+
+      - name: Fetch Mathlib cache
+        run: lake exe cache get
+
+      - name: Reject placeholders and custom axioms in current batch
+        run: |
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom)([[:space:]]|$)'             Lean/Section03/T008A_SourceAnalyticity_FiniteClusterEntire.lean             Lean/Section03/T008B_SourceAnalyticity_FrechetDerivative.lean             Lean/Section03/T008C_SourceAnalyticity_TsumEngine.lean \
+            Lean/Section03/T008D_SourceAnalyticity_PolydiscAssembly.lean \
+            Lean/Section03/T008E_SourceAnalyticity_DerivativeMajorant.lean \
+            Lean/Section03/T008F_SourceAnalyticity_FullAssembly.lean \
+            Lean/Section03/T009A_MarkedShell_ThreeChannelBound.lean; then
+            echo "Forbidden proof placeholder/custom axiom in current batch"
+            exit 1
+          fi
+
+      - name: Compile T008A finite-cluster entire
+        id: a
+        continue-on-error: true
+        run: lake env lean Lean/Section03/T008A_SourceAnalyticity_FiniteClusterEntire.lean
+
+      - name: Compile T008B Frechet derivative
+        id: b
+        continue-on-error: true
+        run: lake env lean Lean/Section03/T008B_SourceAnalyticity_FrechetDerivative.lean
+
+      - name: Compile T008C joint tsum engine
+        id: c
+        continue-on-error: true
+        run: lake env lean Lean/Section03/T008C_SourceAnalyticity_TsumEngine.lean
+
+      - name: Compile T008D polydisc normal-convergence assembly
+        id: d
+        continue-on-error: true
+        run: lake env lean Lean/Section03/T008D_SourceAnalyticity_PolydiscAssembly.lean
+
+      - name: Compile T008E derivative majorant
+        id: e
+        continue-on-error: true
+        run: lake env lean Lean/Section03/T008E_SourceAnalyticity_DerivativeMajorant.lean
+
+      - name: Compile T008F full source-analyticity assembly
+        id: f
+        continue-on-error: true
+        run: lake env lean Lean/Section03/T008F_SourceAnalyticity_FullAssembly.lean
+
+      - name: Compile T009A marked-shell three-channel bound
+        id: t009a
+        continue-on-error: true
+        run: lake env lean Lean/Section03/T009A_MarkedShell_ThreeChannelBound.lean
+
+      - name: Require current batch
+        if: always()
+        run: |
+          test "${{ steps.a.outcome }}" = "success"
+          test "${{ steps.b.outcome }}" = "success"
+          test "${{ steps.c.outcome }}" = "success"
+          test "${{ steps.d.outcome }}" = "success"
+          test "${{ steps.e.outcome }}" = "success"
+          test "${{ steps.f.outcome }}" = "success"
+          test "${{ steps.t009a.outcome }}" = "success"
