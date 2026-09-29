@@ -19,7 +19,12 @@ theorem corrected_clock_error_triangle (Gamma C x rho quad : ℝ)
     |rho / Gamma + C ^ 2 / (Gamma ^ 2 * x ^ 2) - C * rho / (Gamma ^ 2 * x) + quad| ≤
       |rho| / Gamma + (C ^ 2 / Gamma ^ 2) * (x⁻¹ * x⁻¹) +
         (|C| / Gamma ^ 2) * |rho| * x⁻¹ + x⁻¹ * x⁻¹ := by
-  exact (abs_add _ _).trans (add_le_add hlin hquad)
+  have ht :
+      |rho / Gamma + C ^ 2 / (Gamma ^ 2 * x ^ 2) - C * rho / (Gamma ^ 2 * x) + quad| ≤
+      |rho / Gamma + C ^ 2 / (Gamma ^ 2 * x ^ 2) - C * rho / (Gamma ^ 2 * x)| + |quad| := by
+    simpa only [Real.norm_eq_abs] using norm_add_le
+      (rho / Gamma + C ^ 2 / (Gamma ^ 2 * x ^ 2) - C * rho / (Gamma ^ 2 * x)) quad
+  exact ht.trans (add_le_add hlin hquad)
 
 #print axioms corrected_clock_linear_cancellation
 #print axioms corrected_clock_error_triangle
