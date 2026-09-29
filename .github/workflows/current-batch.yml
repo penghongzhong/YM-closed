@@ -76,6 +76,11 @@ jobs:
         continue-on-error: true
         run: lake env lean Lean/Section03/T009A_MarkedShell_ThreeChannelBound.lean
 
+      - name: Compile T009B marked-shell Cauchy extraction
+        id: t009b
+        continue-on-error: true
+        run: lake env lean Lean/Section03/T009B_MarkedShell_CauchyExtraction.lean
+
       - name: Require current batch
         if: always()
         run: |
@@ -86,3 +91,4 @@ jobs:
           test "${{ steps.e.outcome }}" = "success"
           test "${{ steps.f.outcome }}" = "success"
           test "${{ steps.t009a.outcome }}" = "success"
+          test "${{ steps.t009b.outcome }}" = "success"
