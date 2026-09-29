@@ -74,3 +74,32 @@ not used as a surrogate for joint holomorphy.
 Full synchronized verification run #58: Lean logical order SUCCESS and
 CURRENT/v128 PDF compilation SUCCESS. Static TeX audit:
 duplicate labels 0; missing refs 0; forward refs 0.
+
+
+## 2026-09-29 synchronization: U2 / U3 / B08
+
+| Order | Paper node | Lean file | Class | Status |
+|---:|---|---|---|---|
+| 6A | `thm:U2` three-channel shell | `Lean/Section03/T009A_MarkedShell_ThreeChannelBound.lean` | internal | PASS |
+| 6B | `thm:U2` Cauchy derivative | `Lean/Section03/T009B_MarkedShell_Cauchy.lean` | internal complex analysis | PASS |
+| 6C | `thm:U2` Cauchy extraction | `Lean/Section03/T009B_MarkedShell_CauchyExtraction.lean` | internal arithmetic | PASS |
+| 6D | `thm:U2` full covariance assembly | `Lean/Section03/T009C_MarkedShell_FullAssembly.lean` | internal | PASS |
+| 7 | `lem:distance` | `Lean/Section03/T010A_Distance_GeometricTail.lean` | internal recurrence/geometric tail | PASS |
+| 8 | `lem:supergeom` | `Lean/Section03/T010B_Supergeom.lean` | internal finite sum | PASS |
+| 8A | U3-A `eq:UVsum` | `Lean/Section03/T010C_UVShellSum.lean` | internal scale assembly | PASS |
+| 8B | corrected-clock linear cancellation | `Lean/Section03/T011A_CorrectedClock_Cancellation.lean` | internal algebra | PASS |
+| 8C | corrected-clock summability/telescoping | `Lean/Section03/T011B_CorrectedClock_Summability.lean` | internal | PASS |
+| 8D | finite clock error / path remainder | `Lean/Section03/T011C_FiniteClockError.lean` | internal | PASS |
+| 8E | corrected-clock derivative/monotonicity | `Lean/Section03/T011D_CorrectedClock_Derivative.lean` | internal calculus | PASS |
+| 8F | inverse-square prefix summation | `Lean/Section03/T011E_InverseSquare_PrefixBound.lean` | internal | PASS |
+| 9 | `lem:B08-collar` | `Lean/Section04/T012A_B08_Collar.lean` | internal over published full-state preservation interface | PASS |
+| 10 | `cor:B08-endpoint-cont` | `Lean/Section04/T012B_B08_EndpointContinuity.lean` | internal topology | PASS |
+| 11 | `lem:B08-sign` | `Lean/Section04/T012C_B08_SignBracket.lean` | internal | PASS |
+| 12 | `lem:B08-IVT` | `Lean/Section04/T012D_B08_IntermediateValue.lean` | internal real analysis | PASS |
+| 13 | `lem:B08-first-exit` | `Lean/Section04/T012E_B08_FirstExit.lean` | internal | PASS |
+| 14 | `thm:B08-phaselock` | `Lean/Section04/T012F_B08_PhaseLock.lean` | internal assembly | PASS |
+| audit | local margin does not imply uniform frame | `Lean/Audit/T900_LocalMargin_NotUniformFrame.lean` | internal guardrail | PASS |
+
+Head `279a29531d46b166165c2d81eea6120a0f415a1a`: fast run #40 and full run #40 both **SUCCESS**; raw axioms are restricted to `propext, Classical.choice, Quot.sound`.
+
+Private-library synchronization is represented by the 2026-09-29 v133 Lean-sync candidate TeX/PDF; these manuscript files remain outside this public repository. That candidate records B08 as closed but preserves `I7-GLOBAL-ROOT-FRAME` as an explicit internal red point, so the manuscript and Lean ledger do not falsely advertise unconditional UIC closure.

@@ -46,10 +46,17 @@ Synchronized v128/v133 PDF job: **PASS**.
 
 ## Current mathematical-gap status
 
-No genuine mathematical proof gap has been opened so far.
-The root-distance formalization required definition-level clarification in CURRENT:
-finite-set block distance, uniform root-support diameter `R_rt`, and explicit contact witnesses.
-These strengthen readability/formalizability and do not contradict the frozen v128 claim.
+A genuine load-bearing gap is now recorded at the first post-B08 Part-I node:
+
+`I7-GLOBAL-ROOT-FRAME`
+
+The current private v133 Lean-synchronization candidate states explicitly that the already certified local/rootwise deficit estimates and the v94 finite Farkas certificate do **not** imply the required regulator-uniform quadratic Gram inequality
+`G0^(M) - G*^(M) ⪰ η* G0^(M)` for all finite exhaustion levels `M`.
+Without an independent interacting-measure quadratic-frame / equivalent dynamical estimate, promoting this inequality to an internal theorem would assume an estimate equivalent in strength to the desired transfer contraction/mass gap.
+
+`Lean/Audit/T900_LocalMargin_NotUniformFrame.lean` is a positive-contraction two-dimensional guardrail: it proves that nonnegative transfer/deficit forms can have uniform positive margins on the coordinate axes while the global relative deficit vanishes on the diagonal. This is **not** a counterexample to Yang--Mills; it certifies only that the local-to-global inference is invalid without extra structure.
+
+This conflicts with the historical unconditional wording of frozen v128, so v128 is left untouched and the editable v133 synchronization layer records the conclusion conditionally until I7 is genuinely closed.
 
 ## Next logical order
 
@@ -174,3 +181,30 @@ Next logical node:
 
 Next logical node:
 `thm:U2` (marked-shell theorem) → `lem:distance` → `lem:supergeom`.
+
+
+## Run #40: U2 → U3 → B08 synchronized batch
+
+Head: `279a29531d46b166165c2d81eea6120a0f415a1a`.
+
+- `thm:U2`: T009A/B/B-extraction/C — **PASS**.
+- `lem:distance`: T010A full recurrence/geometric-tail theorem — **PASS**.
+- `lem:supergeom`: T010B full finite supergeometric sum — **PASS**.
+- U3-A UV covariance sum: T010C full finite-scale assembly — **PASS**.
+- corrected clock cancellation/telescoping/path remainder/derivative/inverse-square prefix bound: T011A–T011E — **PASS**.
+- `lem:B08-collar`: T012A full-state finite-horizon collar over the published preservation interface — **PASS**.
+- `cor:B08-endpoint-cont`: T012B — **PASS**.
+- `lem:B08-sign`: T012C — **PASS**.
+- `lem:B08-IVT`: T012D — **PASS**.
+- `lem:B08-first-exit`: T012E — **PASS**.
+- `thm:B08-phaselock`: T012F — **PASS**.
+- local-to-global guardrail T900 — **PASS**.
+
+Fast run #40 and full synchronized run #40 both have final gate **SUCCESS**.
+For every theorem printed in this batch the raw axiom audit contains only
+`propext, Classical.choice, Quot.sound`; no `sorryAx`.
+The repository privacy guard also reports no tracked `paper/`, `*.tex`, or `*.pdf`.
+
+Next strict mathematical node:
+`I7-GLOBAL-ROOT-FRAME`.
+Downstream `thm:gramtotransfer`, `thm:gap`, and unconditional `thm:UIclosure` are blocked until that node is proved rather than assumed.

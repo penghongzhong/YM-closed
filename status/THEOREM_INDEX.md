@@ -11,18 +11,18 @@ The unlabeled PSD-cone lemma near TeX line 3053 is deliberately included.
 | 3 | lemma | `lem:root-tree-majorant` | finite rooted-tree majorant | 583 | EXTERNAL-INTERFACE PASS (A-E internal PASS; F-G certified interface/assembly) |
 | 4 | lemma | `lem:root` | root 不进入 bulk placement entropy | 669 | EXTERNAL-INTERFACE PASS (Penrose only); internal T007A/C/D PASS |
 | 5 | lemma | `lem:U2-source-analyticity` | finite-cutoff 联合 source 解析性 | 773 | PASS |
-| 6 | theorem | `thm:U2` | U2 marked-shell theorem | 1089 | QUEUED |
-| 7 | lemma | `lem:distance` | 尺度距离下界 | 1155 | QUEUED |
-| 8 | lemma | `lem:supergeom` | 超几何尺度和 | 1173 | QUEUED |
-| 9 | lemma | `lem:B08-collar` | finite-horizon bracket collar | 1577 | QUEUED |
-| 10 | corollary | `cor:B08-endpoint-cont` | endpoint continuity | 1619 | QUEUED |
-| 11 | lemma | `lem:B08-sign` | corrected-clock endpoint sign bracket | 1627 | QUEUED |
-| 12 | lemma | `lem:B08-IVT` | IVT endpoint shooting | 1657 | QUEUED |
-| 13 | lemma | `lem:B08-first-exit` | first-exit exclusion | 1676 | QUEUED |
-| 14 | theorem | `thm:B08-phaselock` | B08 phase lock | 1697 | QUEUED |
-| 15 | theorem | `thm:gramtotransfer` | terminal-time Gram certificate → transfer contraction | 2375 | QUEUED |
-| 16 | theorem | `thm:gap` | physical mass gap | 2418 | QUEUED |
-| 17 | theorem | `thm:UIclosure` | U–I 条件闭合 | 2466 | QUEUED |
+| 6 | theorem | `thm:U2` | U2 marked-shell theorem | 1089 | PASS |
+| 7 | lemma | `lem:distance` | 尺度距离下界 | 1155 | PASS |
+| 8 | lemma | `lem:supergeom` | 超几何尺度和 | 1173 | PASS |
+| 9 | lemma | `lem:B08-collar` | finite-horizon bracket collar | 1577 | PASS |
+| 10 | corollary | `cor:B08-endpoint-cont` | endpoint continuity | 1619 | PASS |
+| 11 | lemma | `lem:B08-sign` | corrected-clock endpoint sign bracket | 1627 | PASS |
+| 12 | lemma | `lem:B08-IVT` | IVT endpoint shooting | 1657 | PASS |
+| 13 | lemma | `lem:B08-first-exit` | first-exit exclusion | 1676 | PASS |
+| 14 | theorem | `thm:B08-phaselock` | B08 phase lock | 1697 | PASS |
+| 15 | theorem | `thm:gramtotransfer` | terminal-time Gram certificate → transfer contraction | 2375 | BLOCKED BY I7-GLOBAL-ROOT-FRAME |
+| 16 | theorem | `thm:gap` | physical mass gap | 2418 | BLOCKED BY I7-GLOBAL-ROOT-FRAME |
+| 17 | theorem | `thm:UIclosure` | U–I 条件闭合 | 2466 | CONDITIONAL / BLOCKED BY I7-GLOBAL-ROOT-FRAME |
 | 18 | lemma | `lem:B09-M0inv` | classical jet map 可逆 | 2640 | QUEUED |
 | 19 | theorem | `thm:B09-counterterm` | fixed-D counterterm block 闭合 | 2725 | QUEUED |
 | 20 | lemma | `lem:B10-exp-moment` | 指数矩推出全部有限矩 | 2781 | QUEUED |
@@ -49,3 +49,6 @@ The unlabeled PSD-cone lemma near TeX line 3053 is deliberately included.
 | 41 | theorem | `thm:B14N-continuum` | C3 continuum nontriviality | 3915 | QUEUED |
 | 42 | theorem | `thm:B15-master-main` | master assembly | 3961 | QUEUED |
 | 43 | proposition | `prop:B15-noncircularity` | B08 非循环性证书 | 3982 | QUEUED |
+
+
+Audit note (2026-09-29): the v133 synchronization candidate contains an explicit non-theorem dependency node `I7-GLOBAL-ROOT-FRAME` between B08/U3 and items 15–17. It is a genuine mathematical obligation, not an external interface and not a Lean implementation failure.

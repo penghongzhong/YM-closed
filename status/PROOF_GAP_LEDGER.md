@@ -4,7 +4,19 @@ This ledger records only genuine mathematical gaps or overclaims exposed by form
 
 ## Open mathematical gaps
 
-None recorded in the first GitHub batch.
+### I7-GLOBAL-ROOT-FRAME — OPEN / GENUINE
+
+Required internal statement: there exists a regulator-, volume-, UV-cutoff-, and exhaustion-independent `η* ∈ (0,1)` such that
+
+`G0^(M) - G*^(M) ⪰ η* G0^(M)`
+
+for every finite exhaustion level `M` (equivalently `G*^(M) ⪯ q* G0^(M)`, `q*=1-η*<1`).
+
+The current private v133 synchronization manuscript explicitly records that v78 local relative-Gram positivity plus the v94 finite Farkas/root allocation only yields local/contact control with support-count loss and does not control cross terms of arbitrary interacting-measure linear combinations. Therefore the global quadratic-frame estimate is not presently derived from the registered premises.
+
+Formal guardrail: `Lean/Audit/T900_LocalMargin_NotUniformFrame.lean` compiles with only standard mathlib axioms and exhibits positive semidefinite transfer/deficit forms with positive coordinate-axis relative margins but zero diagonal deficit. This proves only the logical non-implication from local margins to a global frame; it is not a Yang--Mills counterexample.
+
+Consequence: `thm:gramtotransfer`, `thm:gap`, and unconditional U--I/U--I--C closure cannot be promoted to internal PASS until an independent interacting-measure quadratic-frame / dynamically equivalent estimate closes I7.
 
 ## Guardrails
 
@@ -60,3 +72,8 @@ None recorded in the first GitHub batch.
   no `sorryAx`. The manuscript now states joint analyticity as joint complex
   Fréchet differentiability on the finite-dimensional source space `ℂ²`.
   No genuine mathematical proof gap remains at this node.
+
+
+## Run #40 closure before the I7 boundary
+
+At head `279a29531d46b166165c2d81eea6120a0f415a1a`, raw/full CI certifies T009A through T012F plus T900 with no `sorryAx`; final fast and full gates are SUCCESS. Hence U2 marked-shell, U3-A, corrected clock, and the complete B08 phase-lock chain are no longer open formalization obligations.
