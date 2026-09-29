@@ -1,239 +1,36 @@
 name: YM UIC synchronized verification
-
 on:
   push:
     branches: ["main"]
   pull_request:
     branches: ["main"]
   workflow_dispatch:
-
 permissions:
   contents: read
-
 concurrency:
   group: ym-uic-full-${{ github.ref }}
   cancel-in-progress: true
-
 jobs:
   lean-logical-order:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install Elan and pinned Lean
-        shell: bash
+      - name: Install pinned Lean
         run: |
-          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
           source "$HOME/.elan/env"
           lean --version
-          lake --version
-
-      - name: Resolve pinned Mathlib
-        run: lake update
-
-      - name: Fetch Mathlib cache
-        run: lake exe cache get
-
-      - name: Reject proof placeholders and custom axioms
+      - name: Resolve pinned Mathlib and cache
         run: |
-          if grep -R -nE '^[[:space:]]*(sorry|admit|axiom)([[:space:]]|$)' Lean --include='*.lean'; then
-            echo "Forbidden proof placeholder/custom axiom declaration found"
-            exit 1
-          fi
-
-      - name: Compile §1 foundations
-        id: foundations
+          lake update
+          lake exe cache get
+      - name: Raw compile every Lean file and audit axioms
+        id: raw
         continue-on-error: true
-        run: lake env lean Lean/Section01/T000_Foundations.lean
-
-      - name: Compile §2 U1 published-interface type certificate
-        id: u1interface
-        continue-on-error: true
-        run: lake env lean Lean/Section02/T001_U1_PublishedInterface.lean
-
-      - name: Compile §2 U1 internal geometric-series certificate
-        id: u1geometric
-        continue-on-error: true
-        run: lake env lean Lean/Section02/T001A_SmallFieldGeometric.lean
-
-      - name: Compile U2 Wilson root bound
-        id: wilsonroot
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T002_WilsonRootBound.lean
-
-      - name: Compile U2 exact source multiplier
-        id: multiplier
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T003_SourceMultiplier.lean
-
-      - name: Compile U2 B01G 12-node finite object layer
-        id: b01g
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T004_B01G_FiniteClusterObjects.lean
-
-      - name: Compile U2 root-distance local polymer geometry
-        id: rootlocal
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T005A_RootDistance_LocalPolymerGeometry.lean
-
-      - name: Compile U2 root-distance mapped-walk metric budget
-        id: rootchain
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T005B_RootDistance_MappedWalkBudget.lean
-
-      - name: Compile U2 root-distance support-anchor edge budget
-        id: rootedge
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T005C_RootDistance_SupportAnchorEdgeBudget.lean
-
-      - name: Compile U2 root-distance path-weight arithmetic
-        id: rootarith
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T005D_RootDistance_PathWeightArithmetic.lean
-
-      - name: Compile U2 root-distance simple-path bookkeeping
-        id: rootbook
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T005E_RootDistance_SimplePathBookkeeping.lean
-
-      - name: Compile U2 root-distance getVert/support sum bridge
-        id: rootsum
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T005F_RootDistance_GetVertSupportSum.lean
-
-      - name: Compile full U2 rooted support distance assembly
-        id: rootfull
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T005G_RootDistance_FullAssembly.lean
-
-      - name: Compile rooted-tree majorant KP scalar core
-        id: treescalar
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T006A_RootTreeMajorant_KPScalarCore.lean
-
-      - name: Compile rooted-tree majorant finite contact counting
-        id: treecount
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T006B_RootTreeMajorant_ContactCounting.lean
-
-      - name: Compile rooted-tree majorant finite-height recursion
-        id: treerec
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T006C_RootTreeMajorant_FiniteHeightRecursion.lean
-
-      - name: Compile full rooted-tree child-sum assembly
-        id: childsum
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T006D_RootTreeMajorant_FullChildSum.lean
-
-      - name: Compile rooted-tree majorant first-root sum
-        id: firstroot
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T006E_RootTreeMajorant_FirstRootSum.lean
-
-      - name: Compile Fernandez-Procacci rooted-tree external interface
-        id: treeexternal
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T006F_RootTreeMajorant_FernandezProcacciInterface.lean
-
-      - name: Compile full finite rooted-tree majorant assembly
-        id: treefull
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T006G_RootTreeMajorant_FullAssembly.lean
-
-      - name: Compile root entropy distance extraction
-        id: rootentropyexp
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T007A_RootEntropy_DistanceExtraction.lean
-
-      - name: Compile root entropy Penrose bounded-root factor
-        id: rootentropypenrose
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T007B_RootEntropy_PenroseRootFactor.lean
-
-      - name: Compile root entropy nonnegative tsum comparison
-        id: rootentropytsum
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T007C_RootEntropy_TsumComparison.lean
-
-      - name: Compile full root-not-bulk-entropy assembly
-        id: rootentropyfull
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T007D_RootEntropy_FullAssembly.lean
-
-      - name: Compile U2 source analyticity finite-cluster entire
-        id: sourceentire
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T008A_SourceAnalyticity_FiniteClusterEntire.lean
-
-      - name: Compile U2 source analyticity Frechet derivative
-        id: sourcefrechet
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T008B_SourceAnalyticity_FrechetDerivative.lean
-
-      - name: Compile U2 source analyticity joint tsum engine
-        id: sourcetsum
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T008C_SourceAnalyticity_TsumEngine.lean
-
-      - name: Compile U2 source analyticity polydisc assembly
-        id: sourcepolydisc
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T008D_SourceAnalyticity_PolydiscAssembly.lean
-
-      - name: Compile U2 source analyticity derivative majorant
-        id: sourcederivmajor
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T008E_SourceAnalyticity_DerivativeMajorant.lean
-
-      - name: Compile U2 source analyticity full assembly
-        id: sourcefull
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T008F_SourceAnalyticity_FullAssembly.lean
-
-      - name: Compile U2 marked-shell three-channel bound
-        id: markedshell3
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T009A_MarkedShell_ThreeChannelBound.lean
-
-      - name: Compile U2 marked-shell Cauchy extraction
-        id: markedshellcauchy
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T009B_MarkedShell_CauchyExtraction.lean
-
-      - name: Require current logical batch
+        run: lake env python3 tools/verify_lean.py
+      - name: Require full repository batch
         if: always()
         run: |
-          test "${{ steps.foundations.outcome }}" = "success"
-          test "${{ steps.u1interface.outcome }}" = "success"
-          test "${{ steps.u1geometric.outcome }}" = "success"
-          test "${{ steps.wilsonroot.outcome }}" = "success"
-          test "${{ steps.multiplier.outcome }}" = "success"
-          test "${{ steps.b01g.outcome }}" = "success"
-          test "${{ steps.rootlocal.outcome }}" = "success"
-          test "${{ steps.rootchain.outcome }}" = "success"
-          test "${{ steps.rootedge.outcome }}" = "success"
-          test "${{ steps.rootarith.outcome }}" = "success"
-          test "${{ steps.rootbook.outcome }}" = "success"
-          test "${{ steps.rootsum.outcome }}" = "success"
-          test "${{ steps.rootfull.outcome }}" = "success"
-          test "${{ steps.treescalar.outcome }}" = "success"
-          test "${{ steps.treecount.outcome }}" = "success"
-          test "${{ steps.treerec.outcome }}" = "success"
-          test "${{ steps.childsum.outcome }}" = "success"
-          test "${{ steps.firstroot.outcome }}" = "success"
-          test "${{ steps.treeexternal.outcome }}" = "success"
-          test "${{ steps.treefull.outcome }}" = "success"
-          test "${{ steps.rootentropyexp.outcome }}" = "success"
-          test "${{ steps.rootentropypenrose.outcome }}" = "success"
-          test "${{ steps.rootentropytsum.outcome }}" = "success"
-          test "${{ steps.rootentropyfull.outcome }}" = "success"
-          test "${{ steps.sourceentire.outcome }}" = "success"
-          test "${{ steps.sourcefrechet.outcome }}" = "success"
-          test "${{ steps.sourcetsum.outcome }}" = "success"
-          test "${{ steps.sourcepolydisc.outcome }}" = "success"
-          test "${{ steps.sourcederivmajor.outcome }}" = "success"
-          test "${{ steps.sourcefull.outcome }}" = "success"
-          test "${{ steps.markedshell3.outcome }}" = "success"
-          test "${{ steps.markedshellcauchy.outcome }}" = "success"
+          test "${{ steps.raw.outcome }}" = "success"
+          python3 -c 'import json; r=json.load(open(".lean-verify/result.json")); assert r["files"] and r["pass"]; print("FINAL_GATE=SUCCESS")'

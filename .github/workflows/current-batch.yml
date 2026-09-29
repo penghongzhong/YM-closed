@@ -1,151 +1,34 @@
 name: YM UIC current-batch fast verification
-
 on:
   push:
     branches: ["main"]
   workflow_dispatch:
-
+permissions:
+  contents: read
 concurrency:
   group: ym-uic-current-batch-${{ github.ref }}
   cancel-in-progress: true
-
 jobs:
   current-source-analyticity-batch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install Elan and pinned Lean
-        shell: bash
+      - name: Install pinned Lean
         run: |
-          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
           source "$HOME/.elan/env"
           lean --version
-          lake --version
-
-      - name: Resolve pinned Mathlib
-        run: lake update
-
-      - name: Fetch Mathlib cache
-        run: lake exe cache get
-
-      - name: Reject placeholders and custom axioms in current batch
+      - name: Resolve pinned Mathlib and cache
         run: |
-          if grep -nE '^[[:space:]]*(sorry|admit|axiom)([[:space:]]|$)'             Lean/Section03/T008A_SourceAnalyticity_FiniteClusterEntire.lean             Lean/Section03/T008B_SourceAnalyticity_FrechetDerivative.lean             Lean/Section03/T008C_SourceAnalyticity_TsumEngine.lean \
-            Lean/Section03/T008D_SourceAnalyticity_PolydiscAssembly.lean \
-            Lean/Section03/T008E_SourceAnalyticity_DerivativeMajorant.lean \
-            Lean/Section03/T008F_SourceAnalyticity_FullAssembly.lean \
-            Lean/Section03/T009A_MarkedShell_ThreeChannelBound.lean \
-            Lean/Section03/T009B_MarkedShell_CauchyExtraction.lean \
-            Lean/Section03/T009B_MarkedShell_Cauchy.lean \
-            Lean/Section03/T009C_MarkedShell_FullAssembly.lean \
-            Lean/Section03/T010A_Distance_GeometricTail.lean \
-            Lean/Section03/T010B_Supergeom.lean \
-            Lean/Section03/T010C_UVShellSum.lean \
-            Lean/Section03/T011A_CorrectedClock_Cancellation.lean \
-            Lean/Section03/T011B_CorrectedClock_Summability.lean \
-            Lean/Section03/T011C_FiniteClockError.lean; then
-            echo "Forbidden proof placeholder/custom axiom in current batch"
-            exit 1
-          fi
-
-      - name: Compile T008A finite-cluster entire
-        id: a
+          lake update
+          lake exe cache get
+      - name: Raw compile and axiom audit
+        id: raw
         continue-on-error: true
-        run: lake env lean Lean/Section03/T008A_SourceAnalyticity_FiniteClusterEntire.lean
-
-      - name: Compile T008B Frechet derivative
-        id: b
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T008B_SourceAnalyticity_FrechetDerivative.lean
-
-      - name: Compile T008C joint tsum engine
-        id: c
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T008C_SourceAnalyticity_TsumEngine.lean
-
-      - name: Compile T008D polydisc normal-convergence assembly
-        id: d
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T008D_SourceAnalyticity_PolydiscAssembly.lean
-
-      - name: Compile T008E derivative majorant
-        id: e
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T008E_SourceAnalyticity_DerivativeMajorant.lean
-
-      - name: Compile T008F full source-analyticity assembly
-        id: f
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T008F_SourceAnalyticity_FullAssembly.lean
-
-      - name: Compile T009A marked-shell three-channel bound
-        id: t009a
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T009A_MarkedShell_ThreeChannelBound.lean
-
-      - name: Compile T009B marked-shell Cauchy extraction
-        id: t009b
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T009B_MarkedShell_CauchyExtraction.lean
-
-      - name: Compile T009B one-variable Cauchy theorem
-        id: t009bcauchy
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T009B_MarkedShell_Cauchy.lean
-
-      - name: Compile T009C marked-shell final assembly
-        id: t009c
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T009C_MarkedShell_FullAssembly.lean
-
-      - name: Compile T010A U3 distance lower bound
-        id: t010a
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T010A_Distance_GeometricTail.lean
-
-      - name: Compile T010B supergeometric scale sum
-        id: t010b
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T010B_Supergeom.lean
-
-      - name: Compile T010C UV shell-sum assembly
-        id: t010c
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T010C_UVShellSum.lean
-
-      - name: Compile T011A corrected-clock cancellation
-        id: t011a
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T011A_CorrectedClock_Cancellation.lean
-
-      - name: Compile T011B corrected-clock summability
-        id: t011b
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T011B_CorrectedClock_Summability.lean
-
-      - name: Compile T011C finite-horizon clock error
-        id: t011c
-        continue-on-error: true
-        run: lake env lean Lean/Section03/T011C_FiniteClockError.lean
-
+        run: lake env python3 tools/verify_lean.py --current
       - name: Require current batch
         if: always()
         run: |
-          test "${{ steps.a.outcome }}" = "success"
-          test "${{ steps.b.outcome }}" = "success"
-          test "${{ steps.c.outcome }}" = "success"
-          test "${{ steps.d.outcome }}" = "success"
-          test "${{ steps.e.outcome }}" = "success"
-          test "${{ steps.f.outcome }}" = "success"
-          test "${{ steps.t009a.outcome }}" = "success"
-          test "${{ steps.t009b.outcome }}" = "success"
-          test "${{ steps.t009bcauchy.outcome }}" = "success"
-          test "${{ steps.t009c.outcome }}" = "success"
-          test "${{ steps.t010a.outcome }}" = "success"
-          test "${{ steps.t010b.outcome }}" = "success"
-          test "${{ steps.t010c.outcome }}" = "success"
-          test "${{ steps.t011a.outcome }}" = "success"
-          test "${{ steps.t011b.outcome }}" = "success"
-          test "${{ steps.t011c.outcome }}" = "success"
+          test "${{ steps.raw.outcome }}" = "success"
+          python3 -c 'import json; r=json.load(open(".lean-verify/result.json")); assert r["files"] and r["pass"]; print("FINAL_GATE=SUCCESS")'
