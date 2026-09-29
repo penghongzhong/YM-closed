@@ -20,7 +20,7 @@ theorem orbit_continuousOn {S : ℕ → Type*} [∀ j, TopologicalSpace (S j)]
       intro hj
       have h := (hR j (by omega)).comp (ih (by omega))
         (fun u hu => hcollar u hu j (by omega))
-      simpa only [rgOrbit] using h
+      simpa only [rgOrbit, Function.comp_def] using h
 
 theorem coordinates_continuousOn {S : ℕ → Type*} [∀ j, TopologicalSpace (S j)]
     (R : (j : ℕ) → S j → S (j + 1)) (iota : ℝ → S 0)

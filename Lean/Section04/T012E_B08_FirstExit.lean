@@ -12,7 +12,7 @@ theorem drift_segment (x : ℕ → ℝ) (delta : ℝ) (K : ℕ)
   | succ n ih =>
       have hp := ih (by omega)
       have hs := hstep (i + n) (by omega)
-      simp only [Nat.add_succ, Nat.cast_add, Nat.cast_one] at *
+      simp only [Nat.add_succ, Nat.add_zero, Nat.cast_succ] at *
       linarith
 
 theorem first_exit_exclusion (x : ℕ → ℝ) (K : ℕ) (xs delta : ℝ)

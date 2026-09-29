@@ -10,9 +10,14 @@ noncomputable def correctedClock (Gamma C x : ℝ) : ℝ :=
 theorem correctedClock_hasDerivAt (Gamma C x : ℝ) (hx : x ≠ 0) :
     HasDerivAt (correctedClock Gamma C)
       (1 / Gamma - C / (Gamma ^ 2 * x)) x := by
+  change HasDerivAt (fun y : ℝ => y / Gamma - (C / Gamma ^ 2) * Real.log y)
+    (1 / Gamma - C / (Gamma ^ 2 * x)) x
   have h := ((hasDerivAt_id x).div_const Gamma).sub
     ((Real.hasDerivAt_log hx).const_mul (C / Gamma ^ 2))
-  convert h using 1 <;> simp only [correctedClock, div_eq_mul_inv, mul_inv_rev] <;> ring
+  convert h using 1 <;> first
+    | rfl
+    | (funext y; rfl)
+    | (simp only [div_eq_mul_inv, mul_inv_rev]; ring)
 
 theorem correctedClock_deriv (Gamma C x : ℝ) (hx : x ≠ 0) :
     deriv (correctedClock Gamma C) x = 1 / Gamma - C / (Gamma ^ 2 * x) :=
@@ -42,7 +47,7 @@ theorem correctedClock_strictMonoOn (Gamma C xw : ℝ)
     exact (correctedClock_hasDerivAt Gamma C x
       (ne_of_gt (lt_of_lt_of_le hxw hx))).continuousAt.continuousWithinAt
   · intro x hx
-    have hx' : xw ≤ x := Set.interior_subset hx
+    have hx' : xw ≤ x := interior_subset hx
     rw [correctedClock_deriv Gamma C x (ne_of_gt (lt_of_lt_of_le hxw hx'))]
     exact lt_of_lt_of_le (by positivity)
       (correctedClock_derivative_lower Gamma C xw x hG hC hxw hwindow hx')
