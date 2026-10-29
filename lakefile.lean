@@ -8,3 +8,8 @@ require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git" @ "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
 
 lean_lib «YMUICV128Verify» where
+
+-- Exact original 40/41 variance-to-nontriviality conditional proof chain.
+lean_lib YMConditional where
+  globs := #[.submodules `YMConditional]
+  moreLeanArgs := #["-DwarningAsError=true"]

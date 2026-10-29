@@ -1,0 +1,72 @@
+name: YM Original40-41 official-pin conditional verification
+
+on:
+  push:
+    branches: [ym-original40-41-official-20261029]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original40-41:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Lean and verify toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Verify Mathlib exact source pin
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Build and typecheck Original40 and Original41 import closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMConditional/*.lean; then exit 1; fi
+          lake build +YMConditional.Original40_ToContinuum:olean
+          lake env lean -DwarningAsError=true YMConditional/Original40_UniformVariance.lean
+          lake env lean -DwarningAsError=true YMConditional/Original41_Nontriviality.lean
+          lake env lean -DwarningAsError=true YMConditional/Original40_ToContinuum.lean
+      - name: Print original theorem types and axioms
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/original40-41
+          cat >verification/original40-41/Audit.lean <<'LEAN'
+          import YMConditional.Original40_ToContinuum
+          set_option pp.universes true
+          #print YMUIC.ConditionalI7.original40_bounded_cylinder_uniform
+          #print YMUIC.ConditionalI7.original41_continuum_nontriviality
+          #print YMUIC.ConditionalI7.original40_to_original41_nontriviality
+          #print axioms YMUIC.ConditionalI7.original40_variance_lower_bound
+          #print axioms YMUIC.ConditionalI7.original40_bounded_cylinder_uniform
+          #print axioms YMUIC.ConditionalI7.original41_variance_limit
+          #print axioms YMUIC.ConditionalI7.original41_continuum_nontriviality
+          #print axioms YMUIC.ConditionalI7.original41_bounded_cylinder_net
+          #print axioms YMUIC.ConditionalI7.original40_to_original41_nontriviality
+          LEAN
+          lake env lean -DwarningAsError=true verification/original40-41/Audit.lean | tee verification/original40-41/theorem-axioms.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original40-41/theorem-axioms.log; then exit 1; fi
+      - name: Upload verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-original40-41-${{ github.sha }}
+          path: verification/original40-41/theorem-axioms.log
+          if-no-files-found: warn
+          retention-days: 30
