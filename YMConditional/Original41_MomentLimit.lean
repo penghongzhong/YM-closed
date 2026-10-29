@@ -21,8 +21,9 @@ theorem cutoffVariance_eq_moments {X : Type*} [MeasurableSpace X]
     cutoffVariance μ F = (∫ x, (F x)^2 ∂μ) - (∫ x, F x ∂μ)^2 := by
   simp only [cutoffVariance, sub_sq']
   rw [integral_sub, integral_add]
-  · simp only [integral_const, measureReal_univ_eq_one, smul_eq_mul, one_mul,
-      integral_mul_const, integral_const_mul]
+  · simp only [integral_const, smul_eq_mul, integral_mul_const, integral_const_mul]
+    have hmass : μ.real Set.univ = 1 := by simp [Measure.real]
+    rw [hmass]
     ring
   · exact hL2.integrable_sq
   · exact integrable_const _
