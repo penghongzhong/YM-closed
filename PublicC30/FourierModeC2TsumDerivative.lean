@@ -39,7 +39,8 @@ theorem fourier_c2_weighted_series_hasDerivAt {n : ℕ}
       _ ≤ ∏ t : Fin (n + 1), (1 + |(k t : ℝ)|) ^ 2 := by
         apply Finset.prod_le_prod₀
         · intro t _
-          by_cases ht : t = i <;> simp [ht] <;> positivity
+          by_cases ht : t = i <;> simp [ht]
+          positivity
         · intro t _
           by_cases ht : t = i
           · simp [ht]
