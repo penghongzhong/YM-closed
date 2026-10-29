@@ -109,10 +109,10 @@ theorem reflectionPair_polynomial_expansion {X σ : Type*} [MeasurableSpace X]
     ring
   unfold reflectionPair
   simp_rw [hexpand]
-  rw [integral_finset_sum _ (fun d _ => integrable_finset_sum _ (fun e _ => hint d e))]
+  rw [integral_finsetSum _ (fun d _ => integrable_finsetSum _ (fun e _ => hint d e))]
   apply Finset.sum_congr rfl
   intro d hd
-  rw [integral_finset_sum _ (fun e _ => hint d e)]
+  rw [integral_finsetSum _ (fun e _ => hint d e)]
   apply Finset.sum_congr rfl
   intro e he
   exact integral_const_mul _ _
