@@ -37,6 +37,7 @@ theorem candidate_gram_root_trace_dictionary
   unfold candidateGramRoot wilsonRoot
   rw [hcoe, htrace]
   simp only [Complex.sub_re, Complex.add_re]
-  norm_num <;> ring
+  norm_num
+  ring
 
 end YMUIC.Wilson
