@@ -1,15 +1,13 @@
-# Original15 / Original19: official-pin conditional replay
+# Exact C29 Original16 conditional spectrum-to-mass-gap formalization
 
-Two separate exact conditional source chains from C29, recompiled under
-Lean 4.35.0-rc3 with Mathlib 516d3125 and exact proof-type audits.
+Original16 applies the **explicit I7Gram** premise through original15's
+already-verified vacuum-orthogonal transfer estimate. The additional
+`NonnegativeHeatCalculus` spectral packet interface remains an explicit
+standard external spectral-calculus input (not an axiom and not proved from
+the underlying Yang–Mills Wilson transfer model). Its heat spectral inclusion
+is derived from the packet/residual bounds.
 
-**Original15:** finite Hilbert Gram transfer from an *explicit* I7Gram
-hypothesis, not a proof of I7 or a proof of the YM mass gap.
-
-**Original19:** actual finite-dimensional source cocycle under the
-specified invertibility/smallness assumptions; no arbitrary regulator-uniform
-Wilson source bounds were invented.
-
-These environments were already counted within 34/39 assisted conditional
-proofs. A successful compilation increases only the official-pin
-reverified union count.
+Any success proves this **conditional theorem** of original16 under exact
+Lean 4.35.0-rc3/Mathlib 516d3125, **not** an unconditional Yang–Mills mass gap.
+Original16 was already part of assisted-conditional 34/39; only official-pin
+verified union increases on success.

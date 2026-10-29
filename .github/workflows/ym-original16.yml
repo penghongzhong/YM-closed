@@ -1,0 +1,60 @@
+name: YM Original16 conditional spectral gap official pin
+on:
+  push:
+    branches: [ym-original16-official-20261029]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original16-conditional:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install exact Lean and Mathlib
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          source "$HOME/.elan/env"
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          lean --version
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Build original15 and original16 source chain
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMConditional/*.lean; then exit 1; fi
+          lake build +YMConditional.Original16_FromI7:olean
+          lake env lean -DwarningAsError=true YMConditional/Original16_SpectralGap.lean
+          lake env lean -DwarningAsError=true YMConditional/Original16_SpectralPackets.lean
+          lake env lean -DwarningAsError=true YMConditional/Original16_FromI7.lean
+      - name: Verify full exact statement and no extra axioms
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/original16
+          cat >verification/original16/Audit.lean <<'LEAN'
+          import YMConditional.Original16_FromI7
+          #print YMUIC.ConditionalI7.original16_mass_gap_from_I7
+          #print YMUIC.ConditionalI7.original16_uniform_mass_gap_from_I7
+          #print axioms YMUIC.ConditionalI7.original16_generator_gap
+          #print axioms YMUIC.ConditionalI7.NonnegativeHeatCalculus.toHeatSpectralInput
+          #print axioms YMUIC.ConditionalI7.original16_mass_gap_from_I7
+          #print axioms YMUIC.ConditionalI7.original16_uniform_mass_gap_from_I7
+          LEAN
+          lake env lean -DwarningAsError=true verification/original16/Audit.lean | tee verification/original16/audit.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original16/audit.log; then exit 1; fi
+      - name: Upload kernel evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-original16-${{ github.sha }}
+          path: verification/original16/audit.log
+          if-no-files-found: warn
+          retention-days: 30
