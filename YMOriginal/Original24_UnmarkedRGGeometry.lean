@@ -26,7 +26,7 @@ theorem weighted_root_from_unmarked_distance
     {Γ : Type*}
     (z : Γ → ℂ) (length : Γ → ℝ)
     (kappa mu cGeo cRt dRoot A : ℝ)
-    (hmu : 0 ≤ mu) (hA : 0 ≤ A)
+    (hmu : 0 ≤ mu) (_hA : 0 ≤ A)
     (hgeom : ∀ γ, dRoot ≤ cRt + cGeo * length γ)
     (hunmarked : ∀ γ,
       ‖z γ‖ ≤ A * Real.exp (-kappa * length γ)) :
