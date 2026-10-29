@@ -36,7 +36,8 @@ noncomputable def scaledDyadicShellUnitCircle (n : ℕ) :
       scaledDyadicShellReal n (-1 / 2) =
         scaledDyadicShellReal n ((-1 / 2 : ℝ) + 1) := by
     have h := scaled_dyadic_shell_real_seam n
-    convert h.1.trans h.2.symm using 1 <;> norm_num
+    simpa only [show (-1 / 2 : ℝ) + 1 = 1 / 2 by norm_num]
+      using h.1.trans h.2.symm
   exact ⟨AddCircle.liftIco (1 : ℝ) (-1 / 2 : ℝ) (scaledDyadicShellReal n),
     AddCircle.liftIco_continuous (p := (1 : ℝ)) (a := (-1 / 2 : ℝ))
       hseam (scaled_dyadic_shell_real_continuous n).continuousOn⟩
@@ -46,9 +47,8 @@ rescaled Wilson-relevant dyadic shell value. -/
 theorem scaled_dyadic_shell_unit_circle_apply
     (n : ℕ) (x : ℝ) (hx : x ∈ Set.Ico (-1 / 2 : ℝ) (1 / 2)) :
     scaledDyadicShellUnitCircle n (x : UnitAddCircle) = scaledDyadicShellReal n x := by
-  change AddCircle.liftIco (1 : ℝ) (-1 / 2 : ℝ)
-    (scaledDyadicShellReal n) (x : UnitAddCircle) = _
-  apply AddCircle.liftIco_coe_apply
-  simpa only [show (-1 / 2 : ℝ) + 1 = 1 / 2 by norm_num] using hx
+  exact AddCircle.liftIco_coe_apply
+    (p := (1 : ℝ)) (a := (-1 / 2 : ℝ))
+    (by simpa only [show (-1 / 2 : ℝ) + 1 = 1 / 2 by norm_num] using hx)
 
 end YMUIC.OSTensor
