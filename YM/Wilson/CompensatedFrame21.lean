@@ -90,7 +90,7 @@ theorem compensated_source_chain_uniform_column
       (∑ j : RootFiber21, ‖F 0 j α‖) ≤ KF)
     (hG : ∀ (n : ℕ) (α : RootFiber21),
       (∑ j : RootFiber21, ‖Finv n j α‖) ≤ KG) :
-    ∀ n α : RootFiber21,
+    ∀ (n : ℕ) (α : RootFiber21),
       (∑ j : RootFiber21,
         ‖sourceCocycleChain (compensatedSourceStep F Finv R) n j α‖)
         ≤ KF * Real.exp (∑' j : ℕ, δ j) * KG := by
