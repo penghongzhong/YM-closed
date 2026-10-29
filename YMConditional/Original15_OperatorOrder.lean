@@ -53,11 +53,11 @@ theorem original15_loewner_from_I7
   let R := vacuumTransfer Ω T hT.isSelfAdjoint hfix
   have hsR : IsSelfAdjoint R := vacuumTransfer_symmetric Ω T hT.isSelfAdjoint hfix
   constructor
-  · apply (ContinuousLinearMap.nonneg_iff_isPositive _).mpr
+  · apply ContinuousLinearMap.nonneg_iff_isPositive.mpr
     refine ⟨hsR, ?_⟩
     intro x
     exact hT.inner_nonneg_left x.val
-  · apply (ContinuousLinearMap.le_def _ _).mpr
+  · apply ContinuousLinearMap.le_def.mpr
     constructor
     · apply ContinuousLinearMap.isSelfAdjoint_iff_isSymmetric.mpr
       apply LinearMap.IsSymmetric.sub
@@ -86,8 +86,8 @@ theorem center_mem_vacuumSector (Ω x : H) (hΩ : ‖Ω‖ = 1) :
     center Ω x ∈ vacuumSector Ω := by
   rw [vacuumSector, Submodule.mem_orthogonal_singleton_iff_inner_right]
   have hself : ⟪Ω, Ω⟫_ℂ = 1 := by
-    simpa [hΩ] using (inner_self_eq_norm_sq_to_K (𝕜 := ℂ) Ω)
-  simp [center, inner_sub_right, inner_smul_right, hself]
+    simp [inner_self_eq_norm_sq_to_K, hΩ]
+  simp only [center, inner_sub_right, inner_smul_right, hself, mul_one, sub_self]
 
 /-- Original #15 with the strict uniform I7 range displayed in its output. -/
 theorem original15_strict_transfer_from_I7
