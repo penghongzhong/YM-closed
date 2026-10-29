@@ -12,7 +12,11 @@ def sourceCocycleIdentity :
 
 theorem source_cocycle_identity_column (α : RootFiber21) :
     (∑ j : RootFiber21, ‖sourceCocycleIdentity j α‖) = 1 := by
-  simp [sourceCocycleIdentity]
+  classical
+  have hn (j : RootFiber21) :
+      ‖sourceCocycleIdentity j α‖ = if j = α then (1 : ℝ) else 0 := by
+    by_cases h : j = α <;> simp [sourceCocycleIdentity, h]
+  simp [hn]
 
 /-- Cumulative source transformation, with order fixed by the actual
 ordered RG cocycle convention. No boundedness is built into this definition. -/
@@ -64,7 +68,7 @@ theorem source_cocycle_chain_uniform_column
         ≤ ∏ j ∈ Finset.range n, (1 + δ j) :=
           source_cocycle_chain_column C δ hδ hstep n α
     _ ≤ Real.exp (∑ j ∈ Finset.range n, δ j) :=
-      Real.prod_one_add_le_exp_sum (Finset.range n) (fun j hj => hδ j)
+      Real.prod_one_add_le_exp_sum (Finset.range n) (fun j => hδ j)
     _ ≤ Real.exp M := Real.exp_le_exp.mpr (hsum n)
 
 /-- Concrete regulator-uniform Wilson-source norm under a **local RG step
