@@ -4,6 +4,7 @@ on:
     branches: [ym-original30-compensated-frame-20261029]
     paths:
       - "YM/Wilson/CompensatedFrame21.lean"
+      - "YM/Wilson/DualPairingAllD.lean"
       - "YM/Wilson/DualSourceRGUniform21.lean"
       - ".github/workflows/ym-compensated-frame.yml"
   workflow_dispatch:
@@ -43,26 +44,25 @@ jobs:
           lake build +YM.Wilson.SourceDefect21:olean
           lake build +YM.Wilson.DualSourceRGUniform21:olean
           lake env lean -DwarningAsError=true YM/Wilson/DualSourceRGUniform21.lean
-          lake env lean -DwarningAsError=true YM/Wilson/CompensatedFrame21.lean
-          lake build +YM.Wilson.CompensatedFrame21:olean
+          lake env lean -DwarningAsError=true YM/Wilson/DualPairingAllD.lean
+          lake build +YM.Wilson.DualPairingAllD:olean
       - name: Exact theorem signatures and axiom audit
         shell: bash
         run: |
           set -euo pipefail
           source "$HOME/.elan/env"
           cat > YMFrameAudit.lean <<'LEAN'
-          import YM.Wilson.CompensatedFrame21
+          import YM.Wilson.DualSourceRGUniform21
+          import YM.Wilson.DualPairingAllD
           set_option pp.universes true
           #print YMUIC.Wilson.dual_source_chain_uniform_column
           #print YMUIC.Wilson.dual_source_wilson_rg_uniform
-          #print YMUIC.Wilson.compensated_source_chain_factorization
-          #print YMUIC.Wilson.compensated_source_chain_uniform_column
-          #print YMUIC.Wilson.compensated_wilson_source_uniform
+          #print YMUIC.Wilson.source_primal_dual_pairing_allD
+          #print YMUIC.Wilson.paired_wilson_source_uniform_without_cocycle_norm
           #print axioms YMUIC.Wilson.dual_source_chain_uniform_column
           #print axioms YMUIC.Wilson.dual_source_wilson_rg_uniform
-          #print axioms YMUIC.Wilson.compensated_source_chain_factorization
-          #print axioms YMUIC.Wilson.compensated_source_chain_uniform_column
-          #print axioms YMUIC.Wilson.compensated_wilson_source_uniform
+          #print axioms YMUIC.Wilson.source_primal_dual_pairing_allD
+          #print axioms YMUIC.Wilson.paired_wilson_source_uniform_without_cocycle_norm
           LEAN
           lake env lean -DwarningAsError=true YMFrameAudit.lean | tee frame-audit.log
           if grep -E 'sorryAx|^error:' frame-audit.log; then exit 1; fi
