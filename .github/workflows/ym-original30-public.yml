@@ -56,6 +56,7 @@ jobs:
           lake build +PublicC30.FourierModeC2TsumDerivative:olean
           lake build +PublicC30.FourierModeC2Reconstruction:olean
           lake build +PublicC30.ScaledDyadicShellMargin:olean
+          lake build +PublicC30.ScaledDyadicShellCircle:olean
           lake env lean -DwarningAsError=true PublicC30/ScaledShellExponentBudget.lean
           lake env lean -DwarningAsError=true PublicC30/ScaledShellPowerBudget.lean
           lake env lean -DwarningAsError=true YM/OSTensor/SchwartzMixedJointControl.lean
@@ -66,6 +67,7 @@ jobs:
           lake env lean -DwarningAsError=true PublicC30/FourierModeC2Reconstruction.lean
           lake env lean -DwarningAsError=true YM/OSGrowth/DyadicCutoffDerivativeBound.lean
           lake env lean -DwarningAsError=true PublicC30/ScaledDyadicShellMargin.lean
+          lake env lean -DwarningAsError=true PublicC30/ScaledDyadicShellCircle.lean
       - name: Print and check axioms
         shell: bash
         run: |
@@ -81,6 +83,7 @@ jobs:
           import PublicC30.FourierModeC2Reconstruction
           import YM.OSGrowth.DyadicCutoffDerivativeBound
           import PublicC30.ScaledDyadicShellMargin
+          import PublicC30.ScaledDyadicShellCircle
           #print axioms YMUIC.OSTensor.scaled_shell_exponent_budget
           #print axioms YMUIC.OSTensor.scaled_shell_power_budget
           #print axioms YMUIC.OSTensor.schwartz_mixed_elliptic_seminorm
@@ -101,6 +104,9 @@ jobs:
           #print axioms YMUIC.OSGrowth.dyadic_shell_annulus
           #print axioms YMUIC.OSTensor.scaled_dyadic_shell_outer_margin
           #print axioms YMUIC.OSTensor.scaled_dyadic_shell_inner_margin
+          #print axioms YMUIC.OSTensor.scaled_dyadic_shell_real_continuous
+          #print axioms YMUIC.OSTensor.scaled_dyadic_shell_real_seam
+          #print axioms YMUIC.OSTensor.scaled_dyadic_shell_unit_circle_apply
           LEAN
           lake env lean -DwarningAsError=true PublicC30/Audit.lean | tee /tmp/ym-axioms.log
           if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' /tmp/ym-axioms.log; then

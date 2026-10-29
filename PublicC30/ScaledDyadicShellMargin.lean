@@ -22,6 +22,7 @@ theorem scaled_dyadic_shell_outer_margin
   have hp : (2 : ℝ) ^ (n + 4) = 4 * (2 : ℝ) ^ (n + 2) := by
     rw [show n + 4 = (n + 2) + 2 by omega, pow_add]
     norm_num
+    ring
   rw [hp]
   have hm : (2 : ℝ) ^ (n + 2) * (1 / 4 : ℝ) ≤
       (2 : ℝ) ^ (n + 2) * ‖y‖ :=
@@ -39,6 +40,7 @@ theorem scaled_dyadic_shell_inner_margin
   have hp : (2 : ℝ) ^ (n + 4) = 16 * (2 : ℝ) ^ n := by
     rw [pow_add]
     norm_num
+    ring
   rw [hp]
   have hm : (2 : ℝ) ^ n * ‖y‖ ≤
       (2 : ℝ) ^ n * (1 / 16 : ℝ) :=

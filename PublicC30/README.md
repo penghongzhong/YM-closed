@@ -70,3 +70,12 @@ margins after scale `2^(n+4)`: the shell vanishes if `‖y‖≤1/16` or
 `‖y‖≥1/4`. This is an analysis prerequisite to periodicization;
 it is **not** a constructed periodic map or actual Wilson source dictionary.
 This next batch is pending official pinned CI.
+
+## 2026-10-29: direct one-coordinate dyadic shell periodization
+
+`ScaledDyadicShellCircle.lean` constructs a genuine continuous unit-circle
+function from the existing rescaled dyadic shell by matching the endpoints of
+`[-1/2,1/2]`. It proves exact equality on the fundamental interval and
+uses the already-established strict annular support margins. This is one
+real coordinate only; the multivariate smooth periodization and actual Wilson
+source dictionary remain open until separately constructed and audited.
