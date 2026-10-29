@@ -58,6 +58,8 @@ jobs:
           lake build +PublicC30.ScaledDyadicShellMargin:olean
           lake build +PublicC30.ScaledDyadicShellCircle:olean
           lake build +YM.OSGrowth.DyadicCutoffDerivativeBound:olean
+          lake build +YM.OSGrowth.DyadicShellDerivativeBound:olean
+          lake build +YM.OSGrowth.ScaledDyadicShellUniformDerivative:olean
           lake env lean -DwarningAsError=true PublicC30/ScaledShellExponentBudget.lean
           lake env lean -DwarningAsError=true PublicC30/ScaledShellPowerBudget.lean
           lake env lean -DwarningAsError=true YM/OSTensor/SchwartzMixedJointControl.lean
@@ -67,6 +69,8 @@ jobs:
           lake env lean -DwarningAsError=true PublicC30/FourierModeC2TsumDerivative.lean
           lake env lean -DwarningAsError=true PublicC30/FourierModeC2Reconstruction.lean
           lake env lean -DwarningAsError=true YM/OSGrowth/DyadicCutoffDerivativeBound.lean
+          lake env lean -DwarningAsError=true YM/OSGrowth/DyadicShellDerivativeBound.lean
+          lake env lean -DwarningAsError=true YM/OSGrowth/ScaledDyadicShellUniformDerivative.lean
           lake env lean -DwarningAsError=true PublicC30/ScaledDyadicShellMargin.lean
           lake env lean -DwarningAsError=true PublicC30/ScaledDyadicShellCircle.lean
       - name: Print and check axioms
@@ -83,6 +87,8 @@ jobs:
           import PublicC30.FourierModeC2TsumDerivative
           import PublicC30.FourierModeC2Reconstruction
           import YM.OSGrowth.DyadicCutoffDerivativeBound
+          import YM.OSGrowth.DyadicShellDerivativeBound
+          import YM.OSGrowth.ScaledDyadicShellUniformDerivative
           import PublicC30.ScaledDyadicShellMargin
           import PublicC30.ScaledDyadicShellCircle
           #print axioms YMUIC.OSTensor.scaled_shell_exponent_budget
@@ -102,6 +108,8 @@ jobs:
           #print axioms YMUIC.OSTensor.fourier_mixed_c2_first_derivative
           #print axioms YMUIC.OSTensor.fourier_mixed_c2_second_derivative
           #print axioms YMUIC.OSGrowth.dyadic_cutoff_derivative_bound
+          #print axioms YMUIC.OSGrowth.dyadic_shell_all_derivatives_bound
+          #print axioms YMUIC.OSGrowth.scaled_dyadic_shell_uniform_derivative
           #print axioms YMUIC.OSGrowth.dyadic_shell_annulus
           #print axioms YMUIC.OSTensor.scaled_dyadic_shell_outer_margin
           #print axioms YMUIC.OSTensor.scaled_dyadic_shell_inner_margin

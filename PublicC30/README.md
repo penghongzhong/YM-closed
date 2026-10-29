@@ -79,3 +79,15 @@ function from the existing rescaled dyadic shell by matching the endpoints of
 uses the already-established strict annular support margins. This is one
 real coordinate only; the multivariate smooth periodization and actual Wilson
 source dictionary remain open until separately constructed and audited.
+
+## 2026-10-29: actual high-order dyadic shell derivative targets
+
+The next two theorems prove directly from the built cutoffs:
+
+`‖D^m shell_(n+1)(x)‖ ≤ 2 M_m / 2^(nm)`, and
+`‖D^m [y ↦ shell_(n+1)(2^(n+4)y)]‖ ≤ 2·2^(4m) M_m`.
+
+The bound is uniform in the dyadic shell index. The source and target are
+actual Schwartz/dyadic objects, without assuming the derivative bounds.
+This is still a component of Original30, not a proof of actual Wilson input
+continuity or multivariate periodization. CI acceptance is pending.
