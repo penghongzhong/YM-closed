@@ -1,4 +1,4 @@
-import YM.Wilson.SourceDirection
+import YM.Wilson.SourceMix21
 
 set_option autoImplicit false
 noncomputable section
