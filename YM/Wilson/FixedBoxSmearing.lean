@@ -14,7 +14,7 @@ N*a ≤ R, the actual plaquette cubature weights a⁴ have a volume-uniform
 weighted majorant. The bound applies to ANY placement function, and
 therefore to the actual lattice plaquette positions. -/
 theorem wilson_box_weighted_sum_bound
-    (N : ℕ) (a R : ℝ) (ha : 0 ≤ a) (hR : 0 ≤ R)
+    (N : ℕ) (a R : ℝ) (ha : 0 ≤ a) (_hR : 0 ≤ R)
     (hbox : (N : ℝ) * a ≤ R)
     (position : WilsonBoxPlaquettes N → Space4) (q : ℕ) :
     (∑ p : WilsonBoxPlaquettes N,
@@ -63,7 +63,7 @@ theorem wilson_box_source_bound
     (fun _ : WilsonBoxPlaquettes N => ((a ^ 4 : ℝ) : ℂ))
     U position f q (6 * R ^ 4) hC
     (wilson_box_weighted_sum_bound N a R ha hR hbox position q)
-  convert hw using 1 <;> ring
+  convert hw using 1; ring
 
 /-- One physical box size R serves every UV cutoff, lattice spacing and
 volume regulator of the same finite 4D Wilson cube family. -/
