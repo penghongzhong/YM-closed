@@ -1,0 +1,69 @@
+name: YM compensated-frame Wilson RG algebra (Lean 4.35 official pin)
+on:
+  push:
+    branches: [ym-original30-compensated-frame-20261029]
+    paths:
+      - "YM/Wilson/CompensatedFrame21.lean"
+      - ".github/workflows/ym-compensated-frame.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compensated-source-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Lean
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Fetch pinned mathlib
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Compile source RG chain and compensated-frame proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YM/Wilson/*.lean; then exit 1; fi
+          lake build +YM.Wilson.SourceDefect21:olean
+          lake env lean -DwarningAsError=true YM/Wilson/CompensatedFrame21.lean
+          lake build +YM.Wilson.CompensatedFrame21:olean
+      - name: Exact theorem signatures and axiom audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          cat > YMFrameAudit.lean <<'LEAN'
+          import YM.Wilson.CompensatedFrame21
+          set_option pp.universes true
+          #print YMUIC.Wilson.compensated_source_chain_factorization
+          #print YMUIC.Wilson.compensated_source_chain_uniform_column
+          #print YMUIC.Wilson.compensated_wilson_source_uniform
+          #print axioms YMUIC.Wilson.compensated_source_chain_factorization
+          #print axioms YMUIC.Wilson.compensated_source_chain_uniform_column
+          #print axioms YMUIC.Wilson.compensated_wilson_source_uniform
+          LEAN
+          lake env lean -DwarningAsError=true YMFrameAudit.lean | tee frame-audit.log
+          if grep -E 'sorryAx|^error:' frame-audit.log; then exit 1; fi
+      - name: Preserve audit log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-compensated-frame-${{ github.sha }}
+          path: frame-audit.log
+          if-no-files-found: warn
+          retention-days: 30
