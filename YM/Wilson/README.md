@@ -83,3 +83,23 @@ This replaces the earlier **cumulative** bound hypothesis with **per-step**
 bounds and a summable error budget. The latter two remain genuine Yang–Mills
 RG obligations. The argument is not a proof of Original30 or I7 until those
 per-step bounds and the v108/v118 source dictionary are established.
+
+## C29: direct one-step source defect instead of an assumed step norm
+
+The extra certificate `SourceDefect21.lean` proves that, for an
+**actual matrix entrywise difference**, the column estimate
+
+`∑_j ‖C_n(j,α)-δ_(jα)‖ ≤ d_n`
+
+implies `‖C_n‖_(col,1) ≤ 1+d_n`. For a uniform nonnegative
+summable sequence `d_n`, the existing full cocycle theorem then yields
+
+`‖h_(C_(n-1)…C_0,f)‖∞ ≤ 4 exp(∑_n d_n) p_(0,0)(f)`,
+
+including varying regulator and volume indices. This is a Lean
+conditional implication; **no actual Yang–Mills one-step B09 RG source
+defect or its summability is assumed to be proved**. In the paper,
+the physical dual source evolves by inverse transpose, which still
+requires a precise correspondence with `C_n`.
+
+The prior manuscript **34/39** ledger and unresolved IDs are unchanged.

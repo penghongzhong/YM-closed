@@ -43,11 +43,13 @@ jobs:
           lake build +YM.Wilson.SourceMix21:olean
           lake build +YM.Wilson.SourceCocycle21:olean
           lake build +YM.Wilson.SourceCocycleChain21:olean
+          lake build +YM.Wilson.SourceDefect21:olean
           lake env lean -DwarningAsError=true YM/Wilson/RootBound.lean
           lake env lean -DwarningAsError=true YM/Wilson/SourceDirection.lean
           lake env lean -DwarningAsError=true YM/Wilson/SourceMix21.lean
           lake env lean -DwarningAsError=true YM/Wilson/SourceCocycle21.lean
           lake env lean -DwarningAsError=true YM/Wilson/SourceCocycleChain21.lean
+          lake env lean -DwarningAsError=true YM/Wilson/SourceDefect21.lean
       - name: Full theorem statements, premises, and axioms
         shell: bash
         run: |
@@ -55,13 +57,15 @@ jobs:
           source "$HOME/.elan/env"
           mkdir -p verification/original30-wilson
           cat >verification/original30-wilson/Audit.lean <<'LEAN'
-          import YM.Wilson.SourceCocycleChain21
+          import YM.Wilson.SourceDefect21
           set_option pp.universes true
           #print YMUIC.Wilson.wilson_plaquette_direction_uniform
           #print YMUIC.Wilson.mixed_wilson_direction_uniform
           #print YMUIC.Wilson.mixed_wilson_direction_all_regulators
           #print YMUIC.Wilson.mixed_wilson_two_step_uniform
           #print YMUIC.Wilson.wilson_source_of_summable_cocycle
+          #print YMUIC.Wilson.wilson_source_of_summable_matrix_defects
+          #print YMUIC.Wilson.wilson_source_regulator_uniform_of_summable_defects
           #print axioms YMUICV128.Section03.wilsonRoot_bounds
           #print axioms YMUIC.Wilson.wilson_plaquette_direction_pointwise
           #print axioms YMUIC.Wilson.wilson_plaquette_direction_uniform
@@ -78,6 +82,11 @@ jobs:
           #print axioms YMUIC.Wilson.source_cocycle_chain_column
           #print axioms YMUIC.Wilson.source_cocycle_chain_uniform_column
           #print axioms YMUIC.Wilson.wilson_source_of_summable_cocycle
+          #print axioms YMUIC.Wilson.source_cocycle_step_from_identity_defect
+          #print axioms YMUIC.Wilson.source_cocycle_defect_partial_sum
+          #print axioms YMUIC.Wilson.source_cocycle_from_summable_matrix_defects
+          #print axioms YMUIC.Wilson.wilson_source_of_summable_matrix_defects
+          #print axioms YMUIC.Wilson.wilson_source_regulator_uniform_of_summable_defects
           LEAN
           lake env lean -DwarningAsError=true verification/original30-wilson/Audit.lean | tee verification/original30-wilson/audit.log
           if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original30-wilson/audit.log; then exit 1; fi
