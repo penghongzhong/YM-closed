@@ -61,10 +61,10 @@ theorem gns_centered_variance (ω : A →ₗ[ℂ] ℂ) (J : A →ₗ[ℂ] H)
     change (⟪J F - ((ω F).re : ℂ) • J 1,
       J F - ((ω F).re : ℂ) • J 1⟫_ℂ).re = (ω (F*F)).re - (ω F).re^2
     simp only [inner_sub_left, inner_sub_right, inner_smul_left, inner_smul_right,
-      hleft, hright, hsquare, hnorm, map_sub, map_mul,
+      hleft, hright, hsquare, hnorm,
       Complex.sub_re, Complex.mul_re, Complex.conj_ofReal,
       Complex.ofReal_re, Complex.ofReal_im, Complex.one_re, Complex.one_im,
-      Complex.conj_re, Complex.conj_im, him]
+      him]
     ring
 
 theorem orthogonal_nonzero_not_vacuum_span

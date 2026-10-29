@@ -42,8 +42,8 @@ theorem centeredVector_norm_sq (μ : Measure X) [IsProbabilityMeasure μ]
   apply integral_congr_ae
   filter_upwards [centeredVector_coe μ F hF] with x hx
   rw [hx]
-  simp [centeredFunction, inner_self_eq_norm_sq_to_K, Complex.norm_real,
-    Real.norm_eq_abs, sq_abs, pow_two]
+  simp [centeredFunction, inner_self_eq_norm_sq_to_K,
+    ← Complex.ofReal_sub, Complex.norm_real, Real.norm_eq_abs, sq_abs, pow_two]
 
 theorem centeredVector_orthogonal_vacuum (μ : Measure X) [IsProbabilityMeasure μ]
     (F : X → ℝ) (hF : MemLp F 2 μ) :
@@ -69,7 +69,9 @@ theorem transferDeficit_le_norm_sq {H : Type*}
     [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
     (T : H →L[ℂ] H) (hT : T.IsPositive) (v : H) :
     transferDeficit T v ≤ ‖v‖^2 := by
-  exact sub_le_self _ (hT.inner_nonneg_right v)
+  have hnonneg : 0 ≤ (⟪v, T v⟫_ℂ).re :=
+    (Complex.le_def.mp (hT.inner_nonneg_right v)).1
+  exact sub_le_self _ hnonneg
 
 /-- Applies to a physical realization as well as directly to complex L2.
 No variance/norm equality is an assumption. -/
