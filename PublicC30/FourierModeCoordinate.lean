@@ -27,6 +27,7 @@ theorem fourier_mode_coordinate_hasDerivAt {n : ℕ}
         mFourier k (i.insertNth (x : UnitAddCircle) z)) x := by
   have h := ((hasDerivAt_fourier (1 : ℝ) (k i) x).mul_const
     (∏ j : Fin n, fourier (k (i.succAbove j)) (z j)))
-  convert h using 1 <;> simp [fourier_mode_coordinate_eq] <;> ring
+  convert h using 1 <;> simp [fourier_mode_coordinate_eq]
+  ring
 
 end YMUIC.OSTensor
