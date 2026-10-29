@@ -28,8 +28,8 @@ theorem spectrum_of_approximate_vectors
     have h := congrArg (fun F : H →L[ℂ] H => F x) u.inv_val
     exact h
   have hnorm : ‖(algebraMap ℂ (H →L[ℂ] H) z - T) x‖ = ‖T x - z • x‖ := by
-    simp only [Algebra.algebraMap_eq_smul_one, ContinuousLinearMap.sub_apply,
-      ContinuousLinearMap.smul_apply, ContinuousLinearMap.one_apply]
+    simp only [Algebra.algebraMap_eq_smul_one, sub_apply,
+      smul_apply, one_apply_eq_self]
     exact norm_sub_rev _ _
   have hbound : 1 ≤ C * ‖T x - z • x‖ := by
     calc
