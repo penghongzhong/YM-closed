@@ -1,0 +1,73 @@
+name: YM Original30 public pinned Lean check
+
+on:
+  push:
+    branches: [ym-original30-public-20261029]
+    paths:
+      - "PublicC30/**"
+      - "lakefile.lean"
+      - "lean-toolchain"
+      - ".github/workflows/ym-original30-public.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ym-original30-public-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  original30-scaled-shell:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Lean
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+          lake --version
+      - name: Fetch fixed Mathlib
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Compile exact theorem dependency chain
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake build +PublicC30.ScaledShellPowerBudget:olean
+          lake env lean -DwarningAsError=true PublicC30/ScaledShellExponentBudget.lean
+          lake env lean -DwarningAsError=true PublicC30/ScaledShellPowerBudget.lean
+      - name: Print and check axioms
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          cat >PublicC30/Audit.lean <<'LEAN'
+          import PublicC30.ScaledShellPowerBudget
+          #print axioms YMUIC.OSTensor.scaled_shell_exponent_budget
+          #print axioms YMUIC.OSTensor.scaled_shell_power_budget
+          LEAN
+          lake env lean -DwarningAsError=true PublicC30/Audit.lean | tee /tmp/ym-axioms.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' /tmp/ym-axioms.log; then
+            exit 1
+          fi
+      - name: Preserve verification logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-original30-public-${{ github.sha }}
+          path: /tmp/ym-axioms.log
+          if-no-files-found: warn
+          retention-days: 30
