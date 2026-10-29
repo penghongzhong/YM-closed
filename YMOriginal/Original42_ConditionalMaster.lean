@@ -44,9 +44,9 @@ def Original42UICMain
     [∀ k, CompleteSpace (V k)]
     (Ω : ∀ k, V k)
     (A : ∀ k, vacuumSector (Ω k) →ₗ.[ℂ] vacuumSector (Ω k))
-    {H∞ : Type*} [NormedAddCommGroup H∞]
-    [InnerProductSpace ℂ H∞] [CompleteSpace H∞]
-    (Ω∞ : H∞) (A∞ : vacuumSector Ω∞ →ₗ.[ℂ] vacuumSector Ω∞)
+    {Hcont : Type*} [NormedAddCommGroup Hcont]
+    [InnerProductSpace ℂ Hcont] [CompleteSpace Hcont]
+    (OmegaCont : Hcont) (Acont : vacuumSector OmegaCont →ₗ.[ℂ] vacuumSector OmegaCont)
     (S : Original42Stages) (gap : ℝ) : Prop :=
   S.phaseLocked ∧
   S.jointCutoffVolumeLimits ∧
@@ -58,7 +58,7 @@ def Original42UICMain
   S.osWightmanReconstruction ∧
   0 < gap ∧
   (∀ k, ((gap : ℝ) : EReal) ≤ generatorGap (A k)) ∧
-  ((gap : ℝ) : EReal) ≤ generatorGap A∞
+  ((gap : ℝ) : EReal) ≤ generatorGap Acont
 
 /-- Original #42 conditional master theorem, preserving the original
 seven listed input classes and the previously verified Original #16
@@ -90,12 +90,12 @@ theorem original42_master_assembly_from_I7
     (hSpectral : ∀ k, NonnegativeHeatCalculus (A k) (2 * a k)
       (vacuumTransfer (Ω k) (T k) (hT k).isSelfAdjoint (hfix k)))
     (hscale : ∀ k, a k ≤ cPlus / Lambda)
-    {H∞ : Type*} [NormedAddCommGroup H∞]
-    [InnerProductSpace ℂ H∞] [CompleteSpace H∞]
-    (Ω∞ : H∞) (A∞ : vacuumSector Ω∞ →ₗ.[ℂ] vacuumSector Ω∞)
+    {Hcont : Type*} [NormedAddCommGroup Hcont]
+    [InnerProductSpace ℂ Hcont] [CompleteSpace Hcont]
+    (OmegaCont : Hcont) (Acont : vacuumSector OmegaCont →ₗ.[ℂ] vacuumSector OmegaCont)
     (hB14 : ∀ d : ℝ,
       (∀ k, ((d : ℝ) : EReal) ≤ generatorGap (A k)) →
-        ((d : ℝ) : EReal) ≤ generatorGap A∞)
+        ((d : ℝ) : EReal) ≤ generatorGap Acont)
     (S : Original42Stages)
     (hPhase : S.phaseLocked)
     (hJoint : S.jointCutoffVolumeLimits)
@@ -105,7 +105,7 @@ theorem original42_master_assembly_from_I7
     (hGrowth : S.continuumOSGrowth)
     (hNontrivial : S.continuumNontriviality)
     (hReconstruction : S.osWightmanReconstruction) :
-    Original42UICMain V Ω A Ω∞ A∞ S
+    Original42UICMain V Ω A OmegaCont Acont S
       ((-Real.log (1 - η) / (2 * cPlus)) * Lambda) := by
   have hGap := original16_uniform_mass_gap_from_I7
     V I Ω v T η cPlus Lambda a
