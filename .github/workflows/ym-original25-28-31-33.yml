@@ -1,0 +1,94 @@
+name: YM original25-28-31-33 exact official pin
+
+on:
+  push:
+    branches: [ym-original25-28-31-33-official-20261029]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-conditional:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: original25-31
+            module: YMConditional.Original31_Euclidean
+          - id: original28
+            module: YMConditional.Original28_ContinuumRP
+          - id: original33
+            module: YMConditional.Original33_CutoffPassage
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install original pinned Lean
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Fetch exact Mathlib dependency
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Compile exact conditional theorem closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMConditional/*.lean; then exit 1; fi
+          lake build +${{ matrix.module }}:olean
+          source_file="$(echo '${{ matrix.module }}' | tr '.' '/')".lean
+          lake env lean -DwarningAsError=true "$source_file"
+      - name: Print entire theorem statements and axiom boundaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/exact
+          echo "import ${{ matrix.module }}" >verification/exact/Audit.lean
+          echo "set_option pp.universes true" >>verification/exact/Audit.lean
+          case "${{ matrix.id }}" in
+          original25-31)
+            cat >>verification/exact/Audit.lean <<'LEAN'
+          #print YMUIC.RotationMatching.original25_continuous_rotation_matching
+          #print axioms YMUIC.RotationMatching.original25_continuous_rotation_matching
+          #print YMUIC.EuclideanCovariance.original31_euclidean_covariance
+          #print axioms YMUIC.EuclideanCovariance.original31_euclidean_covariance
+          LEAN
+            ;;
+          original28)
+            cat >>verification/exact/Audit.lean <<'LEAN'
+          #print YMUIC.Reflection.original28_renormalized_continuum_reflection_positivity
+          #print axioms YMUIC.Reflection.original28_renormalized_continuum_reflection_positivity
+          LEAN
+            ;;
+          original33)
+            cat >>verification/exact/Audit.lean <<'LEAN'
+          #print YMUIC.ConditionalCluster.original33_connected_cluster_decay
+          #print axioms YMUIC.ConditionalCluster.original33_connected_cluster_decay
+          #print YMUIC.ConditionalCluster.original33_cutoff_to_continuum_E4
+          #print axioms YMUIC.ConditionalCluster.original33_cutoff_to_continuum_E4
+          LEAN
+            ;;
+          esac
+          lake env lean -DwarningAsError=true verification/exact/Audit.lean | tee verification/exact/audit.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/exact/audit.log; then exit 1; fi
+      - name: Save audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-official-${{ matrix.id }}-${{ github.sha }}
+          path: verification/exact/audit.log
+          if-no-files-found: warn
+          retention-days: 30
