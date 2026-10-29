@@ -1,0 +1,88 @@
+name: YM exact Original15-16-19 official verification
+
+on:
+  push:
+    branches: [ym-original15-16-19-official-20261029]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  conditional-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: original15-16
+            module: YMConditional.Original16_FromI7
+            source: YMConditional/Original16_FromI7.lean
+          - id: original19
+            module: YMConditional.Original19_CountertermCocycle
+            source: YMConditional/Original19_CountertermCocycle.lean
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pin Lean
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Pin Mathlib and fetch oleans
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Original lemma dependency closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMConditional/*.lean; then exit 1; fi
+          lake build +${{ matrix.module }}:olean
+          lake env lean -DwarningAsError=true ${{ matrix.source }}
+      - name: Full theorem type and axioms
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/exact
+          echo 'import ${{ matrix.module }}' > verification/exact/Audit.lean
+          echo 'set_option pp.universes true' >> verification/exact/Audit.lean
+          case "${{ matrix.id }}" in
+          original15-16)
+            cat >>verification/exact/Audit.lean <<'LEAN'
+          #print YMUIC.ConditionalI7.original15_strict_transfer_from_I7
+          #print axioms YMUIC.ConditionalI7.original15_strict_transfer_from_I7
+          #print YMUIC.ConditionalI7.original16_uniform_mass_gap_from_I7
+          #print axioms YMUIC.ConditionalI7.original16_mass_gap_from_I7
+          #print axioms YMUIC.ConditionalI7.original16_uniform_mass_gap_from_I7
+          LEAN
+            ;;
+          original19)
+            cat >>verification/exact/Audit.lean <<'LEAN'
+          #print YMUIC.Counterterm.original19_fixed_dimension_counterterm
+          #print axioms YMUIC.Counterterm.original19_fixed_dimension_counterterm
+          #print YMUIC.Counterterm.original19_counterterm_block
+          #print axioms YMUIC.Counterterm.original19_counterterm_block
+          LEAN
+            ;;
+          esac
+          lake env lean -DwarningAsError=true verification/exact/Audit.lean | tee verification/exact/audit.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/exact/audit.log; then exit 1; fi
+      - name: Save exact-pin evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-official-${{ matrix.id }}-${{ github.sha }}
+          path: verification/exact/audit.log
+          if-no-files-found: warn
+          retention-days: 30
