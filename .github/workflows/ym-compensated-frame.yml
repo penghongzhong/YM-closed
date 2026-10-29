@@ -4,6 +4,7 @@ on:
     branches: [ym-original30-compensated-frame-20261029]
     paths:
       - "YM/Wilson/CompensatedFrame21.lean"
+      - "YM/Wilson/DualSourceRGUniform21.lean"
       - ".github/workflows/ym-compensated-frame.yml"
   workflow_dispatch:
 
@@ -40,6 +41,8 @@ jobs:
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YM/Wilson/*.lean; then exit 1; fi
           lake build +YM.Wilson.SourceDefect21:olean
+          lake build +YM.Wilson.DualSourceRGUniform21:olean
+          lake env lean -DwarningAsError=true YM/Wilson/DualSourceRGUniform21.lean
           lake env lean -DwarningAsError=true YM/Wilson/CompensatedFrame21.lean
           lake build +YM.Wilson.CompensatedFrame21:olean
       - name: Exact theorem signatures and axiom audit
@@ -50,9 +53,13 @@ jobs:
           cat > YMFrameAudit.lean <<'LEAN'
           import YM.Wilson.CompensatedFrame21
           set_option pp.universes true
+          #print YMUIC.Wilson.dual_source_chain_uniform_column
+          #print YMUIC.Wilson.dual_source_wilson_rg_uniform
           #print YMUIC.Wilson.compensated_source_chain_factorization
           #print YMUIC.Wilson.compensated_source_chain_uniform_column
           #print YMUIC.Wilson.compensated_wilson_source_uniform
+          #print axioms YMUIC.Wilson.dual_source_chain_uniform_column
+          #print axioms YMUIC.Wilson.dual_source_wilson_rg_uniform
           #print axioms YMUIC.Wilson.compensated_source_chain_factorization
           #print axioms YMUIC.Wilson.compensated_source_chain_uniform_column
           #print axioms YMUIC.Wilson.compensated_wilson_source_uniform
