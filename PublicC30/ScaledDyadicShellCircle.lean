@@ -15,8 +15,9 @@ noncomputable def scaledDyadicShellReal (n : ℕ) : ℝ → ℝ :=
 theorem scaled_dyadic_shell_real_continuous (n : ℕ) :
     Continuous (scaledDyadicShellReal n) := by
   have hc := ((dyadic_shell_regularity (E := ℝ) (n + 1)).1).continuous
-  have hs : Continuous (fun x : ℝ => ((2 : ℝ) ^ (n + 4)) • x) :=
-    continuous_const.smul continuous_id
+  have hs : Continuous (fun x : ℝ => ((2 : ℝ) ^ (n + 4)) • x) := by
+    simpa only [smul_eq_mul] using
+      (continuous_const.mul (continuous_id : Continuous (fun x : ℝ => x)))
   exact hc.comp hs
 
 /-- Both endpoints of the chosen fundamental interval are zeros of the actual
