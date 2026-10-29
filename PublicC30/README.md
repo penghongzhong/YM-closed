@@ -36,3 +36,10 @@ frequency decay, and absolute weighted second-order Fourier summability.
 All ten transitive `YM.*` imports for the terminal Fourier theorem are
 included. This is an analytical bridge, **not** the actual periodization
 of Wilson-Schwartz sources and not proof of manuscript Original 30.
+
+## Actual Fourier atoms: real coordinate derivatives
+
+The public proof now targets a new exact, arbitrary-dimensional theorem computing
+real-coordinate derivatives of the **actual** torus Fourier modes. It also
+constructs every iterated derivative-chain element and the pointwise unit norm.
+The goal is the local `C²` source atom estimate, not yet the Wilson dictionary.
