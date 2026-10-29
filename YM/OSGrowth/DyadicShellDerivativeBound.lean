@@ -23,9 +23,9 @@ theorem dyadic_shell_all_derivatives_bound
   have hdiv : M / (2 : ℝ) ^ ((n + 1) * m) ≤ M / (2 : ℝ) ^ (n * m) :=
     div_le_div_of_nonneg_left hM (by positivity) hp
   have hc1 : ContDiff ℝ m (dyadicCutoff (E := E) (n + 1)) :=
-    (dyadicCutoff (E := E) (n + 1)).contDiff.of_le le_top
+    (dyadicCutoff (E := E) (n + 1)).contDiff
   have hc0 : ContDiff ℝ m (dyadicCutoff (E := E) n) :=
-    (dyadicCutoff (E := E) n).contDiff.of_le le_top
+    (dyadicCutoff (E := E) n).contDiff
   have hd :
       iteratedFDeriv ℝ m (dyadicShell (E := E) (n + 1)) x =
         iteratedFDeriv ℝ m (dyadicCutoff (E := E) (n + 1)) x -
