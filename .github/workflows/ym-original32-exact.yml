@@ -1,0 +1,67 @@
+name: YM Original32 official-pin exact conditional theorem
+
+on:
+  push:
+    branches: [ym-original32-official-20261029]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original32-exact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Lean
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Pin exact Mathlib and fetch cache
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Compile exact original32 theorem and import closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMConditional/*.lean; then exit 1; fi
+          lake build +YMConditional.Original32_PermutationLimit:olean
+          lake env lean -DwarningAsError=true YMConditional/Original32_AnalyticSymmetry.lean
+          lake env lean -DwarningAsError=true YMConditional/Original32_PermutationLimit.lean
+      - name: Full statement and axioms audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/original32
+          cat >verification/original32/Audit.lean <<'LEAN'
+          import YMConditional.Original32_PermutationLimit
+          set_option pp.universes true
+          #print YMUIC.SchwingerSymmetry.original32_permutation_symmetry
+          #print YMUIC.SchwingerSymmetry.original32_cutoff_volume_net
+          #print axioms YMUIC.SchwingerSymmetry.analytic_source_derivative_permutation
+          #print axioms YMUIC.SchwingerSymmetry.original32_permutation_symmetry
+          #print axioms YMUIC.SchwingerSymmetry.original32_cutoff_volume_net
+          LEAN
+          lake env lean -DwarningAsError=true verification/original32/Audit.lean | tee verification/original32/axioms-and-statements.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original32/axioms-and-statements.log; then exit 1; fi
+      - name: Save audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-original32-official-${{ github.sha }}
+          path: verification/original32/axioms-and-statements.log
+          if-no-files-found: warn
+          retention-days: 30
