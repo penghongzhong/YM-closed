@@ -30,9 +30,20 @@ theorem fourier_c2_weighted_series_hasDerivAt {n : ℕ}
   have hs (k : Fin (n + 1) → ℤ) :
       (1 + |(k i : ℝ)|) ^ 2 ≤
         ∏ t : Fin (n + 1), (1 + |(k t : ℝ)|) ^ 2 := by
-    apply Finset.single_le_prod
-      (fun t _ => ?_) (Finset.mem_univ i)
-    nlinarith [abs_nonneg (k t : ℝ)]
+    have hw (t : Fin (n + 1)) :
+        (1 : ℝ) ≤ (1 + |(k t : ℝ)|) ^ 2 := by
+      nlinarith [abs_nonneg (k t : ℝ)]
+    calc
+      _ = ∏ t : Fin (n + 1),
+          (if t = i then (1 + |(k t : ℝ)|) ^ 2 else (1 : ℝ)) := by simp
+      _ ≤ ∏ t : Fin (n + 1), (1 + |(k t : ℝ)|) ^ 2 := by
+        apply Finset.prod_le_prod₀
+        · intro t _
+          by_cases ht : t = i <;> simp [ht] <;> positivity
+        · intro t _
+          by_cases ht : t = i
+          · simp [ht]
+          · simpa [ht] using hw t
   have hb (k : Fin (n + 1) → ℤ) (m : ℕ) (hm : m ≤ 2) (y : ℝ) :
       ‖c k * ((2 * (Real.pi : ℂ) * Complex.I * (k i : ℂ)) ^ m *
         mFourier k (i.insertNth (y : UnitAddCircle) z))‖ ≤ u k := by
