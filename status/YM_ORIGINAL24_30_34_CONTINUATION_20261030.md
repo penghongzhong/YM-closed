@@ -43,15 +43,24 @@ Successful audited sources report only standard foundations
 `propext, Classical.choice, Quot.sound`, without `sorryAx` or newly
 declared axioms.
 
-## Current pending test
+## New verified U1-to-U2 physical geometry bridge
 
-- `Original24_UnmarkedRGGeometry.lean` builds the exact
-  `rootDistance <= cRt + cGeo * nativeLength` bridge:
-  `|z(γ)| <= A exp(-kappa*length(γ))` implies the U2 weighted root bound
-  `exp(mu*dRoot)|z(γ)| <= exp(mu*cRt) A exp(-(kappa-mu*cGeo)length(γ))`.
-  Rooted-tree total counting is still separately required.
-- The final official build/axiom audit for this bridge must be checked
-  before marking the additional two helper theorems as accepted.
+- [Actions 40958732919](https://github.com/penghongzhong/YM-closed/actions/runs/40958732919)
+  **SUCCESS**; `Original24_UnmarkedRGGeometry.lean`, two newly audited
+  theorems: from the explicit physical-native distance dictionary
+  `dRoot <= cRt + cGeo*length(γ)` and the actual UNMARKED sector
+  bound `norm(z γ) <= A exp(-kappa*length(γ))`, derive the weighted
+  tree exponential with `kappa-mu*cGeo`. Then apply the actual
+  finite Wilson-word source theorem. No separate marked-R bound is assumed.
+- The old/new R *model-specific* native distance dictionary and rooted-tree
+  total summability still need actual source verification.
+
+## Latest pending exact four-dimensional placement certificate
+
+- `Original24_PlacementRatio.lean` states the true C29 equality
+  `L^(4m) * L^(-(5-theta)m) = (L^(-(1-theta)))^m` and proves
+  `0 < q < 1` directly from `L>1, 0<theta<1`.
+  Await successful official-pin run before declaring it certified.
 
 ## Exact mathematical open obligations
 
