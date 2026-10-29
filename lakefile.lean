@@ -18,3 +18,13 @@ lean_lib PublicC30 where
 lean_lib YM where
   globs := #[.submodules `YM]
   moreLeanArgs := #["-DwarningAsError=true"]
+
+-- Reused, previously official-pin audited Original15/16 analytic chain.
+lean_lib YMConditional where
+  globs := #[.submodules `YMConditional]
+  moreLeanArgs := #["-DwarningAsError=true"]
+
+-- Current isolated original-environment theorem certificates.
+lean_lib YMOriginal where
+  globs := #[.submodules `YMOriginal]
+  moreLeanArgs := #["-DwarningAsError=true"]
