@@ -132,3 +132,14 @@ normalization or Wilson polynomial roots. In particular a one-step
 
 This closes the previously ambiguous `Z^{-T}` orientation *within
 the finite 21-dimensional algebraic interface*, not Original30 itself.
+
+## Geometric RG source error: quantitative conditional corollary
+
+The auxiliary `SourceGeometric21` (after CI) uses only the concrete
+`\sum_{j=1}^{21}|A_{n,βj}| \le D\theta^n`, `0≤θ<1`,
+`0≤D≤1/2`, and the exact dual inverse equation. It constructs
+the previously assumed summability/partial-sum bound, yielding
+`‖h_f^(n)‖∞ ≤ 4 exp(2D/(1−θ)) p_(0,0)(f)` for all scales and
+cutoff-volume regulators. Crucially the geometric decay premise
+is NOT implied by the paper's one-step estimate `‖A_n‖≤1/2`;
+model matching is OPEN. No new original environment is counted.
