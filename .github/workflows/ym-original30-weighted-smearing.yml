@@ -41,7 +41,9 @@ jobs:
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YM/Wilson/WeightedSmearing.lean; then exit 1; fi
           lake build +YM.Wilson.WeightedSmearing:olean
+          lake build +YM.Wilson.FixedBoxSmearing:olean
           lake env lean -DwarningAsError=true YM/Wilson/WeightedSmearing.lean
+          lake env lean -DwarningAsError=true YM/Wilson/FixedBoxSmearing.lean
       - name: Kernel-level public premise and axiom audit
         shell: bash
         run: |
@@ -49,14 +51,18 @@ jobs:
           source "$HOME/.elan/env"
           mkdir -p verification/wilson-smearing
           cat >verification/wilson-smearing/Audit.lean <<'LEAN'
-          import YM.Wilson.WeightedSmearing
+          import YM.Wilson.FixedBoxSmearing
           set_option pp.universes true
           #print YMUIC.Wilson.wilson_weighted_smearing_bound
           #print YMUIC.Wilson.wilson_weighted_smearing_all_regulators
+          #print YMUIC.Wilson.wilson_box_source_uniform_across_cutoffs
           #print axioms YMUIC.Wilson.schwartz_weighted_point_bound
           #print axioms YMUIC.Wilson.wilson_weighted_point_bound
           #print axioms YMUIC.Wilson.wilson_weighted_smearing_bound
           #print axioms YMUIC.Wilson.wilson_weighted_smearing_all_regulators
+          #print axioms YMUIC.Wilson.wilson_box_weighted_sum_bound
+          #print axioms YMUIC.Wilson.wilson_box_source_bound
+          #print axioms YMUIC.Wilson.wilson_box_source_uniform_across_cutoffs
           LEAN
           lake env lean -DwarningAsError=true verification/wilson-smearing/Audit.lean | tee verification/wilson-smearing/audit.log
           if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/wilson-smearing/audit.log; then exit 1; fi

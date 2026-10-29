@@ -28,3 +28,25 @@ No `sorry`, no axiom, no model-spectrum statement, no claims of completed
 Original30/34/42. The conditional 34/39 original manuscript ledger remains
 unchanged. Actual composite Wilson words, normalized smearing and the
 precise 21-root inverse-transpose source cocycle still need identification.
+
+## 4D periodic SU(2) fixed-box cubature (next CI target)
+
+For the **actual six oriented plaquette types** per lattice site of a
+four-dimensional periodic N-by-N-by-N-by-N box, the flattened source index
+is `Fin6 × Fin(N⁴)`. The bare Wilson smearing uses the true lattice
+four-volume weight `a⁴` per plaquette.
+
+Whenever `a ≥ 0` and `N a ≤ R`, the number of positive plaquettes
+is exactly `6 N⁴`, hence *without any external geometric input*
+the finite weighted sum is bounded by
+
+`∑_p a⁴/(1+‖x_p‖^q) ≤ 6 R⁴`.
+
+Combining the genuine weighted Schwartz/Wilson estimate gives
+
+`|S_P(f,U)| ≤ 24 R⁴ (p_(0,0)+p_(q,0))(f)`
+
+uniformly in UV spacing, cutoff index, plaquette holonomies and sample
+positions. This result concerns a **fixed physical box radius** R;
+it is not a global infinite-volume bound (R→∞), nor is the cumulative
+renormalized 21D source map controlled by this argument.
