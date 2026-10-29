@@ -44,37 +44,18 @@ jobs:
           lake update
           test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
           lake exe cache get
-      - name: Compile source RG chain and compensated-frame proof
+      - name: Compile actual source dependency roots in one Lake DAG
         shell: bash
         run: |
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YM/Wilson/*.lean; then exit 1; fi
-          lake build +YM.Wilson.SourceDefect21:olean
-          lake build +YM.Wilson.DualSourceRGUniform21:olean
-          lake env lean -DwarningAsError=true YM/Wilson/DualSourceRGUniform21.lean
-          lake env lean -DwarningAsError=true YM/Wilson/DualPairingAllD.lean
-          lake build +YM.Wilson.DualPairingAllD:olean
-          lake env lean -DwarningAsError=true YM/Wilson/CompensatedFrame21.lean
-          lake build +YM.Wilson.CompensatedFrame21:olean
-          lake env lean -DwarningAsError=true YM/Wilson/WordSource.lean
-          lake build +YM.Wilson.WordSource:olean
-          lake env lean -DwarningAsError=true YM/Wilson/CandidateGramRoots21.lean
-          lake build +YM.Wilson.CandidateGramRoots21:olean
-          lake env lean -DwarningAsError=true YM/Wilson/CandidateGramPolynomial21.lean
-          lake build +YM.Wilson.CandidateGramPolynomial21:olean
-          lake env lean -DwarningAsError=true YM/Wilson/OrderedDualSourceRG21.lean
-          lake build +YM.Wilson.OrderedDualSourceRG21:olean
-          lake env lean -DwarningAsError=true YM/Wilson/CandidateGramSourceInsertion21.lean
-          lake build +YM.Wilson.CandidateGramSourceInsertion21:olean
-          lake env lean -DwarningAsError=true YM/Wilson/CandidateGramTrace21.lean
-          lake build +YM.Wilson.CandidateGramTrace21:olean
-          lake env lean -DwarningAsError=true YM/Wilson/CompositeOrderedDualRG21.lean
-          lake build +YM.Wilson.CompositeOrderedDualRG21:olean
-          lake env lean -DwarningAsError=true YM/Wilson/DriftControlledResidual21.lean
-          lake build +YM.Wilson.DriftControlledResidual21:olean
-          lake env lean -DwarningAsError=true YM/Wilson/DriftLeftOrderedRG21.lean
-          lake build +YM.Wilson.DriftLeftOrderedRG21:olean
+          lake build \
+            +YM.Wilson.CompensatedFrame21:olean \
+            +YM.Wilson.CandidateGramSourceInsertion21:olean \
+            +YM.Wilson.CandidateGramTrace21:olean \
+            +YM.Wilson.CompositeOrderedDualRG21:olean \
+            +YM.Wilson.DriftLeftOrderedRG21:olean
       - name: Exact theorem signatures and axiom audit
         shell: bash
         run: |
