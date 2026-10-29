@@ -54,8 +54,8 @@ theorem reflectionPair_polynomial_tendsto
           reflectionPair (μ i) (θ i)
             (monomialField (R i) d) (monomialField (R i) e)) l
       (𝓝 (continuumReflectionPair C p q)) := by
-    exact tendsto_finset_sum _ (fun d _ =>
-      tendsto_finset_sum _ (fun e _ => (hmom d e).const_mul _))
+    exact tendsto_finsetSum _ (fun d _ =>
+      tendsto_finsetSum _ (fun e _ => (hmom d e).const_mul _))
   apply hsum.congr'
   filter_upwards [hR] with i hi
   exact (reflectionPair_polynomial_expansion

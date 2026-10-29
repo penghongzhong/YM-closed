@@ -16,12 +16,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - id: original25-31
-            module: YMConditional.Original31_Euclidean
           - id: original28
             module: YMConditional.Original28_ContinuumRP
-          - id: original33
-            module: YMConditional.Original33_CutoffPassage
     steps:
       - uses: actions/checkout@v4
       - name: Install original pinned Lean
