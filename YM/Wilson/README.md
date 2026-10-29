@@ -49,3 +49,18 @@ The new theorem would certify only the actual **bare SU(2) source bound**
 and its exact 21-root linear-cocycle amplification formula. It does not
 certify that the physical renormalized Yang–Mills source realizes that
 cocycle or that its norm is regulator-uniform.
+
+## RG cocycle composition (formal check pending)
+
+For two actual finite root-fiber changes `B,C : Fin21 × Fin21 → ℂ`,
+construct `(BC)_{jα}=∑_β B_{jβ} C_{βα}`. The new Lean module derives
+the exact action on the same Wilson plaquette-source vector, proves
+submultiplicativity of column sums, and deduces
+
+`‖h_{BC,f}‖∞ ≤ 4 K_B K_C p_(0,0)(f)`.
+
+For an RG ladder this suggests the sufficient **quantitative goal**:
+if step matrices have `K_j ≤ 1+δ_j` and the regulator-uniform sum
+`∑_j δ_j ≤ M` holds, the cumulative source amplification can be bounded
+by `exp M`. This goal is *not proved here* and certainly does not follow
+from invertibility, PSD preservation, or the number 21 alone.
