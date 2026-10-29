@@ -32,3 +32,19 @@ Wilson/cluster generating functional, higher source derivatives,
 `C²` source-chart matching, dyadic tensor budget, exact
 `E0′` bound, or manuscript Original30. Never promote 34/39 solely
 from this bridge. Standard tools: Lean 4.35.0-rc3, Mathlib 516d3125.
+
+## Eliminating the packing hypothesis on an actual hypercubic regulator
+
+For a four-dimensional periodic lattice `(Fin 4 → Fin N)` with six
+unoriented plaquette orientations per vertex, the exact number of
+plaquettes is `6 N⁴`. For *any* subset `S` and spacing `a ≥ 0`, if
+the physical side `a N ≤ L`, then the new Lean theorem derives
+`a⁴ #S ≤ 6L⁴`; the geometry bound is no longer a free input.
+Therefore, for all SU(2) holonomy families and all complex Schwartz tests,
+
+`|J[a,S,U](f)| ≤ 24 L⁴ p₀,₀(f)`.
+
+The only scale parameter in this bound is the physical box length L.
+No bounds on the gauge configurations, no Wilson-source seminorm input and
+no arbitrary plaquette packing constant are assumed. The theorem is still
+for the raw plaquette source, not the RG-connected Wilson hierarchy.

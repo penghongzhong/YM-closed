@@ -33,10 +33,11 @@ jobs:
         run: |
           set -euo pipefail
           source "$HOME/.elan/env"
-          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YM/Wilson/RootBound.lean PublicC30/WilsonPlaquetteSmearing.lean; then exit 1; fi
-          lake build +PublicC30.WilsonPlaquetteSmearing:olean
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YM/Wilson/RootBound.lean PublicC30/WilsonPlaquetteSmearing.lean PublicC30/WilsonHypercubicPacking.lean; then exit 1; fi
+          lake build +PublicC30.WilsonHypercubicPacking:olean
           lake env lean -DwarningAsError=true YM/Wilson/RootBound.lean
           lake env lean -DwarningAsError=true PublicC30/WilsonPlaquetteSmearing.lean
+          lake env lean -DwarningAsError=true PublicC30/WilsonHypercubicPacking.lean
       - name: Full theorem type and axiom audit
         shell: bash
         run: |
@@ -44,7 +45,7 @@ jobs:
           source "$HOME/.elan/env"
           mkdir -p verification/wilson-schwartz
           cat >verification/wilson-schwartz/Audit.lean <<'LEAN'
-          import PublicC30.WilsonPlaquetteSmearing
+          import PublicC30.WilsonHypercubicPacking
           set_option pp.universes true
           #print YMUIC.OSTensor.wilsonPlaquetteSchwartzSmear
           #print YMUIC.OSTensor.wilsonPlaquetteSchwartz_finite_bound
@@ -53,6 +54,10 @@ jobs:
           #print axioms YMUIC.OSTensor.wilsonPlaquetteSchwartz_term_bound
           #print axioms YMUIC.OSTensor.wilsonPlaquetteSchwartz_finite_bound
           #print axioms YMUIC.OSTensor.wilsonPlaquetteSchwartz_uniform_bound
+          #print axioms YMUIC.OSTensor.periodic4D_plaquette_card
+          #print axioms YMUIC.OSTensor.periodic4D_physical_plaquette_count
+          #print YMUIC.OSTensor.periodic4D_wilson_Schwartz_uniform
+          #print axioms YMUIC.OSTensor.periodic4D_wilson_Schwartz_uniform
           LEAN
           lake env lean -DwarningAsError=true verification/wilson-schwartz/Audit.lean | tee verification/wilson-schwartz/audit.log
           if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/wilson-schwartz/audit.log; then exit 1; fi
