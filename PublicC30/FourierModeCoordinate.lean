@@ -13,8 +13,7 @@ theorem fourier_mode_coordinate_eq {n : ℕ}
     mFourier k (i.insertNth (x : UnitAddCircle) z) =
       fourier (k i) (x : UnitAddCircle) *
         ∏ j : Fin n, fourier (k (i.succAbove j)) (z j) := by
-  change (∏ j : Fin (n + 1),
-    fourier (k j) ((i.insertNth (x : UnitAddCircle) z) j)) = _
+  simp only [UnitAddTorus.mFourier, ContinuousMap.coe_mk]
   rw [i.prod_univ_succAbove]
   simp only [Fin.insertNth_apply_same, Fin.insertNth_apply_succAbove]
 
@@ -28,6 +27,6 @@ theorem fourier_mode_coordinate_hasDerivAt {n : ℕ}
         mFourier k (i.insertNth (x : UnitAddCircle) z)) x := by
   have h := ((hasDerivAt_fourier (1 : ℝ) (k i) x).mul_const
     (∏ j : Fin n, fourier (k (i.succAbove j)) (z j)))
-  simpa only [fourier_mode_coordinate_eq, div_one, mul_assoc] using h
+  convert h using 1 <;> simp only [fourier_mode_coordinate_eq, div_one] <;> ring
 
 end YMUIC.OSTensor
