@@ -13,3 +13,8 @@ lean_lib «YMUICV128Verify» where
 lean_lib PublicC30 where
   globs := #[.submodules `PublicC30]
   moreLeanArgs := #["-DwarningAsError=true"]
+
+-- Existing kernel-proved Schwartz helper dependency closure, ported from the active YM workstream.
+lean_lib YM where
+  globs := #[.submodules `YM]
+  moreLeanArgs := #["-DwarningAsError=true"]

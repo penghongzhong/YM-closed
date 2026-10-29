@@ -16,3 +16,14 @@ the I7 global-frame inequality and full dependency closure.
 **Do not count either theorem as completion of manuscript Original 30.**
 The inherited, standard-input-assisted 34/39 ledger is not a certificate of
 unconditional YM U–I–C. No paper/TeX/private verification logs are copied here.
+
+## 2026-10-29: public six-module Schwartz dependency closure
+
+The unchanged Lean sources in `YM/OSTensor/` establish directional,
+iterated and mixed fourth-order Schwartz seminorm estimates, concluding in
+`schwartz_mixed_joint_control`. Every imported `YM.*` module required
+by this particular theorem is included; the source blobs match the
+already-existing project code. The official-pin public CI builds the import
+closure and audits the exact terminal theorem's axioms. It **does not** assert
+that Wilson source periodization, the coefficient budget or manuscript
+Original 30 has been completed.
