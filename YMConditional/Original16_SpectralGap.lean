@@ -37,7 +37,7 @@ theorem transfer_resolvent_above_bound
     (T : H →L[ℂ] H) (q s : ℝ)
     (hform : ∀ x : H, (⟪T x, x⟫_ℂ).re ≤ q * ‖x‖ ^ 2)
     (hqs : q < s) : (s : ℂ) ∉ spectrum ℂ T := by
-  apply spectrum.not_mem_iff.mpr
+  apply spectrum.notMem_iff.mpr
   apply ContinuousLinearMap.isUnit_of_forall_le_norm_inner_map
     (c := ⟨s - q, sub_nonneg.mpr hqs.le⟩)
   · exact_mod_cast sub_pos.mpr hqs
