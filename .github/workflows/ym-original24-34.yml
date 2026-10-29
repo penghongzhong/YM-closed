@@ -40,8 +40,9 @@ jobs:
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/*.lean; then exit 1; fi
-          lake build +YMOriginal.Original24_MarkedRootBridge:olean
+          lake build +YMOriginal.Original24_MarkedRootBridge:olean +YMOriginal.Original34_OSII_ExternalInterface:olean
           lake env lean -DwarningAsError=true YMOriginal/Original24_MarkedRootBridge.lean
+          lake env lean -DwarningAsError=true YMOriginal/Original34_OSII_ExternalInterface.lean
       - name: Print every source theorem premise and audit axioms
         shell: bash
         run: |
@@ -49,9 +50,12 @@ jobs:
           source "$HOME/.elan/env"
           cat > Original24Audit.lean <<'LEAN'
           import YMOriginal.Original24_MarkedRootBridge
+          import YMOriginal.Original34_OSII_ExternalInterface
+          #print YMUIC.Original34.original34_os_reconstruction_external_interface
           #print YMUIC.Original24.one_root_tree_sum
           #print YMUIC.Original24.composite_r_marked_tree_sum
           #print YMUIC.Original24.composite_old_new_r_marked
+          #print axioms YMUIC.Original34.original34_os_reconstruction_external_interface
           #print axioms YMUIC.Original24.one_root_tree_sum
           #print axioms YMUIC.Original24.composite_r_marked_tree_sum
           #print axioms YMUIC.Original24.composite_old_new_r_marked
