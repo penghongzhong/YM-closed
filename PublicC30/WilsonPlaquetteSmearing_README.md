@@ -58,3 +58,19 @@ finite physical-box control. Both complex linearity and continuity follow
 from the constructed CLM and are not supplied as source hypotheses.
 
 This remains a raw plaquette source, not the full RG source of Original30.
+
+## Explicit fixed-support local chart (pending exact-pin CI)
+
+The genuine SU(2) Wilson Schwartz CLM is localized to a finite set of
+plaquettes in the global `N^4` periodic regulator. Assume only an explicit
+**injective chart encoding** of the marked local plaquettes in a local
+`M^4` box, with fixed physical side `a M ≤ R`. The new theorem derives
+
+`|J_(a,S,U)(f)| ≤ 24R⁴ · p₀,₀(f)`,
+
+independently of the regulator's total physical length and site count N.
+This removes the `L^4` **volume growth** for a test family with a common
+local chart. The existence of a common chart for the actual Wilson source
+support is an explicit, unproved geometric dictionary; it is not inferred
+from the source field nor treated as a free source bound. The full RG
+connected source hierarchy and all-orders OS E0′ remain unproved.
