@@ -1,0 +1,60 @@
+name: YM Original25-31 conditional official-pin replay
+on:
+  push:
+    branches: [ym-original25-31-official-20261029]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original25-31:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install exact Lean and Mathlib
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          source "$HOME/.elan/env"
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          lean --version
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Build both theorem environments and complete import closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMConditional/*.lean; then exit 1; fi
+          lake build +YMConditional.Original31_Euclidean:olean
+          lake env lean -DwarningAsError=true YMConditional/Original25_RotationMatching.lean
+          lake env lean -DwarningAsError=true YMConditional/Original31_Euclidean.lean
+      - name: Full exact statement and axiom audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/original25-31
+          cat >verification/original25-31/Audit.lean <<'LEAN'
+          import YMConditional.Original31_Euclidean
+          set_option pp.universes true
+          #print YMUIC.RotationMatching.original25_continuous_rotation_matching
+          #print YMUIC.RotationMatching.original25_from_summed_history_bounds
+          #print YMUIC.EuclideanCovariance.original31_euclidean_covariance
+          #print axioms YMUIC.RotationMatching.original25_continuous_rotation_matching
+          #print axioms YMUIC.RotationMatching.original25_from_summed_history_bounds
+          #print axioms YMUIC.EuclideanCovariance.original31_euclidean_covariance
+          LEAN
+          lake env lean -DwarningAsError=true verification/original25-31/Audit.lean | tee verification/original25-31/types-axioms.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original25-31/types-axioms.log; then exit 1; fi
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-original25-31-${{ github.sha }}
+          path: verification/original25-31/types-axioms.log
+          if-no-files-found: warn
+          retention-days: 30
