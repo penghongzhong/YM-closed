@@ -15,7 +15,9 @@ noncomputable def scaledDyadicShellReal (n : ℕ) : ℝ → ℝ :=
 theorem scaled_dyadic_shell_real_continuous (n : ℕ) :
     Continuous (scaledDyadicShellReal n) := by
   have hc := ((dyadic_shell_regularity (E := ℝ) (n + 1)).1).continuous
-  exact hc.comp (continuous_const.smul continuous_id)
+  have hs : Continuous (fun x : ℝ => ((2 : ℝ) ^ (n + 4)) • x) :=
+    continuous_const.smul continuous_id
+  exact hc.comp hs
 
 /-- Both endpoints of the chosen fundamental interval are zeros of the actual
 rescaled shell; the periodicization therefore has no value jump at the seam. -/
@@ -47,8 +49,10 @@ rescaled Wilson-relevant dyadic shell value. -/
 theorem scaled_dyadic_shell_unit_circle_apply
     (n : ℕ) (x : ℝ) (hx : x ∈ Set.Ico (-1 / 2 : ℝ) (1 / 2)) :
     scaledDyadicShellUnitCircle n (x : UnitAddCircle) = scaledDyadicShellReal n x := by
+  change AddCircle.liftIco (1 : ℝ) (-1 / 2 : ℝ)
+    (scaledDyadicShellReal n) (x : UnitAddCircle) = _
   exact AddCircle.liftIco_coe_apply
-    (p := (1 : ℝ)) (a := (-1 / 2 : ℝ))
+    (p := (1 : ℝ)) (a := (-1 / 2 : ℝ)) (f := scaledDyadicShellReal n)
     (by simpa only [show (-1 / 2 : ℝ) + 1 = 1 / 2 by norm_num] using hx)
 
 end YMUIC.OSTensor
