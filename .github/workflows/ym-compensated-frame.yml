@@ -6,6 +6,7 @@ on:
       - "YM/Wilson/CompensatedFrame21.lean"
       - "YM/Wilson/DualPairingAllD.lean"
       - "YM/Wilson/WordSource.lean"
+      - "YM/Wilson/CandidateGramRoots21.lean"
       - "YM/Wilson/DualSourceRGUniform21.lean"
       - ".github/workflows/ym-compensated-frame.yml"
   workflow_dispatch:
@@ -51,6 +52,8 @@ jobs:
           lake build +YM.Wilson.CompensatedFrame21:olean
           lake env lean -DwarningAsError=true YM/Wilson/WordSource.lean
           lake build +YM.Wilson.WordSource:olean
+          lake env lean -DwarningAsError=true YM/Wilson/CandidateGramRoots21.lean
+          lake build +YM.Wilson.CandidateGramRoots21:olean
       - name: Exact theorem signatures and axiom audit
         shell: bash
         run: |
@@ -61,12 +64,17 @@ jobs:
           import YM.Wilson.DualPairingAllD
           import YM.Wilson.CompensatedFrame21
           import YM.Wilson.WordSource
+          import YM.Wilson.CandidateGramRoots21
           set_option pp.universes true
           #print YMUIC.Wilson.dual_source_chain_uniform_column
           #print YMUIC.Wilson.dual_source_wilson_rg_uniform
           #print YMUIC.Wilson.compensated_source_chain_factorization
           #print YMUIC.Wilson.compensated_source_chain_uniform_column
           #print YMUIC.Wilson.compensated_wilson_source_uniform
+          #print YMUIC.Wilson.candidate_gram_root_bounds
+          #print YMUIC.Wilson.candidate_gram_pairs_injective
+          #print YMUIC.Wilson.candidate_gram_schwartz_uniform
+          #print YMUIC.Wilson.mixed_candidate_gram_uniform
           #print YMUIC.Wilson.wilson_word_combination_bound
           #print YMUIC.Wilson.wilson_word_schwartz_source_bound
           #print YMUIC.Wilson.source_primal_dual_pairing_allD
@@ -76,6 +84,12 @@ jobs:
           #print axioms YMUIC.Wilson.compensated_source_chain_factorization
           #print axioms YMUIC.Wilson.compensated_source_chain_uniform_column
           #print axioms YMUIC.Wilson.compensated_wilson_source_uniform
+          #print axioms YMUIC.Wilson.candidate_gram_root_bounds
+          #print axioms YMUIC.Wilson.candidate_gram_pairs_order
+          #print axioms YMUIC.Wilson.candidate_gram_pairs_injective
+          #print axioms YMUIC.Wilson.candidate_gram_root21_abs_le_four
+          #print axioms YMUIC.Wilson.candidate_gram_schwartz_uniform
+          #print axioms YMUIC.Wilson.mixed_candidate_gram_uniform
           #print axioms YMUIC.Wilson.wilson_word_root_bounds
           #print axioms YMUIC.Wilson.wilson_word_combination_bound
           #print axioms YMUIC.Wilson.wilson_word_schwartz_source_bound
