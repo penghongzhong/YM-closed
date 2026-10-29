@@ -39,7 +39,7 @@ theorem connected_cross_polymer_decay
   have hmajor : Summable (fun n : ℕ => (ε * Cnt) * q ^ n) :=
     (summable_geometric_of_lt_one hqle hq).mul_left (ε*Cnt)
   have hsum : Summable (crossLevel F a) :=
-    Summable.of_norm_bounded _ hmajor hsmall
+    Summable.of_norm_bounded hmajor hsmall
   have hprefix : ∀ n, n < N → F n = ∅ := by
     intro n hn
     by_contra hnon
