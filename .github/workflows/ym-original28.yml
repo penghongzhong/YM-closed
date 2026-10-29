@@ -1,0 +1,57 @@
+name: YM Original28 continuum RP official Lean pin
+on:
+  push:
+    branches: [ym-original28-official-20261029]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original28:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lean and exact Mathlib pin
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          source "$HOME/.elan/env"
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          lean --version
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Compile original28 whole source chain
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMConditional/*.lean; then exit 1; fi
+          lake build +YMConditional.Original28_ContinuumRP:olean
+          lake env lean -DwarningAsError=true YMConditional/Original28_ReflectionAlgebra.lean
+          lake env lean -DwarningAsError=true YMConditional/Original28_ContinuumRP.lean
+      - name: Print full statement and axioms
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/original28
+          cat >verification/original28/Audit.lean <<'LEAN'
+          import YMConditional.Original28_ContinuumRP
+          #print YMUIC.Reflection.original28_renormalized_continuum_reflection_positivity
+          #print axioms YMUIC.Reflection.cutoff_polynomial_reflection_positive
+          #print axioms YMUIC.Reflection.reflectionPair_polynomial_tendsto
+          #print axioms YMUIC.Reflection.original28_renormalized_continuum_reflection_positivity
+          LEAN
+          lake env lean -DwarningAsError=true verification/original28/Audit.lean | tee verification/original28/statement-axioms.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original28/statement-axioms.log; then exit 1; fi
+      - name: Save evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-original28-${{ github.sha }}
+          path: verification/original28/statement-axioms.log
+          if-no-files-found: warn
+          retention-days: 30
