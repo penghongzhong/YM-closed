@@ -18,7 +18,7 @@ theorem periodic4D_plaquette_card
   have hs : S.card ≤ Fintype.card (Periodic4DPlaquette N) :=
     Finset.card_le_univ S
   have hfull : Fintype.card (Periodic4DPlaquette N) = 6 * N ^ 4 := by
-    simp [Periodic4DPlaquette, Fintype.card_fun]
+    simp [Periodic4DPlaquette]
   have hr : (S.card : ℝ) ≤
       (Fintype.card (Periodic4DPlaquette N) : ℝ) := by
     exact_mod_cast hs
