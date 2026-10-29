@@ -1,0 +1,61 @@
+name: YM Original33 conditional clustering official-pin
+on:
+  push:
+    branches: [ym-original33-official-20261029]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original33-exact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install exact Lean and Mathlib
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          source "$HOME/.elan/env"
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          lean --version
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Full original33 import closure build and exact typechecks
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMConditional/*.lean; then exit 1; fi
+          lake build +YMConditional.Original33_CutoffPassage:olean
+          lake env lean -DwarningAsError=true YMConditional/Original33_RootedCrossTail.lean
+          lake env lean -DwarningAsError=true YMConditional/Original33_ClusterTail.lean
+          lake env lean -DwarningAsError=true YMConditional/Original33_ClusterProperty.lean
+          lake env lean -DwarningAsError=true YMConditional/Original33_CutoffPassage.lean
+      - name: Full statement and axiom audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/original33
+          cat >verification/original33/Audit.lean <<'LEAN'
+          import YMConditional.Original33_CutoffPassage
+          #print YMUIC.ConditionalCluster.original33_connected_cluster_decay
+          #print YMUIC.ConditionalCluster.original33_cutoff_to_continuum_E4
+          #print axioms YMUIC.ConditionalCluster.rooted_count_to_level_bound
+          #print axioms YMUIC.ConditionalCluster.connected_cross_polymer_decay
+          #print axioms YMUIC.ConditionalCluster.original33_connected_cluster_decay
+          #print axioms YMUIC.ConditionalCluster.original33_cutoff_to_continuum_E4
+          LEAN
+          lake env lean -DwarningAsError=true verification/original33/Audit.lean | tee verification/original33/types-axioms.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original33/types-axioms.log; then exit 1; fi
+      - name: Retain evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-original33-${{ github.sha }}
+          path: verification/original33/types-axioms.log
+          if-no-files-found: warn
+          retention-days: 30
