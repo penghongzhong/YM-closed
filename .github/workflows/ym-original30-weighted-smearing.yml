@@ -5,6 +5,7 @@ on:
     branches: [ym-original30-weighted-smearing-20261029]
     paths:
       - "YM/Wilson/WeightedSmearing.lean"
+      - "YM/Wilson/FixedBoxSmearing.lean"
       - ".github/workflows/ym-original30-weighted-smearing.yml"
   workflow_dispatch:
 
