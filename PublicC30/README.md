@@ -51,7 +51,7 @@ order 2, a full mixed frequency product budget, Banach-valued Fourier jet
 summability and termwise differentiation of the series by the standard
 smooth-series theorem. These proofs passed official-pin CI #40851315206 with standard axioms only.
 
-## Target: actual periodic C² reconstruction (unverified until next CI)
+## Actual periodic C² reconstruction, verified #40852461789
 
 The next file derives ordinary coefficient summability from the joint
 fourth-order bound, identifies the zero-order Fourier series with the actual
@@ -59,3 +59,14 @@ periodic input using Mathlib Fourier uniqueness, and reconstructs its first
 and second real-coordinate derivatives by summing differentiated modes.
 The outstanding model-specific periodization and Wilson C² maps are not
 proved by this result.
+
+## Next verification target: actual smooth dyadic shell and annular margins
+
+Sources `YM/OSGrowth/Cauchy.lean`, `DyadicCutoff.lean`, `DyadicShellAnnulus.lean`,
+`DyadicCutoffDerivativeBound.lean`, `DyadicShellRegularity.lean` are unchanged
+Git blobs from the inherited research proof tree. The new terminal
+`ScaledDyadicShellMargin.lean` proves exact uniform inner and outer radial
+margins after scale `2^(n+4)`: the shell vanishes if `‖y‖≤1/16` or
+`‖y‖≥1/4`. This is an analysis prerequisite to periodicization;
+it is **not** a constructed periodic map or actual Wilson source dictionary.
+This next batch is pending official pinned CI.

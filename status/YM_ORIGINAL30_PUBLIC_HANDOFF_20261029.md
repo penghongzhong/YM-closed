@@ -36,3 +36,11 @@ These files verify components of Original 30, **not the complete original manusc
 5. Afterwards target Original 34 reconstruction and Original 42 assembly; no claim that I7 follows from these steps.
 
 Private manuscript and private archive files have not been published in this transfer.
+
+## Update: verified Fourier C² reconstruction and next shell target
+
+- [GitHub Actions #40851315206](https://github.com/penghongzhong/YM-closed/actions/runs/40851315206): success, five new Fourier-mode proof modules and exact ordinary/weighted series derivative steps; 13 audited roots, only standard axioms.
+- [GitHub Actions #40852461789](https://github.com/penghongzhong/YM-closed/actions/runs/40852461789): success, actual torus coefficient summability, reconstruction of first and second coordinate derivatives, with standard axiom-only output.
+- Separate next staged batch: actual dyadic cutoff support and derivative bounds, including exact rescaled uniform radial margins; staging alone does not count as verified.
+- Across these two successful runs, the public branch now contains **24** exact Lean source files associated with Original30: 18 previously verified, five Fourier-mode modules and one reconstruction module. Distinct original manuscript theorem environments completed in this continuation: **0**.
+- The whole-manuscript assisted ledger remains **34/39**. I7, actual Wilson source producers, OS E0′ matching and main theorem remain open.
