@@ -57,6 +57,7 @@ jobs:
           lake build +PublicC30.FourierModeC2Reconstruction:olean
           lake build +PublicC30.ScaledDyadicShellMargin:olean
           lake build +PublicC30.ScaledDyadicShellCircle:olean
+          lake build +YM.OSGrowth.DyadicCutoffDerivativeBound:olean
           lake env lean -DwarningAsError=true PublicC30/ScaledShellExponentBudget.lean
           lake env lean -DwarningAsError=true PublicC30/ScaledShellPowerBudget.lean
           lake env lean -DwarningAsError=true YM/OSTensor/SchwartzMixedJointControl.lean
