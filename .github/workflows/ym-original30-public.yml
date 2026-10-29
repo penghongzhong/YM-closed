@@ -51,11 +51,15 @@ jobs:
           lake build +YM.OSTensor.SchwartzMixedJointControl:olean
           lake build +YM.OSTensor.FourierMixedC2Summability:olean
           lake build +PublicC30.FourierModeCoordinateHigher:olean
+          lake build +PublicC30.FourierModeFrequencyProduct:olean
+          lake build +PublicC30.FourierModeC2TsumDerivative:olean
           lake env lean -DwarningAsError=true PublicC30/ScaledShellExponentBudget.lean
           lake env lean -DwarningAsError=true PublicC30/ScaledShellPowerBudget.lean
           lake env lean -DwarningAsError=true YM/OSTensor/SchwartzMixedJointControl.lean
           lake env lean -DwarningAsError=true YM/OSTensor/FourierMixedC2Summability.lean
           lake env lean -DwarningAsError=true PublicC30/FourierModeCoordinateHigher.lean
+          lake env lean -DwarningAsError=true PublicC30/FourierModeFrequencyProduct.lean
+          lake env lean -DwarningAsError=true PublicC30/FourierModeC2TsumDerivative.lean
       - name: Print and check axioms
         shell: bash
         run: |
@@ -66,6 +70,8 @@ jobs:
           import YM.OSTensor.SchwartzMixedJointControl
           import YM.OSTensor.FourierMixedC2Summability
           import PublicC30.FourierModeCoordinateHigher
+          import PublicC30.FourierModeFrequencyProduct
+          import PublicC30.FourierModeC2TsumDerivative
           #print axioms YMUIC.OSTensor.scaled_shell_exponent_budget
           #print axioms YMUIC.OSTensor.scaled_shell_power_budget
           #print axioms YMUIC.OSTensor.schwartz_mixed_elliptic_seminorm
@@ -75,6 +81,10 @@ jobs:
           #print axioms YMUIC.OSTensor.fourier_mode_coordinate_hasDerivAt
           #print axioms YMUIC.OSTensor.fourier_mode_coordinate_iterated_hasDerivAt
           #print axioms YMUIC.OSTensor.fourier_mode_coordinate_norm_one
+          #print axioms YMUIC.OSTensor.fourier_mode_coordinate_c2_bound
+          #print axioms YMUIC.OSTensor.fourier_mode_c2_coefficient_summable
+          #print axioms YMUIC.OSTensor.fourier_mode_c2_jet_summable
+          #print axioms YMUIC.OSTensor.fourier_mixed_series_real_derivative
           LEAN
           lake env lean -DwarningAsError=true PublicC30/Audit.lean | tee /tmp/ym-axioms.log
           if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' /tmp/ym-axioms.log; then

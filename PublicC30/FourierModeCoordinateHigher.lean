@@ -26,8 +26,7 @@ theorem fourier_mode_coordinate_norm_one {n : ℕ}
     (k : Fin (n + 1) → ℤ) (i : Fin (n + 1))
     (z : UnitAddTorus (Fin n)) (x : ℝ) :
     ‖mFourier k (i.insertNth (x : UnitAddCircle) z)‖ = 1 := by
-  change ‖∏ j : Fin (n + 1),
-    fourier (k j) ((i.insertNth (x : UnitAddCircle) z) j)‖ = 1
+  simp only [UnitAddTorus.mFourier, ContinuousMap.coe_mk]
   rw [norm_prod]
   simp only [fourier_apply, Circle.norm_coe, Finset.prod_const_one]
 

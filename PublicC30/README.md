@@ -43,3 +43,11 @@ The public proof now targets a new exact, arbitrary-dimensional theorem computin
 real-coordinate derivatives of the **actual** torus Fourier modes. It also
 constructs every iterated derivative-chain element and the pointwise unit norm.
 The goal is the local `C²` source atom estimate, not yet the Wilson dictionary.
+
+## 2026-10-29 additional C² formalization targets (pending CI)
+
+The next source batch proves actual Fourier-coordinate derivative growth up to
+order 2, a full mixed frequency product budget, Banach-valued Fourier jet
+summability and termwise differentiation of the series by the standard
+smooth-series theorem. These claims remain pending until the dedicated
+public Lean CI returns success and the axioms are audited.
