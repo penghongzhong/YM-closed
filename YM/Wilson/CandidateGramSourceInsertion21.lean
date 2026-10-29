@@ -62,7 +62,7 @@ theorem candidate_gram_insertion_all_regulators
     (U : Regulator → GramPlaquette6 → SU2)
     (monomials : T → List RootFiber21)
     (coeff : Regulator → T → ℂ)
-    (K : ℝ) (hK : 0 ≤ K)
+    (K : ℝ) (_hK : 0 ≤ K)
     (hbudget : ∀ a, candidateGramPolynomialBudget monomials (coeff a) ≤ K)
     (s : ℂ) (hsmall : ‖s‖ * K ≤ 1) :
     ∀ a, ‖candidateGramSourceInsertion (U a) monomials (coeff a) s‖ ≤
