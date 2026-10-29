@@ -43,12 +43,15 @@ jobs:
           lake build +YM.Wilson.SourceMix21:olean
           lake build +YM.Wilson.SourceCocycle21:olean
           lake build +YM.Wilson.SourceCocycleChain21:olean
+          lake build +YM.Wilson.DualSourceRGUniform21:olean
           lake build +YM.Wilson.SourceDefect21:olean
           lake env lean -DwarningAsError=true YM/Wilson/RootBound.lean
           lake env lean -DwarningAsError=true YM/Wilson/SourceDirection.lean
           lake env lean -DwarningAsError=true YM/Wilson/SourceMix21.lean
           lake env lean -DwarningAsError=true YM/Wilson/SourceCocycle21.lean
           lake env lean -DwarningAsError=true YM/Wilson/SourceCocycleChain21.lean
+          lake env lean -DwarningAsError=true YM/Wilson/DualSourceInverse21.lean
+          lake env lean -DwarningAsError=true YM/Wilson/DualSourceRGUniform21.lean
           lake env lean -DwarningAsError=true YM/Wilson/SourceDefect21.lean
       - name: Full theorem statements, premises, and axioms
         shell: bash
@@ -64,6 +67,8 @@ jobs:
           #print YMUIC.Wilson.mixed_wilson_direction_all_regulators
           #print YMUIC.Wilson.mixed_wilson_two_step_uniform
           #print YMUIC.Wilson.wilson_source_of_summable_cocycle
+          #print YMUIC.Wilson.dual_source_inverse_column_bound
+          #print YMUIC.Wilson.dual_source_wilson_rg_uniform
           #print YMUIC.Wilson.wilson_source_of_summable_matrix_defects
           #print YMUIC.Wilson.wilson_source_regulator_uniform_of_summable_defects
           #print axioms YMUICV128.Section03.wilsonRoot_bounds
@@ -82,6 +87,11 @@ jobs:
           #print axioms YMUIC.Wilson.source_cocycle_chain_column
           #print axioms YMUIC.Wilson.source_cocycle_chain_uniform_column
           #print axioms YMUIC.Wilson.wilson_source_of_summable_cocycle
+          #print axioms YMUIC.Wilson.dual_source_inverse_fixed_point
+          #print axioms YMUIC.Wilson.dual_source_inverse_column_bound
+          #print axioms YMUIC.Wilson.dual_source_inverse_one_step
+          #print axioms YMUIC.Wilson.dual_source_chain_uniform_column
+          #print axioms YMUIC.Wilson.dual_source_wilson_rg_uniform
           #print axioms YMUIC.Wilson.source_cocycle_step_from_identity_defect
           #print axioms YMUIC.Wilson.source_cocycle_defect_partial_sum
           #print axioms YMUIC.Wilson.source_cocycle_from_summable_matrix_defects

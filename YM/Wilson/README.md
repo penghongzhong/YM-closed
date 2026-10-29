@@ -103,3 +103,32 @@ the physical dual source evolves by inverse transpose, which still
 requires a precise correspondence with `C_n`.
 
 The prior manuscript **34/39** ledger and unresolved IDs are unchanged.
+
+## Dual/inverse-transpose source cocycle (new strict Lean target)
+
+The paper's actual renormalized source coordinates obey
+`Jhat = Z_m^{-T} J_0`, rather than the primal `Z_m`.
+The new modules `DualSourceInverse21.lean` and
+`DualSourceRGUniform21.lean` use the exact finite-dimensional
+identity `(I+A_j^T) B_j=I`, with `B_j=(I+A_j)^{-T}`
+where the inverse exists.
+
+The true **primal row** estimate `∀β:∑_k|A_j(β,k)|≤δ_j<1`
+is proved to imply the **dual column** estimate
+`∀α:∑_k|B_j(k,α)|≤1/(1−δ_j)`.
+If `0≤δ_j≤1/2`, this is at most `1+2δ_j`.
+
+Under the separate, genuine RG model task
+`sup_m ∑_{j<m} δ_j ≤ M`, the cumulative dual source satisfies
+
+`sup_m‖h_{B_0···B_{m−1},f}‖∞≤4 exp(2M) p_(0,0)(f)`.
+
+The proof **does not assume** the inverse norm bound or the cumulative
+norm bound. It **does assume** the exact primal/dual inverse identity
+and a summable physical RG step error budget; it has not derived
+these from Balaban's RG, the physical canonical `M_D^(0)`, source
+normalization or Wilson polynomial roots. In particular a one-step
+`δ_j≤1/2` alone is insufficient.
+
+This closes the previously ambiguous `Z^{-T}` orientation *within
+the finite 21-dimensional algebraic interface*, not Original30 itself.
