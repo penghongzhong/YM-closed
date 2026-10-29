@@ -31,7 +31,7 @@ theorem one_root_tree_sum
     (K mu cRt dRoot aAct : ℝ)
     (Nroot : ℕ)
     (hφ : ∀ γ, 0 ≤ φ γ)
-    (htree : ∀ γ, 0 ≤ treeWeight γ)
+    (_htree : ∀ γ, 0 ≤ treeWeight γ)
     (hK : 0 ≤ K)
     (hweighted : ∀ γ,
       Real.exp (mu * dRoot) * φ γ ≤
