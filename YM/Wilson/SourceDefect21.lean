@@ -36,7 +36,7 @@ theorem source_cocycle_step_from_identity_defect
             rw [Finset.sum_add_distrib]
     _ ≤ δ + 1 := by
       rw [source_cocycle_identity_column]
-      exact add_le_add_right (hdefect α) 1
+      exact add_le_add_left (hdefect α) 1
     _ = 1 + δ := by ring
 
 /-- A *summable*, nonnegative exact one-step defect is automatically
