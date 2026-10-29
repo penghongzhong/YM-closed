@@ -14,6 +14,7 @@ on:
       - "YM/Wilson/CompositeOrderedDualRG21.lean"
       - "YM/Wilson/DriftControlledResidual21.lean"
       - "YM/Wilson/DriftLeftOrderedRG21.lean"
+      - "YM/Wilson/InverseSquareBudget.lean"
       - "YM/Wilson/DualSourceRGUniform21.lean"
       - ".github/workflows/ym-compensated-frame.yml"
   workflow_dispatch:
@@ -74,12 +75,15 @@ jobs:
           import YM.Wilson.CompositeOrderedDualRG21
           import YM.Wilson.DriftControlledResidual21
           import YM.Wilson.DriftLeftOrderedRG21
+          import YM.Wilson.InverseSquareBudget
           set_option pp.universes true
           #print YMUIC.Wilson.dual_source_chain_uniform_column
           #print YMUIC.Wilson.dual_source_wilson_rg_uniform
           #print YMUIC.Wilson.compensated_source_chain_factorization
           #print YMUIC.Wilson.compensated_source_chain_uniform_column
           #print YMUIC.Wilson.compensated_wilson_source_uniform
+          #print YMUIC.Wilson.inverse_square_one_step_ym
+          #print YMUIC.Wilson.inverse_square_prefix_bound_ym
           #print YMUIC.Wilson.left_rg_prefix_column
           #print YMUIC.Wilson.weak_stop_prefix_product_exp
           #print YMUIC.Wilson.left_rg_prefix_uniform
@@ -113,6 +117,9 @@ jobs:
           #print axioms YMUIC.Wilson.compensated_source_chain_factorization
           #print axioms YMUIC.Wilson.compensated_source_chain_uniform_column
           #print axioms YMUIC.Wilson.compensated_wilson_source_uniform
+          #print axioms YMUIC.Wilson.finite_difference_sum_ym
+          #print axioms YMUIC.Wilson.inverse_square_one_step_ym
+          #print axioms YMUIC.Wilson.inverse_square_prefix_bound_ym
           #print axioms YMUIC.Wilson.left_rg_prefix_column
           #print axioms YMUIC.Wilson.weak_stop_prefix_product_exp
           #print axioms YMUIC.Wilson.left_rg_prefix_uniform
