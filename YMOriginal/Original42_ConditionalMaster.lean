@@ -44,6 +44,9 @@ def Original42UICMain
     [∀ k, CompleteSpace (V k)]
     (Ω : ∀ k, V k)
     (A : ∀ k, vacuumSector (Ω k) →ₗ.[ℂ] vacuumSector (Ω k))
+    {H∞ : Type*} [NormedAddCommGroup H∞]
+    [InnerProductSpace ℂ H∞] [CompleteSpace H∞]
+    (Ω∞ : H∞) (A∞ : vacuumSector Ω∞ →ₗ.[ℂ] vacuumSector Ω∞)
     (S : Original42Stages) (gap : ℝ) : Prop :=
   S.phaseLocked ∧
   S.jointCutoffVolumeLimits ∧
@@ -54,7 +57,8 @@ def Original42UICMain
   S.continuumNontriviality ∧
   S.osWightmanReconstruction ∧
   0 < gap ∧
-  ∀ k, ((gap : ℝ) : EReal) ≤ generatorGap (A k)
+  (∀ k, ((gap : ℝ) : EReal) ≤ generatorGap (A k)) ∧
+  ((gap : ℝ) : EReal) ≤ generatorGap A∞
 
 /-- Original #42 conditional master theorem, preserving the original
 seven listed input classes and the previously verified Original #16
@@ -86,6 +90,12 @@ theorem original42_master_assembly_from_I7
     (hSpectral : ∀ k, NonnegativeHeatCalculus (A k) (2 * a k)
       (vacuumTransfer (Ω k) (T k) (hT k).isSelfAdjoint (hfix k)))
     (hscale : ∀ k, a k ≤ cPlus / Lambda)
+    {H∞ : Type*} [NormedAddCommGroup H∞]
+    [InnerProductSpace ℂ H∞] [CompleteSpace H∞]
+    (Ω∞ : H∞) (A∞ : vacuumSector Ω∞ →ₗ.[ℂ] vacuumSector Ω∞)
+    (hB14 : ∀ d : ℝ,
+      (∀ k, ((d : ℝ) : EReal) ≤ generatorGap (A k)) →
+        ((d : ℝ) : EReal) ≤ generatorGap A∞)
     (S : Original42Stages)
     (hPhase : S.phaseLocked)
     (hJoint : S.jointCutoffVolumeLimits)
@@ -95,14 +105,15 @@ theorem original42_master_assembly_from_I7
     (hGrowth : S.continuumOSGrowth)
     (hNontrivial : S.continuumNontriviality)
     (hReconstruction : S.osWightmanReconstruction) :
-    Original42UICMain V Ω A S
+    Original42UICMain V Ω A Ω∞ A∞ S
       ((-Real.log (1 - η) / (2 * cPlus)) * Lambda) := by
   have hGap := original16_uniform_mass_gap_from_I7
     V I Ω v T η cPlus Lambda a
     hη0 hη1 hc hLambda ha hT hfix hdense hI7
     A hSpectral hscale
   exact ⟨hPhase, hJoint, hLocal, hRotation, hRP,
-    hGrowth, hNontrivial, hReconstruction, hGap.1, hGap.2⟩
+    hGrowth, hNontrivial, hReconstruction, hGap.1, hGap.2,
+    hB14 _ hGap.2⟩
 
 #print axioms original42_master_assembly_from_I7
 
