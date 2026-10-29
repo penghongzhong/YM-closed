@@ -29,15 +29,14 @@ theorem candidate_gram_root_trace_dictionary
         Matrix.trace ((U i : GramMat2) * (U j : GramMat2)) -
         Matrix.trace (U i : GramMat2) -
         Matrix.trace (U j : GramMat2) + 2 := by
-    simp [sub_mul, mul_sub, Matrix.trace_sub, Matrix.trace_add,
-      Matrix.trace_one]
+    simp [sub_mul, mul_sub, Matrix.trace_sub, Matrix.trace_one]
     ring
   have hcoe :
       ((U i * U j : SU2) : GramMat2) =
         (U i : GramMat2) * (U j : GramMat2) := rfl
   unfold candidateGramRoot wilsonRoot
   rw [hcoe, htrace]
-  simp only [Complex.sub_re, Complex.add_re, Complex.ofReal_re]
-  ring
+  simp only [Complex.sub_re, Complex.add_re]
+  norm_num <;> ring
 
 end YMUIC.Wilson
