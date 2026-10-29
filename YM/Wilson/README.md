@@ -64,3 +64,22 @@ if step matrices have `K_j ≤ 1+δ_j` and the regulator-uniform sum
 `∑_j δ_j ≤ M` holds, the cumulative source amplification can be bounded
 by `exp M`. This goal is *not proved here* and certainly does not follow
 from invertibility, PSD preservation, or the number 21 alone.
+
+## A genuinely sufficient per-RG-step summability criterion (Lean target)
+
+Let `C_j` be the actual ordered `21×21` source cocycle matrices.
+If for every step and root column,
+`∑_k |C_j(k,α)| ≤ 1 + δ_j`, `δ_j ≥ 0`, and
+`sup_m ∑_{j<m} δ_j ≤ M`, then the proved matrix-cocycle
+column submultiplicativity and the standard exponential product inequality
+yield the derived (not assumed) *cumulative* source estimate
+
+`‖h_{C_0···C_{m-1}, f}‖∞ ≤ 4 exp(M) p_(0,0)(f)`
+
+for every finite RG length `m`, every SU2 plaquette configuration, every
+root placement, and every compact or noncompact Schwartz test `f`.
+
+This replaces the earlier **cumulative** bound hypothesis with **per-step**
+bounds and a summable error budget. The latter two remain genuine Yang–Mills
+RG obligations. The argument is not a proof of Original30 or I7 until those
+per-step bounds and the v108/v118 source dictionary are established.
