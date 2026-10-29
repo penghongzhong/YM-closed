@@ -34,6 +34,5 @@ theorem scaled_dyadic_shell_uniform_derivative
       rw [hpow]
       have hp : (2 : ℝ) ^ (n * m) ≠ 0 := by positivity
       field_simp [hp]
-      ring
 
 end YMUIC.OSGrowth
