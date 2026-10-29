@@ -52,6 +52,8 @@ jobs:
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YM/Wilson/*.lean; then exit 1; fi
           lake build \
+            +YM.Wilson.DualSourceRGUniform21:olean \
+            +YM.Wilson.DriftControlledResidual21:olean \
             +YM.Wilson.CompensatedFrame21:olean \
             +YM.Wilson.CandidateGramSourceInsertion21:olean \
             +YM.Wilson.CandidateGramTrace21:olean \
