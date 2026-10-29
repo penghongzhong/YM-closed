@@ -1,6 +1,6 @@
 import YM.Wilson.OrderedDualSourceRG21
 import YM.Wilson.SourceDefect21
-import Section03.T011E_InverseSquare_PrefixBound
+import YM.Wilson.InverseSquareBudget
 
 set_option autoImplicit false
 noncomputable section
@@ -133,7 +133,7 @@ theorem drift_controlled_left_rg_uniform
       (∑ j ∈ Finset.range n, δ j) ≤
         C / (drift * xweak) := by
     have hbase :=
-      YMUICV128.Section03.T011E.inverse_square_prefix_bound
+      inverse_square_prefix_bound_ym
         x n xweak drift hxweak hdriftPos
         (fun j hj => hlower j (le_trans hj hn))
         (fun j hj => hstepX j (lt_of_lt_of_le hj hn))
