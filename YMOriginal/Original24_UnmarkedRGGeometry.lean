@@ -90,7 +90,7 @@ theorem actual_word_rooted_sum_from_unmarked_geometry
     unmarked (fun γ => A * Real.exp (-(kappa - mu * cGeo) * length γ))
     mu cRt dRoot aAct Nroot
     (fun γ => mul_nonneg hA (Real.exp_pos _).le)
-    (weighted_root_from_unmarked_distance z:=unmarked length
+    (weighted_root_from_unmarked_distance unmarked length
       kappa mu cGeo cRt dRoot A hmu hA hgeom hunmarked)
     htree htreeTotal
 
