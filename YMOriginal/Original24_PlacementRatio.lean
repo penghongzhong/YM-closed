@@ -32,18 +32,18 @@ theorem original24_four_dimensional_power_identity
     (L theta : ℝ) (hL : 1 < L) (m : ℕ) :
     L ^ (4 * m) * L ^ (-(5 - theta) * (m : ℝ)) =
       (L ^ (-(1 - theta) : ℝ)) ^ m := by
-  have hL0 : 0 ≤ L := by linarith
+  have hLpos : 0 < L := by linarith
   calc
     L ^ (4 * m) * L ^ (-(5 - theta) * (m : ℝ)) =
         L ^ ((4 * m : ℕ) : ℝ) * L ^ (-(5 - theta) * (m : ℝ)) := by
           rw [Real.rpow_natCast]
     _ = L ^ (((4 * m : ℕ) : ℝ) + (-(5 - theta) * (m : ℝ))) := by
-          rw [Real.rpow_add hL0]
+          rw [Real.rpow_add hLpos]
     _ = L ^ (-(1 - theta) * (m : ℝ)) := by
           congr 1
           push_cast
           ring
     _ = (L ^ (-(1 - theta) : ℝ)) ^ m := by
-          rw [Real.rpow_mul hL0, Real.rpow_natCast]
+          rw [Real.rpow_mul hLpos.le, Real.rpow_natCast]
 
 end YMUIC.Original24
