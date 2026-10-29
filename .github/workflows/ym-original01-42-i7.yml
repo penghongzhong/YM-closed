@@ -49,11 +49,28 @@ jobs:
           } > Original01Audit.lean
           lake env lean -DwarningAsError=true Original01Audit.lean | tee original01-audit.log
           if grep -E 'sorryAx|^error:' original01-audit.log; then exit 1; fi
+      - name: Original42 explicit I7 premise and actual spectral gap assembly
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/*.lean YMConditional/*.lean; then exit 1; fi
+          lake build +YMOriginal.Original42_ConditionalMaster:olean
+          lake env lean -DwarningAsError=true YMOriginal/Original42_ConditionalMaster.lean
+          cat > Original42Audit.lean <<'LEAN'
+          import YMOriginal.Original42_ConditionalMaster
+          #print YMUIC.Original42.Original42UICMain
+          #print YMUIC.Original42.original42_master_assembly_from_I7
+          #print axioms YMUIC.Original42.original42_master_assembly_from_I7
+          #print axioms YMUIC.ConditionalI7.original16_uniform_mass_gap_from_I7
+          LEAN
+          lake env lean -DwarningAsError=true Original42Audit.lean | tee original42-audit.log
+          if grep -E 'sorryAx|^error:' original42-audit.log; then exit 1; fi
       - name: Preserve strict proof evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: original01-u1-${{ github.sha }}
-          path: original01-audit.log
+          name: original01-42-i7-${{ github.sha }}
+          path: |\n            original01-audit.log\n            original42-audit.log
           if-no-files-found: warn
           retention-days: 30
