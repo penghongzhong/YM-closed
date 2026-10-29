@@ -13,7 +13,7 @@ theorem dual_source_chain_uniform_column
     (A B : ℕ → RootFiber21 → RootFiber21 → ℂ)
     (δ : ℕ → ℝ) (hδ0 : ∀ n, 0 ≤ δ n)
     (hδhalf : ∀ n, δ n ≤ 1 / 2)
-    (hrow : ∀ n β : RootFiber21,
+    (hrow : ∀ (n : ℕ) (β : RootFiber21),
       (∑ j : RootFiber21, ‖A n β j‖) ≤ δ n)
     (hinv : ∀ n, DualSourceInverse (A n) (B n))
     (M : ℝ)
@@ -42,7 +42,7 @@ theorem dual_source_wilson_rg_uniform
     (A B : ℕ → RootFiber21 → RootFiber21 → ℂ)
     (δ : ℕ → ℝ) (hδ0 : ∀ n, 0 ≤ δ n)
     (hδhalf : ∀ n, δ n ≤ 1 / 2)
-    (hrow : ∀ n β : RootFiber21,
+    (hrow : ∀ (n : ℕ) (β : RootFiber21),
       (∑ j : RootFiber21, ‖A n β j‖) ≤ δ n)
     (hinv : ∀ n, DualSourceInverse (A n) (B n))
     (M : ℝ)
