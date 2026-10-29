@@ -12,6 +12,7 @@ on:
       - "YM/Wilson/CandidateGramSourceInsertion21.lean"
       - "YM/Wilson/CandidateGramTrace21.lean"
       - "YM/Wilson/CompositeOrderedDualRG21.lean"
+      - "YM/Wilson/DriftControlledResidual21.lean"
       - "YM/Wilson/DualSourceRGUniform21.lean"
       - ".github/workflows/ym-compensated-frame.yml"
   workflow_dispatch:
@@ -69,6 +70,8 @@ jobs:
           lake build +YM.Wilson.CandidateGramTrace21:olean
           lake env lean -DwarningAsError=true YM/Wilson/CompositeOrderedDualRG21.lean
           lake build +YM.Wilson.CompositeOrderedDualRG21:olean
+          lake env lean -DwarningAsError=true YM/Wilson/DriftControlledResidual21.lean
+          lake build +YM.Wilson.DriftControlledResidual21:olean
       - name: Exact theorem signatures and axiom audit
         shell: bash
         run: |
@@ -85,12 +88,17 @@ jobs:
           import YM.Wilson.CandidateGramSourceInsertion21
           import YM.Wilson.CandidateGramTrace21
           import YM.Wilson.CompositeOrderedDualRG21
+          import YM.Wilson.DriftControlledResidual21
           set_option pp.universes true
           #print YMUIC.Wilson.dual_source_chain_uniform_column
           #print YMUIC.Wilson.dual_source_wilson_rg_uniform
           #print YMUIC.Wilson.compensated_source_chain_factorization
           #print YMUIC.Wilson.compensated_source_chain_uniform_column
           #print YMUIC.Wilson.compensated_wilson_source_uniform
+          #print YMUIC.Wilson.source_cocycle_chain_prefix_column
+          #print YMUIC.Wilson.source_cocycle_chain_prefix_uniform
+          #print YMUIC.Wilson.drift_controlled_residual_cocycle_uniform
+          #print YMUIC.Wilson.drift_controlled_candidate_source_uniform
           #print YMUIC.Wilson.candidate_gram_root_trace_dictionary
           #print YMUIC.Wilson.fixed_composite_gram_paired_rg_bound
           #print YMUIC.Wilson.fixed_composite_gram_paired_rg_uniform
@@ -116,6 +124,10 @@ jobs:
           #print axioms YMUIC.Wilson.compensated_source_chain_factorization
           #print axioms YMUIC.Wilson.compensated_source_chain_uniform_column
           #print axioms YMUIC.Wilson.compensated_wilson_source_uniform
+          #print axioms YMUIC.Wilson.source_cocycle_chain_prefix_column
+          #print axioms YMUIC.Wilson.source_cocycle_chain_prefix_uniform
+          #print axioms YMUIC.Wilson.drift_controlled_residual_cocycle_uniform
+          #print axioms YMUIC.Wilson.drift_controlled_candidate_source_uniform
           #print axioms YMUIC.Wilson.candidate_gram_root_trace_dictionary
           #print axioms YMUIC.Wilson.fixed_composite_gram_paired_rg_bound
           #print axioms YMUIC.Wilson.fixed_composite_gram_paired_rg_uniform
