@@ -41,7 +41,7 @@ private theorem source_compose_assoc (A B C : SourceMatrix21) :
           ring
     _ = ∑ γ : RootFiber21,
         A j γ * (∑ β : RootFiber21, B γ β * C β α) := by
-          rw [Finset.mul_sum]
+          simp_rw [Finset.mul_sum]
 
 private theorem source_compose_left_id (B : SourceMatrix21) :
     sourceCocycleCompose sourceCocycleIdentity B = B := by
@@ -110,7 +110,7 @@ theorem compensated_source_chain_uniform_column
     (hresidual : ∀ (n : ℕ) (α : RootFiber21),
       (∑ j : RootFiber21,
         ‖R n j α - sourceCocycleIdentity j α‖) ≤ δ n)
-    (KF KG : ℝ) (hKF : 0 ≤ KF) (hKG : 0 ≤ KG)
+    (KF KG : ℝ) (hKF : 0 ≤ KF) (_hKG : 0 ≤ KG)
     (hF0 : ∀ α : RootFiber21,
       (∑ j : RootFiber21, ‖F 0 j α‖) ≤ KF)
     (hG : ∀ (n : ℕ) (α : RootFiber21),
