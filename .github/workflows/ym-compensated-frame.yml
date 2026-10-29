@@ -8,6 +8,7 @@ on:
       - "YM/Wilson/WordSource.lean"
       - "YM/Wilson/CandidateGramRoots21.lean"
       - "YM/Wilson/CandidateGramPolynomial21.lean"
+      - "YM/Wilson/OrderedDualSourceRG21.lean"
       - "YM/Wilson/DualSourceRGUniform21.lean"
       - ".github/workflows/ym-compensated-frame.yml"
   workflow_dispatch:
@@ -57,6 +58,8 @@ jobs:
           lake build +YM.Wilson.CandidateGramRoots21:olean
           lake env lean -DwarningAsError=true YM/Wilson/CandidateGramPolynomial21.lean
           lake build +YM.Wilson.CandidateGramPolynomial21:olean
+          lake env lean -DwarningAsError=true YM/Wilson/OrderedDualSourceRG21.lean
+          lake build +YM.Wilson.OrderedDualSourceRG21:olean
       - name: Exact theorem signatures and axiom audit
         shell: bash
         run: |
@@ -69,12 +72,17 @@ jobs:
           import YM.Wilson.WordSource
           import YM.Wilson.CandidateGramRoots21
           import YM.Wilson.CandidateGramPolynomial21
+          import YM.Wilson.OrderedDualSourceRG21
           set_option pp.universes true
           #print YMUIC.Wilson.dual_source_chain_uniform_column
           #print YMUIC.Wilson.dual_source_wilson_rg_uniform
           #print YMUIC.Wilson.compensated_source_chain_factorization
           #print YMUIC.Wilson.compensated_source_chain_uniform_column
           #print YMUIC.Wilson.compensated_wilson_source_uniform
+          #print YMUIC.Wilson.source_rg_action_identity
+          #print YMUIC.Wilson.source_rg_action_compose
+          #print YMUIC.Wilson.source_paired_left_ordered_rg_chain
+          #print YMUIC.Wilson.paired_candidate_gram_left_rg_uniform
           #print YMUIC.Wilson.candidate_gram_monomial_abs_le
           #print YMUIC.Wilson.candidate_gram_polynomial_bound
           #print YMUIC.Wilson.candidate_gram_polynomial_schwartz_bound
@@ -91,6 +99,10 @@ jobs:
           #print axioms YMUIC.Wilson.compensated_source_chain_factorization
           #print axioms YMUIC.Wilson.compensated_source_chain_uniform_column
           #print axioms YMUIC.Wilson.compensated_wilson_source_uniform
+          #print axioms YMUIC.Wilson.source_rg_action_identity
+          #print axioms YMUIC.Wilson.source_rg_action_compose
+          #print axioms YMUIC.Wilson.source_paired_left_ordered_rg_chain
+          #print axioms YMUIC.Wilson.paired_candidate_gram_left_rg_uniform
           #print axioms YMUIC.Wilson.candidate_gram_monomial_abs_le
           #print axioms YMUIC.Wilson.candidate_gram_polynomial_budget_nonneg
           #print axioms YMUIC.Wilson.candidate_gram_polynomial_bound
