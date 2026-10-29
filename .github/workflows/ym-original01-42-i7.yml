@@ -35,6 +35,8 @@ jobs:
           lake update
           test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
           lake exe cache get
+          # The pinned mathlib release has one noncached OLean target; Lake fills it.
+          lake build +YM.Wilson.RootBound:olean
       - name: Original01 unchanged external theorem typecheck
         shell: bash
         run: |
