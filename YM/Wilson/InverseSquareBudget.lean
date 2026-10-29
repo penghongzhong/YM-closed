@@ -41,7 +41,8 @@ theorem inverse_square_one_step_ym (x y delta : ℝ)
     have h3 := mul_le_mul_of_nonneg_left h2 (sub_nonneg.mpr hxy)
     exact h1.trans h3
   apply (le_div_iff₀ hd).2
-  convert hbase using 1 <;> field_simp [hx.ne']
+  convert hbase using 1
+  field_simp [hx.ne']
 
 /-- U3 cutoff- and horizon-independent inverse-coupling drift budget:
 the sum is finite and requires only the stated weak-stop inputs. -/
