@@ -71,6 +71,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: original01-42-i7-${{ github.sha }}
-          path: |\n            original01-audit.log\n            original42-audit.log
+          path: |
+            original01-audit.log
+            original42-audit.log
           if-no-files-found: warn
           retention-days: 30
