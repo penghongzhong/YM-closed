@@ -66,7 +66,7 @@ theorem wilson_weighted_smearing_bound
     (weight : P → ℂ)
     (U : P → YMUICV128.Section03.SU2) (position : P → Space4)
     (f : SchwartzMap Space4 ℂ) (q : ℕ) (C : ℝ)
-    (hC : 0 ≤ C)
+    (_hC : 0 ≤ C)
     (hweight : (∑ p : P,
       ‖weight p‖ / (1 + ‖position p‖ ^ q)) ≤ C) :
     ‖wilsonWeightedSmearing weight U position f‖ ≤
