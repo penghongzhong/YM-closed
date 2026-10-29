@@ -21,7 +21,7 @@ omit [CompleteSpace E] in
 theorem source_factorization (M0 : E ≃L[ℝ] E) (M : E →L[ℝ] E) :
     (M0 : E →L[ℝ] E) * (1 + relativePerturbation M0 M) = M := by
   ext x
-  simp [relativePerturbation, ContinuousLinearMap.mul_apply, map_add, map_sub]
+  simp [relativePerturbation, map_sub]
 
 omit [CompleteSpace E] in
 theorem relativePerturbation_norm (M0 : E ≃L[ℝ] E) (M : E →L[ℝ] E) :
