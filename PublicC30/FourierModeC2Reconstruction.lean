@@ -64,7 +64,7 @@ theorem fourier_mixed_c2_first_derivative {n : ℕ}
         (fun y : ℝ => F 0 (i.insertNth (y : UnitAddCircle) z)) := funext he
   have h := fourier_mixed_series_real_derivative F G hbase hnext hd i z 0
     (by norm_num) x
-  simpa only [pow_zero, one_mul, pow_one, hfun] using h
+  simpa only [pow_zero, one_mul, zero_add, pow_one, hfun] using h
 
 /-- The same normalized coefficient data reconstruct the next coordinate
 derivative, completing the genuine two-derivative Fourier series passage. -/
