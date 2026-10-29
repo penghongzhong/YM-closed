@@ -6,80 +6,105 @@ noncomputable section
 namespace YMUIC.Wilson
 
 /-!
-An algebraic compensating-frame alternative to summability of the raw
-21-dimensional Yang--Mills RG source matrices.
+# Wilson-source compensating frames (conditional algebra)
 
-If the physical dual source step has a normalization/frame factorization
-  C_n = F_n (I + E_n) F_{n+1}^{-1},
-the potentially large/marginal frame factors telescope.  Only the residual
-E_n must have a summable column defect.  This file DOES NOT assert that the
-actual YM source cocycle admits such a factorization.
+This module uses the existing finite source-cocycle composition directly,
+rather than overloading multiplication of functions and matrices.
+
+The actual YM model is NOT asserted to supply the frame decomposition,
+the endpoint uniform norm estimates, or a summable residual source error.
 -/
 
-abbrev SourceMatrix21 := Matrix RootFiber21 RootFiber21 ℂ
+abbrev SourceMatrix21 := RootFiber21 → RootFiber21 → ℂ
 
-private theorem source_compose_as_mul (B C : SourceMatrix21) :
-    sourceCocycleCompose B C = B * C := by
-  ext j α
-  simp [sourceCocycleCompose, Matrix.mul_apply]
-
-private theorem source_identity_as_one :
-    (sourceCocycleIdentity : SourceMatrix21) = 1 := by
+private theorem source_compose_assoc (A B C : SourceMatrix21) :
+    sourceCocycleCompose (sourceCocycleCompose A B) C =
+      sourceCocycleCompose A (sourceCocycleCompose B C) := by
   classical
-  ext j α
-  by_cases h : j = α <;> simp [sourceCocycleIdentity, h]
+  funext j α
+  simp only [sourceCocycleCompose]
+  calc
+    (∑ β : RootFiber21,
+        (∑ γ : RootFiber21, A j γ * B γ β) * C β α) =
+      ∑ β : RootFiber21, ∑ γ : RootFiber21,
+        (A j γ * B γ β) * C β α := by
+          simp_rw [Finset.sum_mul]
+    _ = ∑ γ : RootFiber21, ∑ β : RootFiber21,
+        (A j γ * B γ β) * C β α := by
+          rw [Finset.sum_comm]
+    _ = ∑ γ : RootFiber21, ∑ β : RootFiber21,
+        A j γ * (B γ β * C β α) := by
+          apply Finset.sum_congr rfl
+          intro γ hγ
+          apply Finset.sum_congr rfl
+          intro β hβ
+          ring
+    _ = ∑ γ : RootFiber21,
+        A j γ * (∑ β : RootFiber21, B γ β * C β α) := by
+          rw [Finset.mul_sum]
 
-private theorem source_chain_succ_as_mul
-    (C : ℕ → SourceMatrix21) (n : ℕ) :
-    sourceCocycleChain C (n + 1) = (sourceCocycleChain C n : SourceMatrix21) * C n := by
-  change sourceCocycleCompose (sourceCocycleChain C n) (C n) =
-    (sourceCocycleChain C n : SourceMatrix21) * C n
-  exact source_compose_as_mul _ _
+private theorem source_compose_left_id (B : SourceMatrix21) :
+    sourceCocycleCompose sourceCocycleIdentity B = B := by
+  classical
+  funext j α
+  simp [sourceCocycleCompose, sourceCocycleIdentity]
 
-/-- The actual finite 21-dimensional cocycle step, factored through a
-scale-dependent source normalization and a residual RG matrix. -/
-def compensatedSourceStep
-    (F Finv R : ℕ → SourceMatrix21) (n : ℕ) : SourceMatrix21 :=
-  F n * R n * Finv (n + 1)
+private theorem source_compose_right_id (B : SourceMatrix21) :
+    sourceCocycleCompose B sourceCocycleIdentity = B := by
+  classical
+  funext j α
+  simp [sourceCocycleCompose, sourceCocycleIdentity]
 
-/-- Exact telescoping of scale-dependent frames.  The only inverse facts
-required are the displayed finite-matrix identities; no norm bound on
-individual raw source steps C_n is needed. -/
+/-- Finite source RG step with the scale-dependent frame separated from
+the residual source step. -/
+def compensatedSourceStep (F Finv R : ℕ → SourceMatrix21)
+    (n : ℕ) : SourceMatrix21 :=
+  sourceCocycleCompose
+    (sourceCocycleCompose (F n) (R n)) (Finv (n + 1))
+
+/-- Exact telescoping with no matrix-norm assumption. -/
 theorem compensated_source_chain_factorization
     (F Finv R : ℕ → SourceMatrix21)
-    (hleft : ∀ n, Finv n * F n = 1)
-    (hright0 : F 0 * Finv 0 = 1) :
+    (hleft : ∀ n, sourceCocycleCompose (Finv n) (F n) =
+        sourceCocycleIdentity)
+    (hright0 : sourceCocycleCompose (F 0) (Finv 0) =
+        sourceCocycleIdentity) :
     ∀ n, sourceCocycleChain (compensatedSourceStep F Finv R) n =
-      F 0 * (sourceCocycleChain R n : SourceMatrix21) * Finv n := by
+      sourceCocycleCompose
+        (sourceCocycleCompose (F 0) (sourceCocycleChain R n))
+        (Finv n) := by
   intro n
   induction n with
   | zero =>
-      change (sourceCocycleIdentity : SourceMatrix21) =
-        F 0 * (sourceCocycleIdentity : SourceMatrix21) * Finv 0
-      rw [source_identity_as_one, Matrix.mul_one]
+      change sourceCocycleIdentity =
+        sourceCocycleCompose
+          (sourceCocycleCompose (F 0) sourceCocycleIdentity)
+          (Finv 0)
+      rw [source_compose_right_id]
       exact hright0.symm
   | succ n ih =>
-      rw [source_chain_succ_as_mul, ih, source_chain_succ_as_mul]
-      change (F 0 * (sourceCocycleChain R n : SourceMatrix21) * Finv n) *
-        (F n * R n * Finv (n + 1)) =
-        F 0 * ((sourceCocycleChain R n : SourceMatrix21) * R n) * Finv (n + 1)
-      calc
-        _ = F 0 * (sourceCocycleChain R n : SourceMatrix21) *
-            ((Finv n * F n) * R n) * Finv (n + 1) := by
-              simp only [Matrix.mul_assoc]
-        _ = F 0 * ((sourceCocycleChain R n : SourceMatrix21) * R n) *
-            Finv (n + 1) := by
-              rw [hleft n]
-              simp only [Matrix.one_mul, Matrix.mul_assoc]
+      change sourceCocycleCompose
+        (sourceCocycleChain (compensatedSourceStep F Finv R) n)
+        (compensatedSourceStep F Finv R n) =
+        sourceCocycleCompose
+          (sourceCocycleCompose (F 0)
+            (sourceCocycleCompose (sourceCocycleChain R n) (R n)))
+          (Finv (n + 1))
+      rw [ih]
+      simp only [compensatedSourceStep, source_compose_assoc]
+      rw [← source_compose_assoc (Finv n) (F n)
+          (sourceCocycleCompose (R n) (Finv (n + 1))),
+          hleft n, source_compose_left_id]
 
-/-- A uniform bound can survive nonsummable raw one-step changes:
-only the compensated residual defects must be summable, and the two
-ENDPOINT frames must have uniform column norms.  The result does not
-assume any cumulative RG cocycle bound. -/
+/-- Regulator-independent column bound follows from a summable residual
+defect and endpoint frame control, WITHOUT assuming a cumulative raw source
+norm.  The physical frame/defect hypotheses remain open in the YM model. -/
 theorem compensated_source_chain_uniform_column
     (F Finv R : ℕ → SourceMatrix21)
-    (hleft : ∀ n, Finv n * F n = 1)
-    (hright0 : F 0 * Finv 0 = 1)
+    (hleft : ∀ n, sourceCocycleCompose (Finv n) (F n) =
+        sourceCocycleIdentity)
+    (hright0 : sourceCocycleCompose (F 0) (Finv 0) =
+        sourceCocycleIdentity)
     (δ : ℕ → ℝ) (hδ : ∀ n, 0 ≤ δ n)
     (hsum : Summable δ)
     (hresidual : ∀ (n : ℕ) (α : RootFiber21),
@@ -93,35 +118,34 @@ theorem compensated_source_chain_uniform_column
     ∀ (n : ℕ) (α : RootFiber21),
       (∑ j : RootFiber21,
         ‖sourceCocycleChain (compensatedSourceStep F Finv R) n j α‖)
-        ≤ KF * Real.exp (∑' j : ℕ, δ j) * KG := by
+          ≤ KF * Real.exp (∑' j : ℕ, δ j) * KG := by
   intro n α
   rw [compensated_source_chain_factorization F Finv R hleft hright0 n]
   have hR (β : RootFiber21) :
-      (∑ j : RootFiber21, ‖sourceCocycleChain R n j β‖) ≤
-        Real.exp (∑' j : ℕ, δ j) :=
+      (∑ j : RootFiber21, ‖sourceCocycleChain R n j β‖)
+        ≤ Real.exp (∑' j : ℕ, δ j) :=
     source_cocycle_from_summable_matrix_defects R δ hδ hsum
       hresidual n β
   have hFR (β : RootFiber21) :
       (∑ j : RootFiber21,
-        ‖(F 0 * (sourceCocycleChain R n : SourceMatrix21)) j β‖) ≤
-          KF * Real.exp (∑' j : ℕ, δ j) := by
-    simpa only [source_compose_as_mul] using
-      (source_cocycle_column_bound (F 0) (sourceCocycleChain R n)
-        KF (Real.exp (∑' j : ℕ, δ j))
-        hKF hF0 hR β)
-  simpa only [source_compose_as_mul] using
-    (source_cocycle_column_bound
-      (F 0 * (sourceCocycleChain R n : SourceMatrix21)) (Finv n)
-      (KF * Real.exp (∑' j : ℕ, δ j)) KG
-      (mul_nonneg hKF (Real.exp_pos _).le)
-      hFR (hG n) α)
+        ‖sourceCocycleCompose (F 0) (sourceCocycleChain R n) j β‖)
+          ≤ KF * Real.exp (∑' j : ℕ, δ j) :=
+    source_cocycle_column_bound (F 0) (sourceCocycleChain R n)
+      KF (Real.exp (∑' j : ℕ, δ j)) hKF hF0 hR β
+  exact source_cocycle_column_bound
+    (sourceCocycleCompose (F 0) (sourceCocycleChain R n))
+    (Finv n) (KF * Real.exp (∑' j : ℕ, δ j)) KG
+    (mul_nonneg hKF (Real.exp_pos _).le)
+    hFR (hG n) α
 
-/-- Apply the compensated RG bound to the genuine SU(2) plaquette-root
-Schwartz source.  All RG step/model claims remain explicit inputs. -/
+/-- An actual SU(2) Wilson plaquette Schwartz test inherits the conditional
+compensated-frame source bound. -/
 theorem compensated_wilson_source_uniform
     (F Finv R : ℕ → SourceMatrix21)
-    (hleft : ∀ n, Finv n * F n = 1)
-    (hright0 : F 0 * Finv 0 = 1)
+    (hleft : ∀ n, sourceCocycleCompose (Finv n) (F n) =
+        sourceCocycleIdentity)
+    (hright0 : sourceCocycleCompose (F 0) (Finv 0) =
+        sourceCocycleIdentity)
     (δ : ℕ → ℝ) (hδ : ∀ n, 0 ≤ δ n)
     (hsum : Summable δ)
     (hresidual : ∀ (n : ℕ) (α : RootFiber21),
