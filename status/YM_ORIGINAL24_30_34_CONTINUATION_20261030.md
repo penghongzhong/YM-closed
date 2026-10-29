@@ -55,12 +55,21 @@ declared axioms.
 - The old/new R *model-specific* native distance dictionary and rooted-tree
   total summability still need actual source verification.
 
-## Latest pending exact four-dimensional placement certificate
+## Verified physical four-dimensional placement and full conditional root-tail bridge
 
-- `Original24_PlacementRatio.lean` states the true C29 equality
-  `L^(4m) * L^(-(5-theta)m) = (L^(-(1-theta)))^m` and proves
-  `0 < q < 1` directly from `L>1, 0<theta<1`.
-  Await successful official-pin run before declaring it certified.
+- [Actions 40959684869](https://github.com/penghongzhong/YM-closed/actions/runs/40959684869)
+  **SUCCESS**; `Original24_PlacementRatio.lean`: `L^(4m)*L^(-(5-theta)m) =
+  (L^(-(1-theta)))^m`, with `0<q=L^(-(1-theta))<1` derived
+  from `L>1`, `0<theta<1`. No arbitrary q smallness hypothesis is needed.
+- [Actions 40959815751](https://github.com/penghongzhong/YM-closed/actions/runs/40959815751)
+  **SUCCESS**; `Original24_PhysicalPlacementClosure.lean`: the true
+  four-dimensional placement factor and B10 fifth-order remainder are
+  combined with the actual arbitrary Wilson-word old/new rooted source
+  theorem to derive a summable post-R tail.
+- The verified theorem still requires the model's exact unmarked old/new
+  R distance/counting and fifth-order Taylor estimates as upstream
+  data; this is a strict, conditional analytic implication and is not
+  the original C29 source-class theorem without the model dictionary.
 
 ## Exact mathematical open obligations
 
@@ -73,7 +82,9 @@ Original24:
    arbitrary finite-word polynomial grammar.
 3. Instantiate the previously certified U2 rooted-tree bound and B10
    fifth-order Taylor localization on the *same* physical source and
-   history space; prove the actual q = L^(-(1-theta)) factor.
+   history space; the exact q = L^(-(1-theta)) arithmetic has NOW been
+   strictly verified, but the physical remainder and source identification
+   is still an original-model obligation.
 4. Then check the UNCHANGED Original24 manuscript conclusion as a true
    exact environment, not an abstract hB10 assumption disguised as an output.
 
