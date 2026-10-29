@@ -31,8 +31,25 @@ The strict per-environment union is now **35/39** (not a single new 35-file whol
   explicit B14 passage premise turning uniformly bounded regulator
   generator gaps into a continuum gap. This additional condition is
   already manuscript Theorem 21.1 item (vi), not a new hidden theorem axiom.
-- Latest strengthened theorem official-pin audit **PENDING**; do not count
-  its promotion until a successful Lean build, full type and axiom audit.
+- Enhanced theorem strict-pin receipt:
+  https://github.com/penghongzhong/YM-closed/actions/runs/40910823979
+  **SUCCESS**. The unchanged official Original15/16 source files were reused,
+  not rewritten; the reinforced theorem both prints the full premise list
+  and derives a positive continuum vacuum-sector generator gap via hB14.
+- The exact theorem result remains conditional on hI7, the standard
+  spectral-calculus interface, the manuscript's B14 continuum passage,
+  and all manuscript-listed U/C/OS/nontriviality premises.
+- In particular, the B14 passage function is a **premise**, NOT a proof
+  of passage from the physical Yang-Mills cutoff model.
+
+## New official-pin conditional original environment union
+- Verified Original #1 (published-input exact interface) and Original #42
+  (conditional original-master implication with physical spectral gap).
+- **36/39 = 92.31%** historical per-original-environment strict-pin union;
+  remaining original IDs **24, 30, 34**.
+- This is NOT 36 unconditional Yang-Mills model theorems or a freshly
+  executed 36-environment monolithic build. The earlier proof receipts
+  remain independent and conditional as described in the 34/39 ledger.
 
 ## Scope
 I7 is an explicitly passed theorem premise, not an added axiom or a
@@ -43,6 +60,11 @@ master assembly does not prove the physical Yang-Mills mass gap
 unconditionally.
 
 ## Next
-Verify the enhanced Original42 exact theorem, check the full types and
-`#print axioms`, then update the union to **36/39** if and only if
-the official pinned workflow succeeds.
+Original24: actual marked old/new R-sector composite Wilson source and
+post-R Taylor/local polynomial dictionary.
+Original30: source-normalization/4r Fourier/projective Schwartz and OS E0'
+all-orders factorial bound from actual Yang-Mills RG/polymer inputs.
+Original34: OS published reconstruction only after E0' and the other
+model-specific Osterwalder-Schrader hypotheses have been established.
+No additional assumptions beyond I7 and the exact original manuscript
+conditional premises should be silently inserted.
