@@ -46,8 +46,8 @@ theorem transfer_resolvent_above_bound
     have hre :
         (s - q) * ‖x‖ ^ 2 ≤
           (⟪(algebraMap ℂ (H →L[ℂ] H) (s : ℂ) - T) x, x⟫_ℂ).re := by
-      simp only [Algebra.algebraMap_eq_smul_one, ContinuousLinearMap.sub_apply,
-        ContinuousLinearMap.smul_apply, ContinuousLinearMap.one_apply,
+      simp only [Algebra.algebraMap_eq_smul_one, sub_apply,
+        smul_apply, one_apply_eq_self,
         inner_sub_left, inner_smul_left, Complex.sub_re,
         Complex.conj_ofReal, Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im,
         zero_mul, sub_zero]
@@ -55,7 +55,9 @@ theorem transfer_resolvent_above_bound
       rw [hn]
       nlinarith
     have hnorm := hre.trans (Complex.re_le_norm _)
-    simpa only [NNReal.coe_mk, mul_comm] using hnorm
+    change ‖x‖ ^ 2 * (s - q) ≤
+      ‖⟪(algebraMap ℂ (H →L[ℂ] H) (s : ℂ) - T) x, x⟫_ℂ‖
+    simpa only [mul_comm] using hnorm
 
 /-- The whole real transfer spectrum obeys the quadratic-form upper bound. -/
 theorem transfer_spectrum_le
