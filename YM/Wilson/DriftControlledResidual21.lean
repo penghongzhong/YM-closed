@@ -70,7 +70,7 @@ theorem source_cocycle_chain_prefix_uniform
   have hδcap (j : ℕ) : 0 ≤ δcap j := by
     dsimp [δcap]
     by_cases hj : j < K
-    · simp only [if_pos hj]
+    · simp [δcap, hj]
       exact hδ j hj
     · simp [hj]
   have hsumcap :
