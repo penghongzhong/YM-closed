@@ -1,0 +1,70 @@
+name: YM Wilson actual weighted source smearing certificate
+
+on:
+  push:
+    branches: [ym-original30-weighted-smearing-20261029]
+    paths:
+      - "YM/Wilson/WeightedSmearing.lean"
+      - ".github/workflows/ym-original30-weighted-smearing.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  weighted-smearing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install fixed Lean
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Lock Mathlib
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Exact source and proof compilation
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YM/Wilson/WeightedSmearing.lean; then exit 1; fi
+          lake build +YM.Wilson.WeightedSmearing:olean
+          lake env lean -DwarningAsError=true YM/Wilson/WeightedSmearing.lean
+      - name: Kernel-level public premise and axiom audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/wilson-smearing
+          cat >verification/wilson-smearing/Audit.lean <<'LEAN'
+          import YM.Wilson.WeightedSmearing
+          set_option pp.universes true
+          #print YMUIC.Wilson.wilson_weighted_smearing_bound
+          #print YMUIC.Wilson.wilson_weighted_smearing_all_regulators
+          #print axioms YMUIC.Wilson.schwartz_weighted_point_bound
+          #print axioms YMUIC.Wilson.wilson_weighted_point_bound
+          #print axioms YMUIC.Wilson.wilson_weighted_smearing_bound
+          #print axioms YMUIC.Wilson.wilson_weighted_smearing_all_regulators
+          LEAN
+          lake env lean -DwarningAsError=true verification/wilson-smearing/Audit.lean | tee verification/wilson-smearing/audit.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/wilson-smearing/audit.log; then exit 1; fi
+      - name: Retain audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-weighted-wilson-${{ github.sha }}
+          path: verification/wilson-smearing/audit.log
+          if-no-files-found: warn
+          retention-days: 30
