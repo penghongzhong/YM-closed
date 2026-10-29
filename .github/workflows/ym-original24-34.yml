@@ -40,13 +40,14 @@ jobs:
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/*.lean; then exit 1; fi
-          lake build +YMOriginal.Original24_UnmarkedRGGeometry:olean +YMOriginal.Original24_ActualWordSourceClosure:olean +YMOriginal.Original34_OSII_ExternalInterface:olean
+          lake build +YMOriginal.Original24_PlacementRatio:olean +YMOriginal.Original24_UnmarkedRGGeometry:olean +YMOriginal.Original24_ActualWordSourceClosure:olean +YMOriginal.Original34_OSII_ExternalInterface:olean
           lake env lean -DwarningAsError=true YMOriginal/Original24_MarkedRootBridge.lean
           lake env lean -DwarningAsError=true YMOriginal/Original24_PostRLocalization.lean
           lake env lean -DwarningAsError=true YMOriginal/Original24_WilsonWordPolynomial.lean
           lake env lean -DwarningAsError=true YMOriginal/Original24_ActualWordMarked.lean
           lake env lean -DwarningAsError=true YMOriginal/Original24_ActualWordSourceClosure.lean
           lake env lean -DwarningAsError=true YMOriginal/Original24_UnmarkedRGGeometry.lean
+          lake env lean -DwarningAsError=true YMOriginal/Original24_PlacementRatio.lean
           lake env lean -DwarningAsError=true YMOriginal/Original34_OSII_ExternalInterface.lean
       - name: Print every source theorem premise and audit axioms
         shell: bash
@@ -58,8 +59,11 @@ jobs:
           import YMOriginal.Original24_PostRLocalization
           import YMOriginal.Original24_ActualWordSourceClosure
           import YMOriginal.Original24_UnmarkedRGGeometry
+          import YMOriginal.Original24_PlacementRatio
           import YMOriginal.Original34_OSII_ExternalInterface
           #print YMUIC.Original34.original34_os_reconstruction_external_interface
+          #print YMUIC.Original24.original24_four_dimensional_q_contracts
+          #print YMUIC.Original24.original24_four_dimensional_power_identity
           #print YMUIC.Original24.weighted_root_from_unmarked_distance
           #print YMUIC.Original24.actual_word_rooted_sum_from_unmarked_geometry
           #print YMUIC.Original24.actual_wilson_monomial_bound
@@ -73,6 +77,8 @@ jobs:
           #print YMUIC.Original24.composite_r_marked_tree_sum
           #print YMUIC.Original24.composite_old_new_r_marked
           #print axioms YMUIC.Original34.original34_os_reconstruction_external_interface
+          #print axioms YMUIC.Original24.original24_four_dimensional_q_contracts
+          #print axioms YMUIC.Original24.original24_four_dimensional_power_identity
           #print axioms YMUIC.Original24.weighted_root_from_unmarked_distance
           #print axioms YMUIC.Original24.actual_word_rooted_sum_from_unmarked_geometry
           #print axioms YMUIC.Original24.actual_wilson_monomial_bound
