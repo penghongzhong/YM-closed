@@ -64,7 +64,7 @@ theorem weak_stop_prefix_product_exp
   have hcap (j : ℕ) : 0 ≤ δcap j := by
     dsimp [δcap]
     by_cases hj : j < K
-    · simp [δcap, hj]
+    · simp [hj]
       exact hδ j hj
     · simp [hj]
   have hsumcap :
