@@ -1,0 +1,65 @@
+name: YM Original15-19 official-pin conditional replay
+on:
+  push:
+    branches: [ym-original15-19-official-20261029]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original15-19:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lean exact pin
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          source "$HOME/.elan/env"
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          lean --version
+      - name: Verify Mathlib exact pin
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Build original theorem roots with warnings treated as errors
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMConditional/*.lean; then exit 1; fi
+          lake build +YMConditional.Original15_OperatorOrder:olean +YMConditional.Original19_CountertermCocycle:olean
+          lake env lean -DwarningAsError=true YMConditional/Original15_OperatorOrder.lean
+          lake env lean -DwarningAsError=true YMConditional/Original19_CountertermCocycle.lean
+      - name: Full type and axiom audit for Original15 and 19
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/original15-19
+          cat >verification/original15-19/Audit.lean <<'LEAN'
+          import YMConditional.Original15_OperatorOrder
+          import YMConditional.Original19_CountertermCocycle
+          #print YMUIC.ConditionalI7.original15_strict_transfer_from_I7
+          #print YMUIC.Counterterm.original19_counterterm_block
+          #print axioms YMUIC.ConditionalI7.original15_transfer_from_I7
+          #print axioms YMUIC.ConditionalI7.original15_strict_transfer_from_I7
+          #print axioms YMUIC.Counterterm.original19_fixed_dimension_counterterm
+          #print axioms YMUIC.Counterterm.original19_counterterm_block
+          LEAN
+          lake env lean -DwarningAsError=true verification/original15-19/Audit.lean | tee verification/original15-19/axioms.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original15-19/axioms.log; then exit 1; fi
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-original15-19-${{ github.sha }}
+          path: verification/original15-19/axioms.log
+          if-no-files-found: warn
+          retention-days: 30
