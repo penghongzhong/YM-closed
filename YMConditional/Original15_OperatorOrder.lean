@@ -54,13 +54,13 @@ theorem original15_loewner_from_I7
   have hsR : IsSelfAdjoint R := vacuumTransfer_symmetric Ω T hT.isSelfAdjoint hfix
   constructor
   · apply (ContinuousLinearMap.nonneg_iff_isPositive).mpr
-    refine ⟨hsR, ?_⟩
+    refine ⟨ContinuousLinearMap.isSelfAdjoint_iff_isSymmetric.mp hsR, ?_⟩
     intro x
-    exact hT.inner_nonneg_left x.val
+    change 0 ≤ (⟪T x.val, x.val⟫_ℂ).re
+    exact hT.re_inner_nonneg_left x.val
   · apply (ContinuousLinearMap.le_def).mpr
     constructor
-    · apply ContinuousLinearMap.isSelfAdjoint_iff_isSymmetric.mpr
-      apply LinearMap.IsSymmetric.sub
+    · apply LinearMap.IsSymmetric.sub
       · exact LinearMap.IsSymmetric.id.smul (by simp)
       · exact ContinuousLinearMap.isSelfAdjoint_iff_isSymmetric.mp hsR
     · intro x

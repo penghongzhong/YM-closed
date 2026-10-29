@@ -19,9 +19,6 @@ jobs:
           - id: original15-16
             module: YMConditional.Original16_FromI7
             source: YMConditional/Original16_FromI7.lean
-          - id: original19
-            module: YMConditional.Original19_CountertermCocycle
-            source: YMConditional/Original19_CountertermCocycle.lean
     steps:
       - uses: actions/checkout@v4
       - name: Pin Lean
