@@ -15,7 +15,7 @@ theorem scaled_dyadic_shell_uniform_derivative
       2 * (2 : ℝ) ^ (4 * m) *
         SchwartzMap.seminorm ℝ 0 m (baseCutoffSchwartz (E := E)) := by
   have hs : ContDiff ℝ m (dyadicShell (E := E) (n + 1)) :=
-    ((dyadic_shell_regularity (E := E) (n + 1)).1).of_le le_top
+    ((dyadic_shell_regularity (E := E) (n + 1)).1).of_le (by simp)
   rw [iteratedFDeriv_comp_const_smul ((2 : ℝ) ^ (n + 4)) hs]
   rw [norm_smul, Real.norm_eq_abs, abs_of_nonneg (by positivity)]
   let M : ℝ := SchwartzMap.seminorm ℝ 0 m (baseCutoffSchwartz (E := E))
