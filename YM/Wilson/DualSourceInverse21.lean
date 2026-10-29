@@ -67,7 +67,7 @@ theorem dual_source_inverse_column_bound
             ∑ β : RootFiber21, ‖A β j * B β α‖ := by
         have ht : ‖∑ β : RootFiber21, A β j * B β α‖ ≤
             ∑ β : RootFiber21, ‖A β j * B β α‖ := norm_sum_le _ _
-        exact add_le_add_left ht _
+        exact add_le_add_right ht _
       _ = _ := by simp only [norm_mul]
   let S : ℝ := ∑ j : RootFiber21, ‖B j α‖
   have hbudget : S ≤ 1 + δ * S := by
@@ -91,7 +91,7 @@ theorem dual_source_inverse_column_bound
           apply Finset.sum_le_sum
           intro β hβ
           exact mul_le_mul_of_nonneg_right (hrow β) (norm_nonneg _)
-        exact add_le_add_left ht 1
+        exact add_le_add_right ht 1
       _ = 1 + δ * S := by rw [Finset.mul_sum]
   have hpos : 0 < 1 - δ := by linarith
   apply (le_div_iff₀ hpos).mpr
