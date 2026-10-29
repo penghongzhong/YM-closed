@@ -53,6 +53,7 @@ jobs:
           lake build +PublicC30.FourierModeCoordinateHigher:olean
           lake build +PublicC30.FourierModeFrequencyProduct:olean
           lake build +PublicC30.FourierModeC2TsumDerivative:olean
+          lake build +PublicC30.FourierModeC2Reconstruction:olean
           lake env lean -DwarningAsError=true PublicC30/ScaledShellExponentBudget.lean
           lake env lean -DwarningAsError=true PublicC30/ScaledShellPowerBudget.lean
           lake env lean -DwarningAsError=true YM/OSTensor/SchwartzMixedJointControl.lean
@@ -60,6 +61,7 @@ jobs:
           lake env lean -DwarningAsError=true PublicC30/FourierModeCoordinateHigher.lean
           lake env lean -DwarningAsError=true PublicC30/FourierModeFrequencyProduct.lean
           lake env lean -DwarningAsError=true PublicC30/FourierModeC2TsumDerivative.lean
+          lake env lean -DwarningAsError=true PublicC30/FourierModeC2Reconstruction.lean
       - name: Print and check axioms
         shell: bash
         run: |
@@ -72,6 +74,7 @@ jobs:
           import PublicC30.FourierModeCoordinateHigher
           import PublicC30.FourierModeFrequencyProduct
           import PublicC30.FourierModeC2TsumDerivative
+          import PublicC30.FourierModeC2Reconstruction
           #print axioms YMUIC.OSTensor.scaled_shell_exponent_budget
           #print axioms YMUIC.OSTensor.scaled_shell_power_budget
           #print axioms YMUIC.OSTensor.schwartz_mixed_elliptic_seminorm
@@ -85,6 +88,9 @@ jobs:
           #print axioms YMUIC.OSTensor.fourier_mode_c2_coefficient_summable
           #print axioms YMUIC.OSTensor.fourier_mode_c2_jet_summable
           #print axioms YMUIC.OSTensor.fourier_mixed_series_real_derivative
+          #print axioms YMUIC.OSTensor.fourier_mixed_coefficient_summable
+          #print axioms YMUIC.OSTensor.fourier_mixed_c2_first_derivative
+          #print axioms YMUIC.OSTensor.fourier_mixed_c2_second_derivative
           LEAN
           lake env lean -DwarningAsError=true PublicC30/Audit.lean | tee /tmp/ym-axioms.log
           if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' /tmp/ym-axioms.log; then

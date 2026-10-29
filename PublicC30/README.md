@@ -49,5 +49,13 @@ The goal is the local `C²` source atom estimate, not yet the Wilson dictionary.
 The next source batch proves actual Fourier-coordinate derivative growth up to
 order 2, a full mixed frequency product budget, Banach-valued Fourier jet
 summability and termwise differentiation of the series by the standard
-smooth-series theorem. These claims remain pending until the dedicated
-public Lean CI returns success and the axioms are audited.
+smooth-series theorem. These proofs passed official-pin CI #40851315206 with standard axioms only.
+
+## Target: actual periodic C² reconstruction (unverified until next CI)
+
+The next file derives ordinary coefficient summability from the joint
+fourth-order bound, identifies the zero-order Fourier series with the actual
+periodic input using Mathlib Fourier uniqueness, and reconstructs its first
+and second real-coordinate derivatives by summing differentiated modes.
+The outstanding model-specific periodization and Wilson C² maps are not
+proved by this result.
