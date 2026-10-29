@@ -43,7 +43,7 @@ theorem centeredVector_norm_sq (μ : Measure X) [IsProbabilityMeasure μ]
   filter_upwards [centeredVector_coe μ F hF] with x hx
   rw [hx]
   simp [centeredFunction, inner_self_eq_norm_sq_to_K,
-    ← Complex.ofReal_sub, Complex.norm_real, Real.norm_eq_abs, sq_abs, pow_two]
+    -Complex.ofReal_sub, Complex.norm_real, Real.norm_eq_abs, pow_two]
 
 theorem centeredVector_orthogonal_vacuum (μ : Measure X) [IsProbabilityMeasure μ]
     (F : X → ℝ) (hF : MemLp F 2 μ) :
