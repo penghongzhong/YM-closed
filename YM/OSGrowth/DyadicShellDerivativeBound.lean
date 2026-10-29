@@ -30,8 +30,13 @@ theorem dyadic_shell_all_derivatives_bound
       iteratedFDeriv ℝ m (dyadicShell (E := E) (n + 1)) x =
         iteratedFDeriv ℝ m (dyadicCutoff (E := E) (n + 1)) x -
           iteratedFDeriv ℝ m (dyadicCutoff (E := E) n) x := by
-    simpa only [dyadicShell, Pi.sub_apply] using
-      (iteratedFDeriv_sub_apply hc1.contDiffAt hc0.contDiffAt)
+    have heq : (dyadicShell (E := E) (n + 1) : E → ℝ) =
+        (dyadicCutoff (E := E) (n + 1) : E → ℝ) -
+          (dyadicCutoff (E := E) n : E → ℝ) := by
+      funext y
+      rfl
+    rw [heq]
+    exact iteratedFDeriv_sub_apply hc1.contDiffAt hc0.contDiffAt
   rw [hd]
   have h1 := dyadic_cutoff_derivative_bound (E := E) (n + 1) m x
   have h0 := dyadic_cutoff_derivative_bound (E := E) n m x
