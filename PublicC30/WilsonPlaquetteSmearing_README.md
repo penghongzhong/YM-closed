@@ -48,3 +48,13 @@ The only scale parameter in this bound is the physical box length L.
 No bounds on the gauge configurations, no Wilson-source seminorm input and
 no arbitrary plaquette packing constant are assumed. The theorem is still
 for the raw plaquette source, not the RG-connected Wilson hierarchy.
+
+## Actual continuous complex-linear operator
+
+Next source `PublicC30/WilsonSchwartzCLM.lean` constructs from genuine
+Mathlib Dirac point evaluations a Schwartz-space continuous complex-linear
+map, proves equality with the Wilson plaquette scalar smearing, and derives
+finite physical-box control. Both complex linearity and continuity follow
+from the constructed CLM and are not supplied as source hypotheses.
+
+This remains a raw plaquette source, not the full RG source of Original30.
