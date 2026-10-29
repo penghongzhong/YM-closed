@@ -30,7 +30,7 @@ theorem dyadic_shell_all_derivatives_bound
       iteratedFDeriv ℝ m (dyadicShell (E := E) (n + 1)) x =
         iteratedFDeriv ℝ m (dyadicCutoff (E := E) (n + 1)) x -
           iteratedFDeriv ℝ m (dyadicCutoff (E := E) n) x := by
-    simpa only [dyadicShell] using
+    simpa only [dyadicShell, Pi.sub_apply] using
       (iteratedFDeriv_sub_apply hc1.contDiffAt hc0.contDiffAt)
   rw [hd]
   have h1 := dyadic_cutoff_derivative_bound (E := E) (n + 1) m x
@@ -41,7 +41,7 @@ theorem dyadic_shell_all_derivatives_bound
     _ ≤ M / (2 : ℝ) ^ ((n + 1) * m) + M / (2 : ℝ) ^ (n * m) := by
       exact add_le_add h1 h0
     _ ≤ M / (2 : ℝ) ^ (n * m) + M / (2 : ℝ) ^ (n * m) :=
-      add_le_add_right hdiv _
+      add_le_add_left hdiv _
     _ = (2 * SchwartzMap.seminorm ℝ 0 m (baseCutoffSchwartz (E := E))) /
           (2 : ℝ) ^ (n * m) := by
       dsimp [M]
