@@ -10,6 +10,8 @@ on:
       - "YM/Wilson/CandidateGramPolynomial21.lean"
       - "YM/Wilson/OrderedDualSourceRG21.lean"
       - "YM/Wilson/CandidateGramSourceInsertion21.lean"
+      - "YM/Wilson/CandidateGramTrace21.lean"
+      - "YM/Wilson/CompositeOrderedDualRG21.lean"
       - "YM/Wilson/DualSourceRGUniform21.lean"
       - ".github/workflows/ym-compensated-frame.yml"
   workflow_dispatch:
@@ -63,6 +65,10 @@ jobs:
           lake build +YM.Wilson.OrderedDualSourceRG21:olean
           lake env lean -DwarningAsError=true YM/Wilson/CandidateGramSourceInsertion21.lean
           lake build +YM.Wilson.CandidateGramSourceInsertion21:olean
+          lake env lean -DwarningAsError=true YM/Wilson/CandidateGramTrace21.lean
+          lake build +YM.Wilson.CandidateGramTrace21:olean
+          lake env lean -DwarningAsError=true YM/Wilson/CompositeOrderedDualRG21.lean
+          lake build +YM.Wilson.CompositeOrderedDualRG21:olean
       - name: Exact theorem signatures and axiom audit
         shell: bash
         run: |
@@ -77,12 +83,17 @@ jobs:
           import YM.Wilson.CandidateGramPolynomial21
           import YM.Wilson.OrderedDualSourceRG21
           import YM.Wilson.CandidateGramSourceInsertion21
+          import YM.Wilson.CandidateGramTrace21
+          import YM.Wilson.CompositeOrderedDualRG21
           set_option pp.universes true
           #print YMUIC.Wilson.dual_source_chain_uniform_column
           #print YMUIC.Wilson.dual_source_wilson_rg_uniform
           #print YMUIC.Wilson.compensated_source_chain_factorization
           #print YMUIC.Wilson.compensated_source_chain_uniform_column
           #print YMUIC.Wilson.compensated_wilson_source_uniform
+          #print YMUIC.Wilson.candidate_gram_root_trace_dictionary
+          #print YMUIC.Wilson.fixed_composite_gram_paired_rg_bound
+          #print YMUIC.Wilson.fixed_composite_gram_paired_rg_uniform
           #print YMUIC.Wilson.candidate_gram_insertion_small_source
           #print YMUIC.Wilson.candidate_gram_insertion_all_regulators
           #print YMUIC.Wilson.source_rg_action_identity
@@ -105,6 +116,9 @@ jobs:
           #print axioms YMUIC.Wilson.compensated_source_chain_factorization
           #print axioms YMUIC.Wilson.compensated_source_chain_uniform_column
           #print axioms YMUIC.Wilson.compensated_wilson_source_uniform
+          #print axioms YMUIC.Wilson.candidate_gram_root_trace_dictionary
+          #print axioms YMUIC.Wilson.fixed_composite_gram_paired_rg_bound
+          #print axioms YMUIC.Wilson.fixed_composite_gram_paired_rg_uniform
           #print axioms YMUIC.Wilson.candidate_gram_insertion_small_source
           #print axioms YMUIC.Wilson.candidate_gram_insertion_all_regulators
           #print axioms YMUIC.Wilson.source_rg_action_identity
