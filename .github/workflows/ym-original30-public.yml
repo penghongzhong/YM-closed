@@ -49,9 +49,11 @@ jobs:
           source "$HOME/.elan/env"
           lake build +PublicC30.ScaledShellPowerBudget:olean
           lake build +YM.OSTensor.SchwartzMixedJointControl:olean
+          lake build +YM.OSTensor.FourierMixedC2Summability:olean
           lake env lean -DwarningAsError=true PublicC30/ScaledShellExponentBudget.lean
           lake env lean -DwarningAsError=true PublicC30/ScaledShellPowerBudget.lean
           lake env lean -DwarningAsError=true YM/OSTensor/SchwartzMixedJointControl.lean
+          lake env lean -DwarningAsError=true YM/OSTensor/FourierMixedC2Summability.lean
       - name: Print and check axioms
         shell: bash
         run: |
@@ -60,10 +62,13 @@ jobs:
           cat >PublicC30/Audit.lean <<'LEAN'
           import PublicC30.ScaledShellPowerBudget
           import YM.OSTensor.SchwartzMixedJointControl
+          import YM.OSTensor.FourierMixedC2Summability
           #print axioms YMUIC.OSTensor.scaled_shell_exponent_budget
           #print axioms YMUIC.OSTensor.scaled_shell_power_budget
           #print axioms YMUIC.OSTensor.schwartz_mixed_elliptic_seminorm
           #print axioms YMUIC.OSTensor.schwartz_mixed_joint_control
+          #print axioms YMUIC.OSTensor.fourier_mixed_decay
+          #print axioms YMUIC.OSTensor.fourier_mixed_c2_summability
           LEAN
           lake env lean -DwarningAsError=true PublicC30/Audit.lean | tee /tmp/ym-axioms.log
           if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' /tmp/ym-axioms.log; then

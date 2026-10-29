@@ -27,3 +27,12 @@ already-existing project code. The official-pin public CI builds the import
 closure and audits the exact terminal theorem's axioms. It **does not** assert
 that Wilson source periodization, the coefficient budget or manuscript
 Original 30 has been completed.
+
+## 2026-10-29: ten-module multidimensional Fourier dependency closure
+
+The unchanged `YM/OSTensor/Fourier*.lean` and `ProductSeries.lean`
+modules prove periodic coordinate derivatives, the multivariate fourth-order
+frequency decay, and absolute weighted second-order Fourier summability.
+All ten transitive `YM.*` imports for the terminal Fourier theorem are
+included. This is an analytical bridge, **not** the actual periodization
+of Wilson-Schwartz sources and not proof of manuscript Original 30.
