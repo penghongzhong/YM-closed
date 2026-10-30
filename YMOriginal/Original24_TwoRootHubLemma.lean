@@ -64,7 +64,7 @@ theorem actual_two_root_extended_connected_by_q_hub
         fin_cases i
         · exact hqa.reachable.trans hp.symm.reachable
         · exact .refl _
-  exact (SimpleGraph.connected_iff_exists_forall_reachable).mpr
+  exact (SimpleGraph.connected_iff_exists_forall_reachable G).mpr
     ⟨Sum.inr (1 : Fin 2), hReach⟩
 
 
@@ -104,7 +104,8 @@ theorem actual_two_root_hub_not_bulk_connected
       (SimpleGraph.exists_adj_iff_not_isIsolated
         (G := H) (v := (0 : Fin 2))).2 hni
     fin_cases v
-    · exact (H.loopless _ hv).elim
+    · have hNo : ¬H.Adj (0 : Fin 2) (0 : Fin 2) := by simp
+      exact (hNo hv).elim
     · have hx :=
         (actual_periodic_labeled_hardcore_adj 2 N chi
           support tuple (0 : Fin 2) (1 : Fin 2)).mp hv
