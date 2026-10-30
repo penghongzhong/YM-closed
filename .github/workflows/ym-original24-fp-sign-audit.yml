@@ -1,0 +1,64 @@
+name: YM Original24 FP sign mathematical audit strict
+on:
+  push:
+    branches: [ym-original24-fp-sign-audit-20261031]
+    paths:
+      - "YMOriginal/Original24_FPNegativeSignAudit.lean"
+      - ".github/workflows/ym-original24-fp-sign-audit.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Exact Lean pin
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Exact Mathlib pin
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Compile strict scalar FP sign obstruction
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          f=YMOriginal/Original24_FPNegativeSignAudit.lean
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' "$f"; then exit 1; fi
+          lake build +YMOriginal.Original24_FPNegativeSignAudit:olean
+          lake env lean -DwarningAsError=true "$f"
+      - name: Print terminal types and axioms
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/original24-sign-audit
+          cat > verification/original24-sign-audit/Audit.lean <<'LEAN'
+          import YMOriginal.Original24_FPNegativeSignAudit
+          #print YMUIC.Original24.original24_FP_negative_geom_scalar_obstruction
+          #print axioms YMUIC.Original24.original24_FP_negative_geom_scalar_obstruction
+          #print YMUIC.Original24.original24_FP_negative_geom_finite_parameter
+          #print axioms YMUIC.Original24.original24_FP_negative_geom_finite_parameter
+          LEAN
+          lake env lean -DwarningAsError=true verification/original24-sign-audit/Audit.lean | tee verification/original24-sign-audit/axioms.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original24-sign-audit/axioms.log; then exit 1; fi
+      - name: Save proof audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original24-fp-sign-mathematical-audit
+          path: verification/original24-sign-audit/axioms.log
+          if-no-files-found: warn
