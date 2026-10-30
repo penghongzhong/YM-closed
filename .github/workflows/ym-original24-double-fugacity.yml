@@ -5,6 +5,7 @@ on:
     paths:
       - "YMOriginal/Original24_DoubleFugacitySelection.lean"
       - "YMOriginal/Original24_ExplicitTwoFugacityKP.lean"
+      - "YMOriginal/Original24_DoubleFugacityFPTerminal.lean"
       - ".github/workflows/ym-original24-double-fugacity.yml"
   workflow_dispatch:
 
@@ -38,7 +39,7 @@ jobs:
         run: |
           set -euo pipefail
           source "$HOME/.elan/env"
-          for f in YMOriginal/Original24_DoubleFugacitySelection.lean YMOriginal/Original24_ExplicitTwoFugacityKP.lean; do
+          for f in YMOriginal/Original24_DoubleFugacitySelection.lean YMOriginal/Original24_ExplicitTwoFugacityKP.lean YMOriginal/Original24_DoubleFugacityFPTerminal.lean; do
             if [ -f "$f" ]; then
               if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' "$f"; then exit 1; fi
               lake build +$(echo "$f" | sed -e 's@/@.@g' -e 's@\.lean$@@'):olean
@@ -56,6 +57,9 @@ jobs:
             if [ -f YMOriginal/Original24_ExplicitTwoFugacityKP.lean ]; then
               echo "import YMOriginal.Original24_ExplicitTwoFugacityKP"
             fi
+            if [ -f YMOriginal/Original24_DoubleFugacityFPTerminal.lean ]; then
+              echo "import YMOriginal.Original24_DoubleFugacityFPTerminal"
+            fi
             echo "#print YMUIC.Original24.one_q_nonempty_bulk_le_double_fugacity"
             echo "#print YMUIC.Original24.one_q_nonempty_bulk_from_doped_majorant"
             echo "#print axioms YMUIC.Original24.one_q_nonempty_bulk_le_double_fugacity"
@@ -63,6 +67,12 @@ jobs:
             if [ -f YMOriginal/Original24_ExplicitTwoFugacityKP.lean ]; then
               echo "#print YMUIC.Original24.original24_explicit_double_fugacity_margin"
               echo "#print axioms YMUIC.Original24.original24_explicit_double_fugacity_margin"
+              echo "#print YMUIC.Original24.original24_actual_double_fugacity_root_forest_from_U1"
+              echo "#print axioms YMUIC.Original24.original24_actual_double_fugacity_root_forest_from_U1"
+            fi
+            if [ -f YMOriginal/Original24_DoubleFugacityFPTerminal.lean ]; then
+              echo "#print YMUIC.Original24.original24_two_root_tree_O_aAct_from_U1_and_FP"
+              echo "#print axioms YMUIC.Original24.original24_two_root_tree_O_aAct_from_U1_and_FP"
             fi
           } > verification/original24-double-fugacity/Audit.lean
           lake env lean -DwarningAsError=true verification/original24-double-fugacity/Audit.lean | tee verification/original24-double-fugacity/axioms.log
