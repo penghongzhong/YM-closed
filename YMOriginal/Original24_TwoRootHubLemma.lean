@@ -1,4 +1,4 @@
-import YMOriginal.Original24_ExactTwoRootMayer
+import YMOriginal.Original24_ExactExtendedTwoRootMayer
 import Mathlib.Combinatorics.SimpleGraph.Connectivity.Connected
 
 set_option autoImplicit false
