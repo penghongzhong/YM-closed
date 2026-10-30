@@ -68,7 +68,6 @@ theorem actual_bare_wilson_joint_OS1975_growth
     r N a ha ha1 U words coeff K hK hbudget f
   have hpow : (24576 * K) ^ r ≤ C ^ r :=
     pow_le_pow_left₀ hbase hmono r
-  have hCpow : 0 ≤ C ^ r := pow_nonneg hC.le _
   have hfct : (1 : ℝ) ≤ (Nat.factorial r : ℝ) := by
     have hn : 1 ≤ Nat.factorial r := by
       have hx := Nat.factorial_pos r
@@ -80,9 +79,8 @@ theorem actual_bare_wilson_joint_OS1975_growth
     calc
       _ ≤ C ^ r * 2 :=
         mul_le_mul_of_nonneg_right hpow (by norm_num)
-      _ ≤ (C ^ r * 2) * (Nat.factorial r : ℝ) := by
-        have ht : 0 ≤ C ^ r * 2 := by positivity
-        nlinarith
+      _ ≤ (C ^ r * 2) * (Nat.factorial r : ℝ) :=
+        mul_le_mul_of_nonneg_left hfct (by positivity)
       _ = 2 * C ^ r * (Nat.factorial r : ℝ) := by ring
   change ‖(actualSpatialBareSchwingerHierarchy N a U words coeff).S r f‖ ≤
     (2 * C ^ r * (Nat.factorial r : ℝ)) * J
