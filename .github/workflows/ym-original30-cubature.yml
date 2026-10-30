@@ -5,6 +5,7 @@ on:
     paths:
       - "YMOriginal/Original30_OneDimCubature.lean"
       - "YMOriginal/Original30_FourDimCubature.lean"
+      - "YMOriginal/Original30_SpatialLatticeGeometry.lean"
       - ".github/workflows/ym-original30-cubature.yml"
   workflow_dispatch:
 permissions:
@@ -37,14 +38,20 @@ jobs:
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original30_OneDimCubature.lean; then exit 1; fi
-          lake build +YMOriginal.Original30_FourDimCubature:olean
+          lake build +YMOriginal.Original30_SpatialLatticeGeometry:olean
           cat > CubatureAudit.lean <<'LEAN'
-          import YMOriginal.Original30_FourDimCubature
+          import YMOriginal.Original30_SpatialLatticeGeometry
+          #print YMUIC.Original30.true_site_coordinate_le_norm
+          #print YMUIC.Original30.one_add_pow_eight_le
+          #print YMUIC.Original30.true_site_product_weight_le_schwartz
           #print YMUIC.Original30.lattice_four_dimensional_uniform_all_cutoffs
           #print YMUIC.Original30.lattice_plaquette_four_dimensional_uniform
           #print YMUIC.Original30.lattice_inverse_square_telescope_step
           #print YMUIC.Original30.lattice_inverse_square_prefix
           #print YMUIC.Original30.lattice_inverse_square_uniform_all_cutoffs
+          #print axioms YMUIC.Original30.true_site_coordinate_le_norm
+          #print axioms YMUIC.Original30.one_add_pow_eight_le
+          #print axioms YMUIC.Original30.true_site_product_weight_le_schwartz
           #print axioms YMUIC.Original30.lattice_one_dim_weight_nonneg
           #print axioms YMUIC.Original30.lattice_four_dimensional_uniform_all_cutoffs
           #print axioms YMUIC.Original30.lattice_plaquette_four_dimensional_uniform
