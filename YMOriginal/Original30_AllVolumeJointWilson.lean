@@ -36,7 +36,7 @@ theorem actual_wilson_site_weighted_coefficient_bound
     (U : TrueSpatialPlaquettes N → W → SU2)
     (words : TrueSpatialPlaquettes N → T → List (List W))
     (coeff : TrueSpatialPlaquettes N → T → ℂ)
-    (K : ℝ) (hK : 0 ≤ K)
+    (K : ℝ) (_hK : 0 ≤ K)
     (hbudget : actualWilsonPolynomialBudget (words p) (coeff p) ≤ K) :
     ‖((a ^ 4 : ℝ) : ℂ) *
        actualWilsonPolynomial (U p) (words p) (coeff p)‖ ≤
@@ -247,8 +247,10 @@ theorem actual_joint_bare_wilson_all_volume_bound
       rw [Finset.mul_sum]
     _ ≤ (256 * K) ^ r * P * 96 ^ r :=
       mul_le_mul_of_nonneg_left hsum96 (by positivity)
+    _ = ((256 * K) ^ r * 96 ^ r) * P := by ring
     _ = (24576 * K) ^ r * P := by
       rw [← mul_pow]
+      congr 1
       ring
 
 end YMUIC.Original30
