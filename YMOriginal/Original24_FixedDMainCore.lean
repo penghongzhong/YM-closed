@@ -145,7 +145,7 @@ theorem original24_fixedD_same_source_full_series_and_cocycle
         actualExactBalabanNewRTwoRootTerm
           D j (n + 1) N chi omega rootP rootQ support
     let x : F :=
-      sourceLift (∑' n, oldTerm n + newTerm n)
+      sourceLift (tsum (fun n : ℕ => oldTerm n + newTerm n))
     ∃ gD Cold Cnew : ℝ,
       0 < gD ∧ gD ≤ gMax ∧ 0 ≤ Cold ∧ 0 ≤ Cnew ∧
       Summable (fun n : ℕ => oldTerm n + newTerm n) ∧
@@ -181,7 +181,7 @@ theorem original24_fixedD_same_source_full_series_and_cocycle
     actualTwoRootInsertion U wp cp wq cq s t *
       actualExactBalabanNewRTwoRootTerm
         D j (n + 1) N chi omega rootP rootQ support
-  let x : F := sourceLift (∑' n, oldTerm n + newTerm n)
+  let x : F := sourceLift (tsum (fun n : ℕ => oldTerm n + newTerm n))
   have hcount : ∀ Delta : PeriodicBlock N,
       (∑ X ∈ actualThroughBlock support Delta,
         Real.exp (-(D.kappaR - kappa) * (d X : ℝ))) ≤ Ccount :=
@@ -221,7 +221,7 @@ theorem original24_fixedD_same_source_full_series_and_cocycle
     · exact sub_nonneg.mpr
         (Real.one_le_exp_iff.mpr (mul_nonneg hr hq0))
   have htotal :
-      ‖∑' n, oldTerm n + newTerm n‖ ≤
+      ‖tsum (fun n : ℕ => oldTerm n + newTerm n)‖ ≤
       K * (Cold * Aold + Cnew * Anew) := by
     calc
       _ ≤ ∑' n : ℕ, ‖oldTerm n + newTerm n‖ :=
@@ -238,9 +238,9 @@ theorem original24_fixedD_same_source_full_series_and_cocycle
       ‖x‖ ≤ ‖sourceLift‖ *
         (K * (Cold * Aold + Cnew * Anew)) := by
     calc
-      ‖x‖ = ‖sourceLift (∑' n, oldTerm n + newTerm n)‖ := rfl
+      ‖x‖ = ‖sourceLift (tsum (fun n : ℕ => oldTerm n + newTerm n))‖ := rfl
       _ ≤ ‖sourceLift‖ *
-        ‖∑' n, oldTerm n + newTerm n‖ :=
+        ‖tsum (fun n : ℕ => oldTerm n + newTerm n)‖ :=
           sourceLift.le_opNorm _
       _ ≤ ‖sourceLift‖ *
           (K * (Cold * Aold + Cnew * Anew)) :=
