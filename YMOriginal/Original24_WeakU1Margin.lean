@@ -55,7 +55,7 @@ theorem original24_old_new_U1_factors_tendsto_zero
       (𝓝[>] (0 : ℝ)) (𝓝 0) :=
     Real.tendsto_exp_atBot.comp hn
   constructor
-  · simpa only [oldRActivityFactor, mul_zero] using hp.const_mul CR
+  · simpa only [oldRActivityFactor, Real.rpow_eq_pow, mul_zero] using hp.const_mul CR
   · simpa only [newRActivityFactor, mul_zero] using he.const_mul CRnew
 
 /-- One common physical weak-coupling stopping bound makes
