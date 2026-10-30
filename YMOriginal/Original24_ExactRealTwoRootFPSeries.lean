@@ -179,8 +179,7 @@ theorem actual_original24_two_root_mayer_full_sum_from_U1_FP
       (∑ n ∈ Finset.range h, w n) ≤ C * aAct := by
     have hb := htree (h + 2)
     have hsub : h + 2 - 2 = h := by omega
-    simpa only [hsub, Finset.mem_filter, Finset.mem_range,
-      true_and, Nat.zero_le, and_true] using hb
+    simpa [hsub] using hb
   let term : ℕ → ℂ := fun n =>
     actualTwoRootInsertion U wp cp wq cq s t *
       actualExactTwoRootMayerTerm (n + 1) N chi
