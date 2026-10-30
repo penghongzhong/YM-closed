@@ -45,7 +45,7 @@ theorem original24_exact_connected_graph_sum_of_tree
   unfold exactExtendedConnectedGraphSum
   rw [Finset.sum_eq_single G]
   · have hroot : G ≤ G ∧ G.Connected := ⟨le_rfl, hG.connected⟩
-    simp only [hroot, ite_true, SimpleGraph.edgeFinset_card,
+    simp only [hroot, true_and, ite_true, SimpleGraph.edgeFinset_card,
       ← Nat.card_eq_fintype_card]
   · intro H _ hne
     have hno : ¬(H ≤ G ∧ H.Connected) := by
