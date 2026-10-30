@@ -165,4 +165,95 @@ theorem wilson_word_external_root_all_regulators
           mul_le_mul_of_nonneg_left hsB (by norm_num)
     _ = 2 * r * B := by ring
 
+
+/-- A genuine finite-complexity SU(2) composite Wilson observable
+against one Schwartz test. No renormalized a-dependent coefficient has
+been inferred from this finite source dictionary. -/
+def wilsonWordPolynomialSchwartzSource
+    {P T : Type*} [Fintype T]
+    (U : P → SU2) (monomials : T → List (List P))
+    (coeff : T → ℂ) (x : Space4)
+    (f : SchwartzMap Space4 ℂ) : ℂ :=
+  f x * wilsonWordPolynomial U monomials coeff
+
+theorem wilson_word_polynomial_schwartz_bound
+    {P T : Type*} [Fintype T]
+    (U : P → SU2) (monomials : T → List (List P))
+    (coeff : T → ℂ) (x : Space4)
+    (f : SchwartzMap Space4 ℂ) :
+    ‖wilsonWordPolynomialSchwartzSource
+      U monomials coeff x f‖ ≤
+      wilsonWordPolynomialBudget monomials coeff *
+        SchwartzMap.seminorm ℂ 0 0 f := by
+  have hf : ‖f x‖ ≤ SchwartzMap.seminorm ℂ 0 0 f :=
+    f.norm_le_seminorm ℂ x
+  have hp := wilson_word_polynomial_bound U monomials coeff
+  calc
+    ‖wilsonWordPolynomialSchwartzSource U monomials coeff x f‖ =
+        ‖f x‖ * ‖wilsonWordPolynomial U monomials coeff‖ := by
+          simp only [wilsonWordPolynomialSchwartzSource, norm_mul]
+    _ ≤ SchwartzMap.seminorm ℂ 0 0 f *
+        wilsonWordPolynomialBudget monomials coeff :=
+          mul_le_mul hf hp (norm_nonneg _) (apply_nonneg _ _)
+    _ = wilsonWordPolynomialBudget monomials coeff *
+        SchwartzMap.seminorm ℂ 0 0 f := by ring
+
+/-- Uniform actual bare Wilson/Schwartz map over arbitrary regulators
+when their finite template coefficient budget is uniformly controlled. -/
+theorem wilson_word_polynomial_schwartz_all_regulators
+    {Regulator P T : Type*} [Fintype T]
+    (U : Regulator → P → SU2)
+    (monomials : T → List (List P))
+    (coeff : Regulator → T → ℂ)
+    (position : Regulator → Space4)
+    (B : ℝ)
+    (hbudget : ∀ a, wilsonWordPolynomialBudget monomials (coeff a) ≤ B)
+    (f : SchwartzMap Space4 ℂ) :
+    ∀ a, ‖wilsonWordPolynomialSchwartzSource
+      (U a) monomials (coeff a) (position a) f‖ ≤
+      B * SchwartzMap.seminorm ℂ 0 0 f := by
+  intro a
+  calc
+    ‖wilsonWordPolynomialSchwartzSource
+      (U a) monomials (coeff a) (position a) f‖ ≤
+        wilsonWordPolynomialBudget monomials (coeff a) *
+          SchwartzMap.seminorm ℂ 0 0 f :=
+      wilson_word_polynomial_schwartz_bound
+        (U a) monomials (coeff a) (position a) f
+    _ ≤ B * SchwartzMap.seminorm ℂ 0 0 f :=
+      mul_le_mul_of_nonneg_right (hbudget a) (apply_nonneg _ _)
+
+/-- Every fixed source radius is valid for the bare composite external
+root, with a conservative (exp(rB)+1) bound. This removes the small
+radius condition of the earlier sharp linear estimate. -/
+theorem wilson_word_external_root_any_radius
+    {Regulator P T : Type*} [Fintype T]
+    (U : Regulator → P → SU2)
+    (monomials : T → List (List P))
+    (coeff : Regulator → T → ℂ)
+    (B r : ℝ) (hr : 0 ≤ r)
+    (hbudget : ∀ a, wilsonWordPolynomialBudget monomials (coeff a) ≤ B)
+    (s : ℂ) (hs : ‖s‖ ≤ r) :
+    ∀ a, ‖wilsonWordExternalRoot (U a) monomials (coeff a) s‖ ≤
+      Real.exp (r * B) + 1 := by
+  intro a
+  have hpoly : ‖wilsonWordPolynomial (U a) monomials (coeff a)‖ ≤ B :=
+    (wilson_word_polynomial_bound (U a) monomials (coeff a)).trans
+      (hbudget a)
+  have hz : ‖s * wilsonWordPolynomial (U a) monomials (coeff a)‖ ≤
+      r * B := by
+    rw [norm_mul]
+    exact mul_le_mul hs hpoly (norm_nonneg _) hr
+  have hexp :
+      ‖Complex.exp (s * wilsonWordPolynomial (U a) monomials (coeff a))‖ ≤
+        Real.exp (r * B) :=
+    (Complex.norm_exp_le_exp_norm _).trans (Real.exp_le_exp.mpr hz)
+  calc
+    ‖wilsonWordExternalRoot (U a) monomials (coeff a) s‖ ≤
+        ‖Complex.exp (s * wilsonWordPolynomial
+            (U a) monomials (coeff a))‖ + ‖(1 : ℂ)‖ :=
+      norm_sub_le _ _
+    _ ≤ Real.exp (r * B) + 1 := by
+      simpa using add_le_add_right hexp 1
+
 end YMUIC.Wilson
