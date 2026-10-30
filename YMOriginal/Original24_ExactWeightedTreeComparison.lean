@@ -56,7 +56,7 @@ theorem original24_exact_two_root_weighted_tree_le_single_q
       Finset.prod_nonneg (fun i _ => norm_nonneg _)
     by_cases hc : (actualExactTwoRootGraph n N chi
       rootP rootQ support tuple).Connected
-    · simp only [if_pos hc]
+    · simp only [hc, ite_true]
       have hcard : ((exactExtendedSpanningTrees n
           (actualExactTwoRootGraph n N chi
             rootP rootQ support tuple)).card : ℝ) ≤
@@ -66,7 +66,7 @@ theorem original24_exact_two_root_weighted_tree_le_single_q
           (original24_exact_tree_count_le_single_q
             n N chi rootP rootQ support tuple)
       exact mul_le_mul_of_nonneg_right hcard hprod
-    · simp only [if_neg hc]
+    · simp only [hc, ite_false]
       exact mul_nonneg (Nat.cast_nonneg _) hprod
   have hsum :
       (∑ tuple : Fin n → Γ,
