@@ -32,11 +32,13 @@ theorem true_site_coordinate_le_norm
     a * (site i : ℝ) ≤ ‖trueLatticeSitePosition a site‖ := by
   have hx : 0 ≤ a * (site i : ℝ) :=
     mul_nonneg ha (by positivity)
-  have h := lp.norm_apply_le_norm
-    (by norm_num : (2 : ENNReal) ≠ 0)
-    (trueLatticeSitePosition a site) i
-  change ‖a * (site i : ℝ)‖ ≤ ‖trueLatticeSitePosition a site‖ at h
-  rwa [Real.norm_eq_abs, abs_of_nonneg hx] at h
+  apply (sq_le_sq₀ hx (norm_nonneg _)).mp
+  rw [EuclideanSpace.real_norm_sq_eq]
+  have hcoord := Finset.single_le_sum
+    (fun j (_ : j ∈ (Finset.univ : Finset (Fin 4))) =>
+      sq_nonneg ((trueLatticeSitePosition a site) j))
+    (Finset.mem_univ i)
+  simpa [trueLatticeSitePosition] using hcoord
 
 /-- Elementary polynomial-weight estimate with a dimension-independent
 explicit exponent, avoiding noncomputable geometric bounds. -/
