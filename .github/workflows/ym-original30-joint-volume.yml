@@ -6,6 +6,7 @@ on:
     paths:
       - "YMOriginal/Original30_JointProductSchwartzDecay.lean"
       - "YMOriginal/Original30_AllVolumeJointWilson.lean"
+      - "YMOriginal/Original30_CanonicalJointLocations.lean"
       - ".github/workflows/ym-original30-joint-volume.yml"
   workflow_dispatch:
 
@@ -47,10 +48,10 @@ jobs:
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original30_JointProductSchwartzDecay.lean; then exit 1; fi
           lake build +YMOriginal.Original30_JointProductSchwartzDecay:olean
           lake env lean -DwarningAsError=true YMOriginal/Original30_JointProductSchwartzDecay.lean
-          if [ -f YMOriginal/Original30_AllVolumeJointWilson.lean ]; then
-            lake build +YMOriginal.Original30_AllVolumeJointWilson:olean
-            lake env lean -DwarningAsError=true YMOriginal/Original30_AllVolumeJointWilson.lean
-          fi
+          lake build +YMOriginal.Original30_AllVolumeJointWilson:olean
+          lake env lean -DwarningAsError=true YMOriginal/Original30_AllVolumeJointWilson.lean
+          lake build +YMOriginal.Original30_CanonicalJointLocations:olean
+          lake env lean -DwarningAsError=true YMOriginal/Original30_CanonicalJointLocations.lean
       - name: Strict root statements and axiom audit
         shell: bash
         run: |
@@ -59,6 +60,7 @@ jobs:
           mkdir -p verification/joint-volume
           {
             echo "import YMOriginal.Original30_JointProductSchwartzDecay"
+            echo "import YMOriginal.Original30_CanonicalJointLocations"
             if [ -f YMOriginal/Original30_AllVolumeJointWilson.lean ]; then
               echo "import YMOriginal.Original30_AllVolumeJointWilson"
             fi
@@ -69,6 +71,10 @@ jobs:
             if [ -f YMOriginal/Original30_AllVolumeJointWilson.lean ]; then
               echo "#print YMUIC.Original30.actual_joint_bare_wilson_all_volume_bound"
               echo "#print axioms YMUIC.Original30.actual_joint_bare_wilson_all_volume_bound"
+              echo "#print YMUIC.Original30.actual_joint_bare_wilson_all_volume_canonical"
+              echo "#print axioms YMUIC.Original30.actual_joint_spatial_coordinate"
+              echo "#print axioms YMUIC.Original30.actual_joint_spatial_norm_dominates_component"
+              echo "#print axioms YMUIC.Original30.actual_joint_bare_wilson_all_volume_canonical"
             fi
           } > verification/joint-volume/Audit.lean
           lake env lean -DwarningAsError=true verification/joint-volume/Audit.lean | tee verification/joint-volume/axioms.log
