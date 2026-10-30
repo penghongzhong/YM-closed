@@ -54,9 +54,9 @@ theorem actual_link_walk_support_radius
       intro v hv
       rcases List.mem_cons.mp hv with rfl | hv
       · calc
-          dist (position base) (position nxt) ≤ a :=
-            hNN base nxt hEdge
-          _ ≤ ((nxt :: rest).length : ℝ) * a := by
+          dist (position base) (position v) ≤ a :=
+            hNN base v hEdge
+          _ ≤ ((v :: rest).length : ℝ) * a := by
             simp only [List.length_cons, Nat.cast_add, Nat.cast_one]
             have hlen : (0 : ℝ) ≤ rest.length :=
               Nat.cast_nonneg _
