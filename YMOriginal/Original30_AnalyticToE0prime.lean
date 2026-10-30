@@ -31,7 +31,8 @@ structure JointSourceAnalyticCertificate
     (H : YMUIC.Original34.SchwingerHierarchy) where
   radius : ℝ
   radius_pos : 0 < radius
-  q k : ℕ
+  q : ℕ
+  k : ℕ
   M : ℝ
   M_ge_one : 1 ≤ M
   source : (r : ℕ) → YMUIC.Original34.JointTest r → ℂ → ℂ
