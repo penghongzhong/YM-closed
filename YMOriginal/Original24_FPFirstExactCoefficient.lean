@@ -204,8 +204,7 @@ theorem original24_exact_first_FP_coefficient_from_U1
           rootP rootQ support, ‖z X‖) =
       ∑ X ∈ actualOnePolymerTwoRootBridge N chi
         rootP rootQ support, lam * eps * ‖z X‖ := by
-          rw [Finset.mul_sum, Finset.mul_sum]
-          ring
+          rw [Finset.mul_sum]
     _ ≤ _ := hKP
 
 end YMUIC.Original24
