@@ -4,6 +4,7 @@ on:
     branches: [ym-original24-real-two-root-fp-20261030]
     paths:
       - "YMOriginal/Original24_ExactRealTwoRootFPSeries.lean"
+      - "YMOriginal/Original24_BalabanTwoRootRealFullSeries.lean"
       - ".github/workflows/ym-original24-exact-real-fp.yml"
   workflow_dispatch:
 
@@ -42,6 +43,8 @@ jobs:
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' "$f"; then exit 1; fi
           lake build +YMOriginal.Original24_ExactRealTwoRootFPSeries:olean
           lake env lean -DwarningAsError=true "$f"
+          lake build +YMOriginal.Original24_BalabanTwoRootRealFullSeries:olean
+          lake env lean -DwarningAsError=true YMOriginal/Original24_BalabanTwoRootRealFullSeries.lean
       - name: Root theorem type and axiom audit
         shell: bash
         run: |
@@ -50,12 +53,15 @@ jobs:
           mkdir -p verification/real-two-root-fp
           cat > verification/real-two-root-fp/Audit.lean <<'LEAN'
           import YMOriginal.Original24_ExactRealTwoRootFPSeries
+          import YMOriginal.Original24_BalabanTwoRootRealFullSeries
           set_option pp.universes true
           #print YMUIC.Original24.PhysicalExactTwoRootFPCriterion
           #print YMUIC.Original24.actual_exact_two_root_positive_tree_weight
           #print YMUIC.Original24.actual_original24_two_root_mayer_full_sum_from_U1_FP
           #print axioms YMUIC.Original24.actual_exact_two_root_positive_tree_weight
           #print axioms YMUIC.Original24.actual_original24_two_root_mayer_full_sum_from_U1_FP
+          #print YMUIC.Original24.original24_balaban_real_old_new_complete_two_root_series
+          #print axioms YMUIC.Original24.original24_balaban_real_old_new_complete_two_root_series
           LEAN
           lake env lean -DwarningAsError=true verification/real-two-root-fp/Audit.lean | tee verification/real-two-root-fp/axioms.log
           if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/real-two-root-fp/axioms.log; then exit 1; fi
