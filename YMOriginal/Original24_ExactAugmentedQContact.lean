@@ -54,8 +54,7 @@ theorem actual_augmented_bulk_children_iff_original
         (fun W => ∃ Delta ∈ actualRootNeighbourhood
           (support X) (fourDimPeriodicNeighborhood N chi),
           Delta ∈ support W)
-  simp only [Finset.mem_filter, Finset.mem_univ, true_and,
-    actualSecondRootAugmentedSupport]
+  simp only [Set.mem_ofPred_eq, actualSecondRootAugmentedSupport]
 
 /-- A physical q-root edge to the bulk polymer X is EXACTLY the
 first-child contact of the augmented q-species with X.
@@ -88,8 +87,7 @@ theorem actual_augmented_second_root_bulk_contact_iff
         (fun W => ∃ Delta ∈ actualRootNeighbourhood
           rootQ (fourDimPeriodicNeighborhood N chi),
           Delta ∈ support W)
-  simp only [Finset.mem_filter, Finset.mem_univ, true_and,
-    actualSecondRootAugmentedSupport]
+  simp only [Set.mem_ofPred_eq, actualSecondRootAugmentedSupport]
 
 /-- The augmented system's possible extra *direct* p--q edge is
 exactly actual physical chi-contact of the two fixed Wilson
@@ -118,7 +116,6 @@ theorem actual_augmented_pq_contact_iff
       ↔
     ∃ Delta ∈ actualRootNeighbourhood
       rootP (fourDimPeriodicNeighborhood N chi), Delta ∈ rootQ
-  simp only [Finset.mem_filter, Finset.mem_univ, true_and,
-    actualSecondRootAugmentedSupport]
+  simp only [Set.mem_ofPred_eq, actualSecondRootAugmentedSupport]
 
 end YMUIC.Original24
