@@ -91,3 +91,36 @@ are derived.
 
 Do not increment 37/39 merely because the candidate
 fixed-D terminal module compiles.
+
+
+## Latest one-environment strict Lean receipt (official)
+
+Actions #41084019357:
+https://github.com/penghongzhong/YM-closed/actions/runs/41084019357
+
+SUCCESS, 9017/9017 fixed-pin Lean tasks; warnings-as-errors complete;
+full theorem type printing, axiom audit, no sorryAx or custom
+axiom. Source: YMOriginal/Original24_FixedDMainCore.lean.
+
+Theorem: YMUIC.Original24.original24_fixedD_same_source_full_series_and_cocycle.
+
+This is ONE substantial FIXED-D conditional terminal environment
+rather than a series of unconnected auxiliary lemma files:
+actual native-shell Balaban old/new source activities and exact
+n+2 hard-core two-root complex Mayer series; absolute full-series
+summability and quantitative norm of the SAME lifted source;
+same finite-dimensional continuous-linear source map and
+Original19 ordered invertible counterterm cocycle; true jet
+projection, local/remainder splitting, and exact transported
+dual source pairing.
+
+IMPORTANT: this new proved conditional terminal is not the
+UNCHANGED original manuscript thm:B11-repair environment. It
+still has explicit PhysicalExactTwoRootFPCriterion inputs,
+abstract U1Data not identified with the actual CMP119/122
+Yang--Mills history construction, and a supplied real-linear
+sourceLift not derived from the true composite-source chart.
+It does not yet supply the physical RG fifth-order B10
+localization/canonical a^(4-d) source coordinates.
+Original-environment conditional historical count remains
+37/39, not 38/39.
