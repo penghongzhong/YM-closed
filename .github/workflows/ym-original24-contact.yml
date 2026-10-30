@@ -4,6 +4,7 @@ on:
     branches: [ym-original24-link-wilson-20261030]
     paths:
       - "YMOriginal/Original24_ActualRootContactCounting.lean"
+      - "YMOriginal/Original24_PeriodicFourDimContact.lean"
       - ".github/workflows/ym-original24-contact.yml"
   workflow_dispatch:
 permissions:
@@ -36,12 +37,16 @@ jobs:
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original24_ActualRootContactCounting.lean; then exit 1; fi
-          lake build +YMOriginal.Original24_ActualRootContactCounting:olean
+          lake build +YMOriginal.Original24_PeriodicFourDimContact:olean
           cat > ActualRootContactAudit.lean <<'LEAN'
-          import YMOriginal.Original24_ActualRootContactCounting
+          import YMOriginal.Original24_PeriodicFourDimContact
+          #print YMUIC.Original24.four_dim_periodic_neighborhood_card
+          #print YMUIC.Original24.periodic_four_dim_root_contact_from_U1_norm
           #print YMUIC.Original24.actual_root_contact_covered
           #print YMUIC.Original24.actual_root_neighborhood_card_le
           #print YMUIC.Original24.actual_root_contact_sum_from_block_norm
+          #print axioms YMUIC.Original24.four_dim_periodic_neighborhood_card
+          #print axioms YMUIC.Original24.periodic_four_dim_root_contact_from_U1_norm
           #print axioms YMUIC.Original24.actual_root_contact_covered
           #print axioms YMUIC.Original24.actual_root_neighborhood_card_le
           #print axioms YMUIC.Original24.actual_root_contact_sum_from_block_norm
