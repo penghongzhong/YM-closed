@@ -86,7 +86,7 @@ theorem actual_site_schwartz_cubature_point
     _ = 128 *
       (SchwartzMap.seminorm ℂ 0 0 f +
         SchwartzMap.seminorm ℂ 8 0 f) *
-        latticeFourDimWeight a site := by rw [heq]; rfl
+        latticeFourDimWeight a site := by rw [heq]
 
 /-- Actual six positive plaquette orientations at each physical 4D
 lattice site, retaining the site coordinate rather than an opaque
