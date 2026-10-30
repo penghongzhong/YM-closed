@@ -55,8 +55,8 @@ theorem original24_old_new_U1_factors_tendsto_zero
       (𝓝[>] (0 : ℝ)) (𝓝 0) :=
     Real.tendsto_exp_atBot.comp hn
   constructor
-  · simpa only [oldRActivityFactor] using hp.const_mul CR
-  · simpa only [newRActivityFactor] using he.const_mul CRnew
+  · simpa only [oldRActivityFactor, mul_zero] using hp.const_mul CR
+  · simpa only [newRActivityFactor, mul_zero] using he.const_mul CRnew
 
 /-- One common physical weak-coupling stopping bound makes
 BOTH actual FP smallness hypotheses true, for the SAME
@@ -81,13 +81,13 @@ theorem original24_old_new_FP_margin_from_decay
         8 * B * (oldRActivityFactor g kappa0 CR * Ccount))
       (𝓝[>] (0 : ℝ)) (𝓝 0) := by
     have h := ((hOld.mul_const Ccount).const_mul (8 * B))
-    exact h
+    simpa only [zero_mul, mul_zero] using h
   have hNew0 : Tendsto
       (fun g : ℝ =>
         8 * B * (newRActivityFactor g CRnew p0 * Ccount))
       (𝓝[>] (0 : ℝ)) (𝓝 0) := by
     have h := ((hNew.mul_const Ccount).const_mul (8 * B))
-    exact h
+    simpa only [zero_mul, mul_zero] using h
   have hev : {g : ℝ |
       8 * B * (oldRActivityFactor g kappa0 CR * Ccount) < delta ∧
       8 * B * (newRActivityFactor g CRnew p0 * Ccount) < delta}
