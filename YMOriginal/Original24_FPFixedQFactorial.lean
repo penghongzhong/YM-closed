@@ -29,7 +29,7 @@ theorem original24_succ_le_two_pow (n : ℕ) :
   | zero => norm_num
   | succ n ih =>
       rw [pow_succ]
-      have hp : 1 ≤ 2 ^ n := by positivity
+      have hp : 0 < 2 ^ n := pow_pos (by norm_num) n
       omega
 
 /-- The EXACT factorial cost of fixing q at one tagged position is
