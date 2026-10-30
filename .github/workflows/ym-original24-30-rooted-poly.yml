@@ -65,6 +65,9 @@ jobs:
           #print axioms YMUIC.Wilson.wilson_word_polynomial_bound
           #print axioms YMUIC.Wilson.wilson_word_external_root_small
           #print axioms YMUIC.Wilson.wilson_word_external_root_all_regulators
+          #print axioms YMUIC.Wilson.wilson_word_polynomial_schwartz_bound
+          #print axioms YMUIC.Wilson.wilson_word_polynomial_schwartz_all_regulators
+          #print axioms YMUIC.Wilson.wilson_word_external_root_any_radius
           #print YMUIC.OSGrowth.finite_polymer_polynomial_schwinger_growth
           #print axioms YMUIC.OSGrowth.finite_polymer_polynomial_schwinger_growth
           LEAN
