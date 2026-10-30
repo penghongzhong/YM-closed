@@ -4,6 +4,7 @@ on:
     branches: [ym-original24-link-wilson-20261030]
     paths:
       - "YMOriginal/Original30_OneDimCubature.lean"
+      - "YMOriginal/Original30_FourDimCubature.lean"
       - ".github/workflows/ym-original30-cubature.yml"
   workflow_dispatch:
 permissions:
@@ -36,12 +37,17 @@ jobs:
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original30_OneDimCubature.lean; then exit 1; fi
-          lake build +YMOriginal.Original30_OneDimCubature:olean
+          lake build +YMOriginal.Original30_FourDimCubature:olean
           cat > CubatureAudit.lean <<'LEAN'
-          import YMOriginal.Original30_OneDimCubature
+          import YMOriginal.Original30_FourDimCubature
+          #print YMUIC.Original30.lattice_four_dimensional_uniform_all_cutoffs
+          #print YMUIC.Original30.lattice_plaquette_four_dimensional_uniform
           #print YMUIC.Original30.lattice_inverse_square_telescope_step
           #print YMUIC.Original30.lattice_inverse_square_prefix
           #print YMUIC.Original30.lattice_inverse_square_uniform_all_cutoffs
+          #print axioms YMUIC.Original30.lattice_one_dim_weight_nonneg
+          #print axioms YMUIC.Original30.lattice_four_dimensional_uniform_all_cutoffs
+          #print axioms YMUIC.Original30.lattice_plaquette_four_dimensional_uniform
           #print axioms YMUIC.Original30.lattice_inverse_square_telescope_step
           #print axioms YMUIC.Original30.lattice_inverse_square_prefix
           #print axioms YMUIC.Original30.lattice_inverse_square_uniform_all_cutoffs
