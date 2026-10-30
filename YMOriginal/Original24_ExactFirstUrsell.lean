@@ -44,7 +44,8 @@ theorem original24_exact_connected_graph_sum_of_tree
     le_antisymm hHG (hMin.2 hHC hHG)
   unfold exactExtendedConnectedGraphSum
   rw [Finset.sum_eq_single G]
-  · rfl
+  · have hroot : G ≤ G ∧ G.Connected := ⟨le_rfl, hG.connected⟩
+    simp [hroot]
   · intro H _ hne
     have hno : ¬(H ≤ G ∧ H.Connected) := by
       intro hh
