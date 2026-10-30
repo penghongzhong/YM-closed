@@ -1,0 +1,73 @@
+name: Original24 physical two-root to single-q graph embedding
+on:
+  push:
+    branches: [ym-original24-fp-graph-20261031]
+    paths:
+      - "YMOriginal/Original24_ExactGraphToSingleQ.lean"
+      - "YMOriginal/Original24_ExactAugmentedQContact.lean"
+      - "YMOriginal/Original24_UniqueQFactorial.lean"
+      - ".github/workflows/ym-original24-fp-graph.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lean 4.35.0-rc3 official pin
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Mathlib exact pin
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: True compiled graph theorem and pinned axiom audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          for f in YMOriginal/Original24_ExactAugmentedQContact.lean YMOriginal/Original24_UniqueQFactorial.lean YMOriginal/Original24_ExactGraphToSingleQ.lean; do
+            if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' "$f"; then
+              echo "Prohibited declaration found in $f"; exit 1
+            fi
+          done
+          lake build +YMOriginal.Original24_ExactGraphToSingleQ:olean
+          lake env lean -DwarningAsError=true YMOriginal/Original24_ExactGraphToSingleQ.lean
+      - name: Exact terminal type and axioms
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/original24-fp-graph
+          cat > verification/original24-fp-graph/Audit.lean <<'LEAN'
+          import YMOriginal.Original24_ExactGraphToSingleQ
+          set_option pp.universes true
+          #print YMUIC.Original24.original24_exact_relation_to_single_q
+          #print axioms YMUIC.Original24.original24_exact_relation_to_single_q
+          #print YMUIC.Original24.original24_exact_graph_embeds_single_q
+          #print axioms YMUIC.Original24.original24_exact_graph_embeds_single_q
+          #print axioms YMUIC.Original24.original24_unique_second_root_factorial
+          LEAN
+          lake env lean -DwarningAsError=true verification/original24-fp-graph/Audit.lean | tee verification/original24-fp-graph/axioms.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original24-fp-graph/axioms.log; then exit 1; fi
+      - name: Save evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original24-actual-graph-to-q
+          path: verification/original24-fp-graph/axioms.log
+          if-no-files-found: warn
