@@ -31,7 +31,7 @@ theorem actual_wilson_word_insertion_full_radius
     (U : P → SU2)
     (words : T → List (List P)) (coeff : T → ℂ)
     (s : ℂ) (radius B : ℝ)
-    (hr : 0 ≤ radius) (hB : 0 ≤ B)
+    (hr : 0 ≤ radius) (_hB : 0 ≤ B)
     (hs : ‖s‖ ≤ radius)
     (hbudget : actualWilsonPolynomialBudget words coeff ≤ B) :
     ‖actualWilsonInsertion U words coeff s‖ ≤
