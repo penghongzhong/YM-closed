@@ -130,7 +130,9 @@ theorem actual_root_contact_sum_from_block_norm
             ∀ Delta' ∈ A,
               0 ≤ if X ∈ T Delta' then weight X else 0 := by
           intro Delta' _
-          split_ifs <;> positivity
+          by_cases hm : X ∈ T Delta'
+          · simpa only [if_pos hm] using hweight X
+          · simp [hm]
         have h := Finset.single_le_sum hnonneg hDelta
         simpa [hIn] using h
       _ ≤ ∑ X ∈ (Finset.univ : Finset Γ),
@@ -140,7 +142,9 @@ theorem actual_root_contact_sum_from_block_norm
         · intro X _ _
           apply Finset.sum_nonneg
           intro Delta _
-          split_ifs <;> positivity
+          by_cases hm : X ∈ T Delta
+          · simpa only [if_pos hm] using hweight X
+          · simp [hm]
       _ = ∑ Delta ∈ A, ∑ X ∈ T Delta, weight X := by
         rw [Finset.sum_comm]
         apply Finset.sum_congr rfl
