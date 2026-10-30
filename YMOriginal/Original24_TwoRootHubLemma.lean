@@ -67,4 +67,49 @@ theorem actual_two_root_extended_connected_by_q_hub
   exact (SimpleGraph.connected_iff_exists_forall_reachable).mpr
     ⟨Sum.inr (1 : Fin 2), hReach⟩
 
+
+/-- If two physically labeled bulk polymers are mutually COMPATIBLE
+while root-p touches history 0 and root-q touches both histories,
+then the FULL n+2-vertex graph is connected but its bulk-only
+n-vertex incompatibility graph is DISCONNECTED.
+
+Hence deleting root-q from a full connected tree is NOT a valid
+automatic reduction to the already-verified one-root U2 KP sum.
+The original second-root branching is a genuine extra combinatorial
+obligation, not a definitional equality. -/
+theorem actual_two_root_hub_not_bulk_connected
+    {Γ : Type*} [Fintype Γ]
+    (N chi : ℕ)
+    (rootP rootQ : Finset (PeriodicBlock N))
+    (support : Γ → Finset (PeriodicBlock N))
+    (tuple : Fin 2 → Γ)
+    (hPA : tuple 0 ∈ actualContactRoot rootP
+      (fourDimPeriodicNeighborhood N chi) support)
+    (hQA : tuple 0 ∈ actualContactRoot rootQ
+      (fourDimPeriodicNeighborhood N chi) support)
+    (hQB : tuple 1 ∈ actualContactRoot rootQ
+      (fourDimPeriodicNeighborhood N chi) support)
+    (hAB : ¬ actualPeriodicHardCoreIncompatible N chi support
+      (tuple 0) (tuple 1)) :
+    (actualExactTwoRootGraph 2 N chi
+      rootP rootQ support tuple).Connected ∧
+    ¬(actualPeriodicLabeledHardCoreGraph 2 N chi support tuple).Connected := by
+  let H : SimpleGraph (Fin 2) :=
+    actualPeriodicLabeledHardCoreGraph 2 N chi support tuple
+  have hNotConn : ¬ H.Connected := by
+    intro h
+    have hni : ¬H.IsIsolated (0 : Fin 2) :=
+      h.preconnected.not_isIsolated _
+    obtain ⟨v, hv⟩ :=
+      (SimpleGraph.exists_adj_iff_not_isIsolated
+        (G := H) (v := (0 : Fin 2))).2 hni
+    fin_cases v
+    · exact (H.loopless _ hv).elim
+    · have hx :=
+        (actual_periodic_labeled_hardcore_adj 2 N chi
+          support tuple (0 : Fin 2) (1 : Fin 2)).mp hv
+      exact hAB hx.2
+  exact ⟨actual_two_root_extended_connected_by_q_hub
+    N chi rootP rootQ support tuple hPA hQA hQB, hNotConn⟩
+
 end YMUIC.Original24
