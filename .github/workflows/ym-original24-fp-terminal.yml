@@ -12,6 +12,7 @@ on:
       - "YMOriginal/Original24_ActualHardCoreGraph.lean"
       - "YMOriginal/Original24_PeriodicHardCoreEquivalence.lean"
       - "YMOriginal/Original24_FiniteMayerUrsell.lean"
+      - "YMOriginal/Original24_TwoRootMayerSeries.lean"
       - "YMOriginal/Original24_ConnectedWilsonB10.lean"
       - ".github/workflows/ym-original24-fp-terminal.yml"
   workflow_dispatch:
@@ -64,6 +65,8 @@ jobs:
           lake env lean -DwarningAsError=true YMOriginal/Original24_PeriodicHardCoreEquivalence.lean
           lake build +YMOriginal.Original24_FiniteMayerUrsell:olean
           lake env lean -DwarningAsError=true YMOriginal/Original24_FiniteMayerUrsell.lean
+          lake build +YMOriginal.Original24_TwoRootMayerSeries:olean
+          lake env lean -DwarningAsError=true YMOriginal/Original24_TwoRootMayerSeries.lean
           lake build +YMOriginal.Original24_ConnectedWilsonB10:olean
           lake env lean -DwarningAsError=true YMOriginal/Original24_ConnectedWilsonB10.lean
       - name: Print full types and audit axioms
@@ -82,6 +85,7 @@ jobs:
           import YMOriginal.Original24_ActualHardCoreGraph
           import YMOriginal.Original24_PeriodicHardCoreEquivalence
           import YMOriginal.Original24_FiniteMayerUrsell
+          import YMOriginal.Original24_TwoRootMayerSeries
           set_option pp.universes true
           #print YMUIC.Original24.original24_connected_ursell_from_periodic_FP
           #print YMUIC.Original24.original24_actual_two_root_connected_ursell
@@ -111,6 +115,10 @@ jobs:
           #print YMUIC.Original24.actualBalabanNewRConnectedMayerTerm
           #print axioms YMUIC.Original24.actual_periodic_connected_mayer_zero_of_disconnected
           #print axioms YMUIC.Original24.actual_periodic_connected_mayer_abs_le_graph_count
+          #print YMUIC.Original24.actualBalabanOldRTwoRootHardCoreTerm
+          #print YMUIC.Original24.actualBalabanNewRTwoRootHardCoreTerm
+          #print axioms YMUIC.Original24.actual_two_root_mayer_zero_of_empty_first_contact
+          #print axioms YMUIC.Original24.actual_two_root_mayer_swap
           #print YMUIC.Original24.original24_connected_Wilson_B10_from_U1_FP
           #print axioms YMUIC.Original24.original24_connected_Wilson_B10_from_U1_FP
           LEAN
