@@ -1,7 +1,7 @@
 name: YM Original24 one Fixed-D main environment strict Lean
 on:
   push:
-    branches: [ym-original24-fixed-d-main-core-20261030]
+    branches: [ym-original24-fixed-d-leap-repair-20261030]
     paths:
       - "YMOriginal/Original24_FixedDMainCore.lean"
       - ".github/workflows/ym-original24-fixed-d-main.yml"
