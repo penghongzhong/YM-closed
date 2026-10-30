@@ -76,8 +76,10 @@ theorem joint_schwartz_pays_product_spatial_weights
   have hweight :
       (1 + ‖y‖ ^ (8 * r)) * ‖f y‖ ≤
         SchwartzMap.seminorm ℂ 0 0 f +
-          SchwartzMap.seminorm ℂ (8 * r) 0 f :=
-    schwartz_weighted_point_bound (8 * r) f y
+          SchwartzMap.seminorm ℂ (8 * r) 0 f := by
+    have h0 := f.norm_le_seminorm ℂ y
+    have hq := f.norm_pow_mul_le_seminorm ℂ (8 * r) y
+    nlinarith
   calc
     (∏ j : Fin r, (1 + ‖sites j‖ ^ 8)) * ‖f y‖ ≤
       (1 + ‖y‖ ^ 8) ^ r * ‖f y‖ :=
