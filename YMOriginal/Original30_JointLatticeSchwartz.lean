@@ -136,7 +136,7 @@ is assumed. The result applies to any genuine joint 4r Schwartz f. -/
 theorem actual_word_joint_physical_box_bound
     {W T : Type*} [Fintype T]
     (r N : ℕ) (a R : ℝ)
-    (ha : 0 ≤ a) (hR : 0 ≤ R)
+    (ha : 0 ≤ a) (_hR : 0 ≤ R)
     (hbox : (N : ℝ) * a ≤ R)
     (U : WilsonBoxPlaquettes N → W → SU2)
     (words : WilsonBoxPlaquettes N → T → List (List W))
