@@ -6,6 +6,7 @@ noncomputable section
 
 namespace YMUIC.Original30
 open YMUIC.Wilson
+open YMUIC.Original24
 open YMUICV128.Section03
 
 /-!
