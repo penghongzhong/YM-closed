@@ -67,7 +67,6 @@ theorem actual_schwartz_directional_fifth_bound
       mul_le_mul_of_nonneg_right hTest hscale
     _ = Mf * (aJ / aN) ^ 5 * ‖displacement γ‖ ^ 5 := by
       field_simp [haN.ne']
-      ring
 
 /-- Actual finite-cutoff marked external Wilson-word source B10
 fifth-order Taylor conclusion, from U1 unmarked exponential
