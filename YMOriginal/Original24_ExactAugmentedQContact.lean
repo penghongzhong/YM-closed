@@ -43,9 +43,19 @@ theorem actual_augmented_bulk_children_iff_original
           (Sum.inl X) ↔
       Y ∈ actualPeriodicPolymerChildren N chi support X := by
   classical
-  simp only [actualPeriodicPolymerChildren,
-    actualContactRoot, actualSecondRootAugmentedSupport,
-    Finset.mem_filter, Finset.mem_univ, true_and]
+  change
+    (Sum.inl Y : Sum Γ Unit) ∈
+      (Finset.univ : Finset (Sum Γ Unit)).filter
+        (fun W => ∃ Delta ∈ actualRootNeighbourhood
+          (support X) (fourDimPeriodicNeighborhood N chi),
+          Delta ∈ actualSecondRootAugmentedSupport N support rootQ W)
+      ↔
+    Y ∈ (Finset.univ : Finset Γ).filter
+        (fun W => ∃ Delta ∈ actualRootNeighbourhood
+          (support X) (fourDimPeriodicNeighborhood N chi),
+          Delta ∈ support W)
+  simp only [Finset.mem_filter, Finset.mem_univ, true_and,
+    actualSecondRootAugmentedSupport]
 
 /-- A physical q-root edge to the bulk polymer X is EXACTLY the
 first-child contact of the augmented q-species with X.
@@ -67,9 +77,19 @@ theorem actual_augmented_second_root_bulk_contact_iff
   rw [actual_periodic_polymer_children_symm N chi
     (actualSecondRootAugmentedSupport N support rootQ)
     (Sum.inl X) (Sum.inr ())]
-  simp only [actualPeriodicPolymerChildren, actualContactRoot,
-    actualSecondRootAugmentedSupport,
-    Finset.mem_filter, Finset.mem_univ, true_and]
+  change
+    (Sum.inl X : Sum Γ Unit) ∈
+      (Finset.univ : Finset (Sum Γ Unit)).filter
+        (fun W => ∃ Delta ∈ actualRootNeighbourhood
+          rootQ (fourDimPeriodicNeighborhood N chi),
+          Delta ∈ actualSecondRootAugmentedSupport N support rootQ W)
+      ↔
+    X ∈ (Finset.univ : Finset Γ).filter
+        (fun W => ∃ Delta ∈ actualRootNeighbourhood
+          rootQ (fourDimPeriodicNeighborhood N chi),
+          Delta ∈ support W)
+  simp only [Finset.mem_filter, Finset.mem_univ, true_and,
+    actualSecondRootAugmentedSupport]
 
 /-- The augmented system's possible extra *direct* p--q edge is
 exactly actual physical chi-contact of the two fixed Wilson
@@ -89,7 +109,16 @@ theorem actual_augmented_pq_contact_iff
         (fourDimPeriodicNeighborhood N chi),
           Delta ∈ rootQ := by
   classical
-  simp only [actualContactRoot, actualSecondRootAugmentedSupport,
-    Finset.mem_filter, Finset.mem_univ, true_and]
+  change
+    (Sum.inr () : Sum Γ Unit) ∈
+      (Finset.univ : Finset (Sum Γ Unit)).filter
+        (fun W => ∃ Delta ∈ actualRootNeighbourhood
+          rootP (fourDimPeriodicNeighborhood N chi),
+          Delta ∈ actualSecondRootAugmentedSupport N support rootQ W)
+      ↔
+    ∃ Delta ∈ actualRootNeighbourhood
+      rootP (fourDimPeriodicNeighborhood N chi), Delta ∈ rootQ
+  simp only [Finset.mem_filter, Finset.mem_univ, true_and,
+    actualSecondRootAugmentedSupport]
 
 end YMUIC.Original24
