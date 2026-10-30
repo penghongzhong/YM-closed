@@ -56,7 +56,7 @@ theorem four_dim_periodic_neighborhood_card
       (Finset.univ : Finset (Fin 4 → Fin (2 * chi + 1))).card :=
         Finset.card_image_le
     _ = (2 * chi + 1) ^ 4 := by
-      simp [Fintype.card_fun, Fintype.card_fin]
+      simp [Fintype.card_fin]
 
 /-- The REAL periodic N^4 4D root-contact bound, with both UV cutoff
 N and physical volume absent from the root-count prefactor. -/
