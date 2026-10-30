@@ -119,13 +119,15 @@ theorem actual_periodic_labeled_hardcore_adj
 def actualPeriodicMayerBond
     {Γ : Type*} [Fintype Γ] (N chi : ℕ)
     (support : Γ → Finset (PeriodicBlock N))
-    (X Y : Γ) : ℝ :=
-  if actualPeriodicHardCoreIncompatible N chi support X Y then -1 else 0
+    (X Y : Γ) : ℝ := by
+  classical
+  exact if actualPeriodicHardCoreIncompatible N chi support X Y then -1 else 0
 
 theorem actual_periodic_mayer_bond_self
     {Γ : Type*} [Fintype Γ] (N chi : ℕ)
     (support : Γ → Finset (PeriodicBlock N)) (X : Γ) :
     actualPeriodicMayerBond N chi support X X = -1 := by
+  classical
   simp [actualPeriodicMayerBond,
     actual_periodic_hardcore_incompatible_refl]
 
@@ -134,8 +136,17 @@ theorem actual_periodic_mayer_bond_symm
     (support : Γ → Finset (PeriodicBlock N)) (X Y : Γ) :
     actualPeriodicMayerBond N chi support X Y =
       actualPeriodicMayerBond N chi support Y X := by
-  simp only [actualPeriodicMayerBond]
-  rw [actual_periodic_hardcore_incompatible_symm N chi support X Y]
+  classical
+  by_cases h : actualPeriodicHardCoreIncompatible N chi support X Y
+  · have h' :=
+      (actual_periodic_hardcore_incompatible_symm
+        N chi support X Y).mp h
+    simp [actualPeriodicMayerBond, h, h']
+  · have h' : ¬ actualPeriodicHardCoreIncompatible N chi support Y X := by
+      intro hy
+      exact h ((actual_periodic_hardcore_incompatible_symm
+        N chi support Y X).mp hy)
+    simp [actualPeriodicMayerBond, h, h']
 
 theorem actual_periodic_mayer_bond_norm_le_one
     {Γ : Type*} [Fintype Γ] (N chi : ℕ)
