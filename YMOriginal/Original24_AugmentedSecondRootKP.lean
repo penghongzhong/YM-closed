@@ -80,10 +80,11 @@ theorem actual_second_root_augmented_local_U1
         ‖z X‖ * Real.exp (kappa * (d X : ℝ))) +
         (if Delta ∈ rootQ then
            epsilon * Real.exp (kappa * (rootQ.card : ℝ)) else 0) := by
-    simp [actualThroughBlock, actualSecondRootAugmentedSupport,
+    simp only [actualThroughBlock, Finset.sum_filter, Finset.sum_univ]
+    rw [Fintype.sum_sum_type]
+    simp [actualSecondRootAugmentedSupport,
       actualSecondRootAugmentedActivity, actualSecondRootAugmentedSize,
-      Fintype.sum_sum_type, Complex.norm_real, Real.norm_eq_abs,
-      abs_of_nonneg heps]
+      Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg heps]
   rw [hSplit]
   have hepsNonneg :
       0 ≤ epsilon * Real.exp (kappa * (rootQ.card : ℝ)) :=
@@ -131,8 +132,12 @@ theorem actual_second_root_augmented_U2_KP
       actualSecondRootAugmentedSize d rootQ.card Y := by
     intro Y
     cases Y with
-    | inl X => exact hsize X
-    | inr _ => rfl.le
+    | inl X =>
+        change (support X).card ≤ d X
+        exact hsize X
+    | inr _ =>
+        change rootQ.card ≤ rootQ.card
+        exact le_refl _
   have hLocalAug :=
     actual_second_root_augmented_local_U1 N support rootQ z d
       kappa aAct epsilon heps hLocalNorm
