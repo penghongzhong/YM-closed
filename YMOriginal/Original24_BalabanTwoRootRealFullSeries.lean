@@ -54,7 +54,6 @@ theorem original24_balaban_real_old_new_complete_two_root_series
     (hdictionary : ∀ X, D.d j X = (d X : ℝ))
     (rootP rootQ : Finset (PeriodicBlock N))
     (kappa mu cGeo Ccount : ℝ)
-    (hCount : 0 ≤ Ccount)
     (hcount : ∀ Delta : PeriodicBlock N,
       (∑ X ∈ actualThroughBlock support Delta,
         Real.exp (-(D.kappaR - kappa) * (d X : ℝ))) ≤ Ccount)
