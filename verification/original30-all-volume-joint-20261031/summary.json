@@ -1,0 +1,94 @@
+{
+  "status": "PASS_BARE_JOINT_ESTIMATE_ONLY",
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "mathlib": "516d31250e96c4e8e76888c3d8e2e43a9642b9ee",
+  "checks": [
+    {
+      "command": [
+        "lake",
+        "build",
+        "YMOriginal.Original30_AllVolumeJointSchwartz"
+      ],
+      "exit_code": 0,
+      "seconds": 5.898,
+      "log": "build.log"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-DwarningAsError=true",
+        "verification/original30-all-volume-joint-20261031/ExactTypesAndAxioms.lean"
+      ],
+      "exit_code": 0,
+      "seconds": 6.716,
+      "log": "exact-types-axioms.log.gz"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "-v",
+        "YMOriginal.Original30_AllVolumeJointSchwartz"
+      ],
+      "exit_code": 0,
+      "seconds": 6.265,
+      "log": "kernel-replay.log"
+    }
+  ],
+  "source_sha256": {
+    "YMOriginal/Original30_AllVolumeJointSchwartz.lean": "5063d9158abb38ceef1aa6697a44b5aa4a671de3c4c297b7921b92e2d21cf463",
+    "YMOriginal/Original30_VolumeUniformWilsonSchwartz.lean": "c391c0c5b770711ba2709d65c2cb8f557cb295ecbeb6853dfa8d9f5a102d9900",
+    "YMOriginal/Original30_SpatialLatticeGeometry.lean": "fb3860df7edb09519c6ead89de7649948eeb11ff9148f508efe51ca9a70cde29",
+    "YMOriginal/Original30_FourDimCubature.lean": "6929c7519b1679b946150fcd9add313ee52e3ccf33a85245e997ffe32030d49c",
+    "YMOriginal/Original30_OneDimCubature.lean": "5c1116857c5a4362d4a6a41abc1e5faf6d4683b9dce2149870e6defe60336c27",
+    "YM/Wilson/WeightedSmearing.lean": "348a7a9525f376109b066b1fecfbe14968815bbfa1fd6e5f8925031c656436d0",
+    "YM/Wilson/SourceDirection.lean": "6c4b8e41913300e7297b2792c0c24d1953038aad43349fb7a622c4412338d414",
+    "YM/Wilson/RootBound.lean": "1deb34b367a5faf93b6eb9a66677f2160f0238dc108da94bded14db0bc4cff37",
+    "YMOriginal/Original30_ActualWordSmearing.lean": "7705a230fe35518c40432d5a6b69f451a1d400f4ac5576ffdd688f229df4fe2f",
+    "YMOriginal/Original24_WilsonWordPolynomial.lean": "25ca729ab66db8080e06db1890955de4c0757990addde87a36cf4435967a0e9d",
+    "YM/Wilson/WordSource.lean": "b2af68a2b68e2494000336c74659de8b507f548bbe5e39406e7f576379fbec09",
+    "YMOriginal/Original30_JointLatticeSchwartz.lean": "6aac51b41bd169dad9f49647cfae76d0d759313ee7134fc48f3f2cd67a81ec0d",
+    "YMOriginal/Original30_ActualWordPhysicalBox.lean": "9c40f1c153f166e61083443754881d1c63aa4e46991d70f6784abd910e982381",
+    "YM/Wilson/FixedBoxSmearing.lean": "21b1dc5628324cf7a928caef420ded8a442456124e35882a2267cd8e02a8169f",
+    "YMOriginal/Original34_OSII_ExternalInterface.lean": "b1a2090eadc1c4b4cbb3bf6301fac54dae7f3e3d2dca1e75efad72ab9ac57d15",
+    "YM/OSTensor/JointSchwartzControl.lean": "efc80c42fbe6c284e11aae3d8c79042d93da8727f4596481d83cc088e59db98b"
+  },
+  "axioms": {
+    "YMUIC.Original30.actualJointLatticePosition": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "YMUIC.Original30.actual_joint_coordinate_le_norm": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "YMUIC.Original30.actual_joint_denominator_bound": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "YMUIC.Original30.actual_word_joint_all_volume_bound": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "YMUIC.Original30.actual_word_joint_probability_all_volume": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "new_main_estimate": "actual_word_joint_probability_all_volume",
+  "scope": "all r, all N, 0<a<=1; full joint Schwartz test at actual nonnegative grid sites",
+  "bound": "(24576*K)^r * (p_(0,0)(F) + p_(8r,0)(F))",
+  "original_environment_30": "OPEN: renormalized source/counterterm and continuum dictionary absent",
+  "original_environment_24": "OPEN: no change",
+  "original_conditional_ledger": "37/39 unchanged",
+  "I7": "explicit unproved global hypothesis",
+  "interface_warning": "existing OS_E0prime uses fixed spatial q; this result uses spatial 8*r; no conversion claimed"
+}

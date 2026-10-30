@@ -1,0 +1,13 @@
+import YMOriginal.Original30_AllVolumeJointSchwartz
+set_option pp.all true
+set_option pp.maxSteps 10000000
+#check @YMUIC.Original30.actualJointLatticePosition
+#print axioms YMUIC.Original30.actualJointLatticePosition
+#check @YMUIC.Original30.actual_joint_coordinate_le_norm
+#print axioms YMUIC.Original30.actual_joint_coordinate_le_norm
+#check @YMUIC.Original30.actual_joint_denominator_bound
+#print axioms YMUIC.Original30.actual_joint_denominator_bound
+#check @YMUIC.Original30.actual_word_joint_all_volume_bound
+#print axioms YMUIC.Original30.actual_word_joint_all_volume_bound
+#check @YMUIC.Original30.actual_word_joint_probability_all_volume
+#print axioms YMUIC.Original30.actual_word_joint_probability_all_volume

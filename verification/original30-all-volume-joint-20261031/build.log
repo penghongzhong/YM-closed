@@ -1,0 +1,9 @@
+ℹ [8979/8991] Replayed YM.Wilson.RootBound
+info: YM/Wilson/RootBound.lean:51:0: 'YMUICV128.Section03.diagonal_re_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: YM/Wilson/RootBound.lean:52:0: 'YMUICV128.Section03.trace_re_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: YM/Wilson/RootBound.lean:53:0: 'YMUICV128.Section03.wilsonRoot_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [8989/8991] Replayed YMOriginal.Original34_OSII_ExternalInterface
+info: YMOriginal/Original34_OSII_ExternalInterface.lean:125:0: 'YMUIC.Original34.original34_os_reconstruction_external_interface' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Build completed successfully (8991 jobs).
