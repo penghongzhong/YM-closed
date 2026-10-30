@@ -136,7 +136,7 @@ theorem actual_exact_two_root_mayer_zero_without_p_contact
       (actual_exact_connected_has_two_root_contacts
         n N chi rootP rootQ support tuple hc).1
     rw [hp] at hi
-    simpa using hi
+    simp at hi
   simp [hDisc]
 
 end YMUIC.Original24
