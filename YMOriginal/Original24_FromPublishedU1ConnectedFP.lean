@@ -34,7 +34,7 @@ pointwise exp(-kappaR*d) estimates. -/
 theorem original24_real_U1_old_new_local_norm
     {Γ Ω : Type*} [Fintype Γ]
     (D : U1Data Γ Ω) (pub : U1PublishedHypotheses D)
-    (N chi j : ℕ) (ω : Ω)
+    (N j : ℕ) (ω : Ω)
     (support : Γ → Finset (PeriodicBlock N))
     (d : Γ → ℕ)
     (hdictionary : ∀ X, D.d j X = (d X : ℝ))
@@ -190,7 +190,7 @@ theorem original24_real_U1_old_new_connected_Wilson
     mul_nonneg
       (mul_nonneg hCRnew (Real.exp_pos _).le) hCount
   obtain ⟨hLocalOld, hLocalNew⟩ :=
-    original24_real_U1_old_new_local_norm D pub N chi j ω
+    original24_real_U1_old_new_local_norm D pub N j ω
       support d hdictionary kappa Ccount hcount
       hg hgw hCR hCRnew
   let U : ClosedLinkWalkAt (PeriodicBlock N) base → SU2 :=
