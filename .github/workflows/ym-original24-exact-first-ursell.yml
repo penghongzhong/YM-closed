@@ -4,6 +4,7 @@ on:
     branches: [ym-original24-onebulk-ursell-20261031]
     paths:
       - "YMOriginal/Original24_ExactFirstUrsell.lean"
+      - "YMOriginal/Original24_ExactFirstMayerKP.lean"
       - ".github/workflows/ym-original24-exact-first-ursell.yml"
   workflow_dispatch:
 permissions:
@@ -36,10 +37,12 @@ jobs:
         run: |
           set -euo pipefail
           source "$HOME/.elan/env"
-          f=YMOriginal/Original24_ExactFirstUrsell.lean
-          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' "$f"; then exit 1; fi
-          lake build +YMOriginal.Original24_ExactFirstUrsell:olean
-          lake env lean -DwarningAsError=true "$f"
+          for f in YMOriginal/Original24_ExactFirstUrsell.lean YMOriginal/Original24_ExactFirstMayerKP.lean; do
+            if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' "$f"; then exit 1; fi
+          done
+          lake build +YMOriginal.Original24_ExactFirstMayerKP:olean
+          lake env lean -DwarningAsError=true YMOriginal/Original24_ExactFirstUrsell.lean
+          lake env lean -DwarningAsError=true YMOriginal/Original24_ExactFirstMayerKP.lean
       - name: Exact full terminal type and axioms
         shell: bash
         run: |
@@ -47,7 +50,7 @@ jobs:
           source "$HOME/.elan/env"
           mkdir -p verification/original24-onebulk
           cat > verification/original24-onebulk/Audit.lean <<'LEAN'
-          import YMOriginal.Original24_ExactFirstUrsell
+          import YMOriginal.Original24_ExactFirstMayerKP
           set_option pp.universes true
           #print YMUIC.Original24.original24_exact_connected_graph_sum_of_tree
           #print axioms YMUIC.Original24.original24_exact_connected_graph_sum_of_tree
@@ -55,6 +58,10 @@ jobs:
           #print axioms YMUIC.Original24.original24_actual_one_bulk_graph_eq_star
           #print YMUIC.Original24.original24_exact_one_bulk_ursell_eq_bridge_indicator
           #print axioms YMUIC.Original24.original24_exact_one_bulk_ursell_eq_bridge_indicator
+          #print YMUIC.Original24.original24_exact_first_mayer_eq_bridge_sum
+          #print axioms YMUIC.Original24.original24_exact_first_mayer_eq_bridge_sum
+          #print YMUIC.Original24.original24_exact_first_mayer_from_KP
+          #print axioms YMUIC.Original24.original24_exact_first_mayer_from_KP
           LEAN
           lake env lean -DwarningAsError=true verification/original24-onebulk/Audit.lean | tee verification/original24-onebulk/axioms.log
           if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original24-onebulk/axioms.log; then exit 1; fi
