@@ -50,12 +50,10 @@ theorem original24_explicit_double_fugacity_margin
   have heps : 0 < eps := div_pos hdelta hdenEps
   have hfirst : B * (lam * aAct) = delta / 4 := by
     dsimp [lam]
-    field_simp [ne_of_gt hB, ne_of_gt hAct]
-    ring
+    field_simp [ne_of_gt hB, ne_of_gt hAct] <;> ring
   have hsecond : B * (eps * E) = delta / 8 := by
     dsimp [eps]
-    field_simp [ne_of_gt hB, ne_of_gt hE]
-    ring
+    field_simp [ne_of_gt hB, ne_of_gt hE] <;> ring
   have hKP : B * (lam * aAct + eps * E) ≤ delta / 2 := by
     have hEq :
         B * (lam * aAct + eps * E) =
