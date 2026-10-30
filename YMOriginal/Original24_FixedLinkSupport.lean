@@ -48,27 +48,27 @@ theorem actual_link_walk_support_radius
   | nil =>
       intro v hv
       simp at hv
-  | cons next rest ih =>
-      change NN base next ∧ ValidNearestWalk NN next rest at hValid
+  | cons nxt rest ih =>
+      change NN base nxt ∧ ValidNearestWalk NN nxt rest at hValid
       obtain ⟨hEdge, hRest⟩ := hValid
       intro v hv
       rcases List.mem_cons.mp hv with rfl | hv
       · calc
-          dist (position base) (position next) ≤ a :=
-            hNN base next hEdge
-          _ ≤ ((next :: rest).length : ℝ) * a := by
+          dist (position base) (position nxt) ≤ a :=
+            hNN base nxt hEdge
+          _ ≤ ((nxt :: rest).length : ℝ) * a := by
             simp only [List.length_cons, Nat.cast_add, Nat.cast_one]
             have hlen : (0 : ℝ) ≤ rest.length :=
               Nat.cast_nonneg _
             nlinarith
       · calc
           dist (position base) (position v) ≤
-            dist (position base) (position next) +
-              dist (position next) (position v) :=
+            dist (position base) (position nxt) +
+              dist (position nxt) (position v) :=
                 dist_triangle _ _ _
           _ ≤ a + (rest.length : ℝ) * a :=
-            add_le_add (hNN base next hEdge) (ih next hRest v hv)
-          _ = ((next :: rest).length : ℝ) * a := by
+            add_le_add (hNN base nxt hEdge) (ih nxt hRest v hv)
+          _ = ((nxt :: rest).length : ℝ) * a := by
             simp only [List.length_cons, Nat.cast_add, Nat.cast_one]
             ring
 
@@ -119,13 +119,17 @@ theorem actual_two_fixed_wilson_root_support_separation
         dist_triangle _ _ _
     _ ≤ dist (position p) (position baseP) +
       (dist (position baseP) (position baseQ) +
-        dist (position baseQ) (position q)) :=
-        add_le_add_left (dist_triangle _ _ _) _
+        dist (position baseQ) (position q)) := by
+          have htri := dist_triangle
+            (position baseP) (position baseQ) (position q)
+          linarith
     _ ≤ (L : ℝ) * a +
       (dist (position baseP) (position baseQ) + (L : ℝ) * a) := by
-        apply add_le_add
-        · simpa only [dist_comm] using hrp
-        · exact add_le_add_left hrq _
+          have hpr :
+              dist (position p) (position baseP) ≤ (L : ℝ) * a := by
+            rw [dist_comm]
+            exact hrp
+          linarith
     _ = dist (position baseP) (position baseQ) +
       2 * (L : ℝ) * a := by ring
 
