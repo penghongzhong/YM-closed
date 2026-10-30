@@ -8,6 +8,7 @@ on:
       - "YMOriginal/Original30_AllVolumeJointWilson.lean"
       - "YMOriginal/Original30_CanonicalJointLocations.lean"
       - "YMOriginal/Original30_AllVolumeBareHierarchy.lean"
+      - "YMOriginal/Original30_OS1975LinearOrder.lean"
       - ".github/workflows/ym-original30-joint-volume.yml"
   workflow_dispatch:
 
@@ -55,6 +56,8 @@ jobs:
           lake env lean -DwarningAsError=true YMOriginal/Original30_CanonicalJointLocations.lean
           lake build +YMOriginal.Original30_AllVolumeBareHierarchy:olean
           lake env lean -DwarningAsError=true YMOriginal/Original30_AllVolumeBareHierarchy.lean
+          lake build +YMOriginal.Original30_OS1975LinearOrder:olean
+          lake env lean -DwarningAsError=true YMOriginal/Original30_OS1975LinearOrder.lean
       - name: Strict root statements and axiom audit
         shell: bash
         run: |
@@ -65,6 +68,7 @@ jobs:
             echo "import YMOriginal.Original30_JointProductSchwartzDecay"
             echo "import YMOriginal.Original30_CanonicalJointLocations"
             echo "import YMOriginal.Original30_AllVolumeBareHierarchy"
+            echo "import YMOriginal.Original30_OS1975LinearOrder"
             if [ -f YMOriginal/Original30_AllVolumeJointWilson.lean ]; then
               echo "import YMOriginal.Original30_AllVolumeJointWilson"
             fi
@@ -81,6 +85,8 @@ jobs:
               echo "#print axioms YMUIC.Original30.actual_joint_bare_wilson_all_volume_canonical"
               echo "#print YMUIC.Original30.actual_spatial_bare_hierarchy_linear_weight_growth"
               echo "#print axioms YMUIC.Original30.actual_spatial_bare_hierarchy_linear_weight_growth"
+              echo "#print YMUIC.Original30.actual_bare_wilson_joint_OS1975_growth"
+              echo "#print axioms YMUIC.Original30.actual_bare_wilson_joint_OS1975_growth"
             fi
           } > verification/joint-volume/Audit.lean
           lake env lean -DwarningAsError=true verification/joint-volume/Audit.lean | tee verification/joint-volume/axioms.log
