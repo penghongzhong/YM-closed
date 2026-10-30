@@ -10,6 +10,7 @@ on:
       - "YMOriginal/Original30_ActualWordPhysicalBox.lean"
       - "YMOriginal/Original24_LocalGaugeInvariance.lean"
       - "YMOriginal/Original24_FromU1U2B10.lean"
+      - "YMOriginal/Original24_Taylor5FromU2Moment.lean"
       - "YM/Wilson/WeightedSmearing.lean"
       - "YM/Wilson/FixedBoxSmearing.lean"
       - ".github/workflows/ym-original34-exact-os.yml"
@@ -46,13 +47,14 @@ jobs:
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original34_*.lean; then exit 1; fi
-          lake build +YMOriginal.Original34_ManuscriptReconstruction:olean +YMOriginal.Original30_AnalyticToE0prime:olean +YMOriginal.Original30_ActualWordPhysicalBox:olean +YMOriginal.Original24_LocalGaugeInvariance:olean +YMOriginal.Original24_FromU1U2B10:olean
+          lake build +YMOriginal.Original34_ManuscriptReconstruction:olean +YMOriginal.Original30_AnalyticToE0prime:olean +YMOriginal.Original30_ActualWordPhysicalBox:olean +YMOriginal.Original24_LocalGaugeInvariance:olean +YMOriginal.Original24_FromU1U2B10:olean +YMOriginal.Original24_Taylor5FromU2Moment:olean
           lake env lean -DwarningAsError=true YMOriginal/Original34_ManuscriptReconstruction.lean
           lake env lean -DwarningAsError=true YMOriginal/Original30_AnalyticToE0prime.lean
           lake env lean -DwarningAsError=true YMOriginal/Original30_ActualWordSmearing.lean
           lake env lean -DwarningAsError=true YMOriginal/Original30_ActualWordPhysicalBox.lean
           lake env lean -DwarningAsError=true YMOriginal/Original24_LocalGaugeInvariance.lean
           lake env lean -DwarningAsError=true YMOriginal/Original24_FromU1U2B10.lean
+          lake env lean -DwarningAsError=true YMOriginal/Original24_Taylor5FromU2Moment.lean
       - name: Original theorem type and exact axiom dependencies
         shell: bash
         run: |
@@ -65,7 +67,10 @@ jobs:
           import YMOriginal.Original30_ActualWordPhysicalBox
           import YMOriginal.Original24_LocalGaugeInvariance
           import YMOriginal.Original24_FromU1U2B10
+          import YMOriginal.Original24_Taylor5FromU2Moment
           set_option pp.universes true
+          #print YMUIC.Original24.actual_taylor_four_fifth_remainder
+          #print YMUIC.Original24.finite_marked_taylor_from_fifth_moment
           #print YMUIC.Original24.actual_U1_old_new_root_weighted
           #print YMUIC.Original24.actual_U1_U2_B10_fixedD_source_tail
           #print YMUIC.Original24.actual_wilson_polynomial_gauge_invariant
@@ -81,6 +86,8 @@ jobs:
           #print YMUIC.Original34.PublishedOSII
           #print YMUIC.Original34.original34_manuscript_axioms_iff
           #print YMUIC.Original34.original34_manuscript_reconstruction
+          #print axioms YMUIC.Original24.actual_taylor_four_fifth_remainder
+          #print axioms YMUIC.Original24.finite_marked_taylor_from_fifth_moment
           #print axioms YMUIC.Original24.actual_U1_old_new_root_weighted
           #print axioms YMUIC.Original24.actual_U1_U2_B10_fixedD_source_tail
           #print axioms YMUIC.Original24.wilson_root_conjugation_invariant
