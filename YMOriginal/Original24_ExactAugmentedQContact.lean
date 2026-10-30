@@ -58,11 +58,13 @@ theorem actual_augmented_bulk_children_iff_original
   · intro h
     have hprop := (Finset.mem_filter.mp h).2
     apply Finset.mem_filter.mpr
-    exact ⟨Finset.mem_univ _, hprop⟩
+    refine ⟨Finset.mem_univ _, ?_⟩
+    simpa only [actualSecondRootAugmentedSupport] using hprop
   · intro h
     have hprop := (Finset.mem_filter.mp h).2
     apply Finset.mem_filter.mpr
-    exact ⟨Finset.mem_univ _, hprop⟩
+    refine ⟨Finset.mem_univ _, ?_⟩
+    simpa only [actualSecondRootAugmentedSupport] using hprop
 
 /-- A physical q-root edge to the bulk polymer X is EXACTLY the
 first-child contact of the augmented q-species with X.
@@ -99,11 +101,13 @@ theorem actual_augmented_second_root_bulk_contact_iff
   · intro h
     have hprop := (Finset.mem_filter.mp h).2
     apply Finset.mem_filter.mpr
-    exact ⟨Finset.mem_univ _, hprop⟩
+    refine ⟨Finset.mem_univ _, ?_⟩
+    simpa only [actualSecondRootAugmentedSupport] using hprop
   · intro h
     have hprop := (Finset.mem_filter.mp h).2
     apply Finset.mem_filter.mpr
-    exact ⟨Finset.mem_univ _, hprop⟩
+    refine ⟨Finset.mem_univ _, ?_⟩
+    simpa only [actualSecondRootAugmentedSupport] using hprop
 
 /-- The augmented system's possible extra *direct* p--q edge is
 exactly actual physical chi-contact of the two fixed Wilson
