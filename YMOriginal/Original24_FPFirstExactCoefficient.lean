@@ -50,11 +50,13 @@ private theorem actual_one_bulk_graph_le_star
           exact ((actualExactTwoRootGraph 1 N chi
             rootP rootQ support tuple).ne_of_adj h rfl).elim
       | inr k =>
-          simp [oneBulkStar, SimpleGraph.fromRel_adj]
+          fin_cases i
+          simp [oneBulkStar]
   | inr i =>
       cases v with
       | inl j =>
-          simp [oneBulkStar, SimpleGraph.fromRel_adj]
+          fin_cases j
+          simp [oneBulkStar]
       | inr k =>
           have hn :
               ¬ (actualExactTwoRootGraph 1 N chi rootP rootQ
@@ -78,9 +80,9 @@ theorem original24_one_bulk_connected_isTree
   ⟨hc, oneBulkStar_isTree.isAcyclic.anti
     (actual_one_bulk_graph_le_star N chi rootP rootQ support tuple)⟩
 
+open Classical in
 /-- Exact spanning tree count, for all true 4D regulator data,
 all source supports and all polymer species: either one path, or zero. -/
-open Classical in
 theorem original24_one_bulk_exact_tree_count
     {Γ : Type*} [Fintype Γ]
     (N chi : ℕ)
@@ -119,7 +121,7 @@ theorem original24_one_bulk_exact_tree_count
     simp [hc]
   · have hset : exactExtendedSpanningTrees 1 G = ∅ := by
       ext T
-      simp only [Finset.not_mem_empty, iff_false]
+      simp only [Finset.mem_empty, iff_false]
       intro hT
       have hsub : T ≤ G ∧ T.IsTree := by
         simpa only [exactExtendedSpanningTrees,
