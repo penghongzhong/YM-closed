@@ -7,7 +7,9 @@ on:
       - "YMOriginal/Original34_*"
       - "YMOriginal/Original30_AnalyticToE0prime.lean"
       - "YMOriginal/Original30_ActualWordSmearing.lean"
+      - "YMOriginal/Original30_ActualWordPhysicalBox.lean"
       - "YM/Wilson/WeightedSmearing.lean"
+      - "YM/Wilson/FixedBoxSmearing.lean"
       - ".github/workflows/ym-original34-exact-os.yml"
   workflow_dispatch:
 
@@ -42,10 +44,11 @@ jobs:
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original34_*.lean; then exit 1; fi
-          lake build +YMOriginal.Original34_ManuscriptReconstruction:olean +YMOriginal.Original30_AnalyticToE0prime:olean +YMOriginal.Original30_ActualWordSmearing:olean
+          lake build +YMOriginal.Original34_ManuscriptReconstruction:olean +YMOriginal.Original30_AnalyticToE0prime:olean +YMOriginal.Original30_ActualWordPhysicalBox:olean
           lake env lean -DwarningAsError=true YMOriginal/Original34_ManuscriptReconstruction.lean
           lake env lean -DwarningAsError=true YMOriginal/Original30_AnalyticToE0prime.lean
           lake env lean -DwarningAsError=true YMOriginal/Original30_ActualWordSmearing.lean
+          lake env lean -DwarningAsError=true YMOriginal/Original30_ActualWordPhysicalBox.lean
       - name: Original theorem type and exact axiom dependencies
         shell: bash
         run: |
@@ -55,7 +58,10 @@ jobs:
           import YMOriginal.Original34_ManuscriptReconstruction
           import YMOriginal.Original30_AnalyticToE0prime
           import YMOriginal.Original30_ActualWordSmearing
+          import YMOriginal.Original30_ActualWordPhysicalBox
           set_option pp.universes true
+          #print YMUIC.Original30.actual_word_box_smearing_bound
+          #print YMUIC.Original30.actual_word_box_smearing_all_regulators
           #print YMUIC.Original30.actual_word_schwartz_smearing_bound
           #print YMUIC.Original30.actual_word_schwartz_smearing_all_regulators
           #print YMUIC.Original30.JointSourceAnalyticCertificate
@@ -66,6 +72,8 @@ jobs:
           #print YMUIC.Original34.PublishedOSII
           #print YMUIC.Original34.original34_manuscript_axioms_iff
           #print YMUIC.Original34.original34_manuscript_reconstruction
+          #print axioms YMUIC.Original30.actual_word_box_smearing_bound
+          #print axioms YMUIC.Original30.actual_word_box_smearing_all_regulators
           #print axioms YMUIC.Original30.actual_word_schwartz_smearing_bound
           #print axioms YMUIC.Original30.actual_word_schwartz_smearing_all_regulators
           #print axioms YMUIC.Original30.joint_source_analytic_implies_os_E0prime
