@@ -259,13 +259,12 @@ theorem original24_fixedD_same_source_full_series_and_cocycle
     have hSimple :
         ‖jetRemainder extract includeJet x‖ ≤
           (1 + ‖includeJet‖ * ‖extract‖) * ‖x‖ := by
-      simp only [jetRemainder, ContinuousLinearMap.sub_apply,
-        ContinuousLinearMap.one_apply, ContinuousLinearMap.comp_apply]
       calc
-        ‖x - includeJet (extract x)‖ ≤
-            ‖x‖ + ‖includeJet (extract x)‖ := norm_sub_le _ _
+        ‖jetRemainder extract includeJet x‖ =
+            ‖x - includeJet (extract x)‖ := by simp [jetRemainder]
+        _ ≤ ‖x‖ + ‖includeJet (extract x)‖ := norm_sub_le _ _
         _ ≤ ‖x‖ + ‖includeJet‖ * (‖extract‖ * ‖x‖) :=
-            add_le_add_left hProjectionNorm _
+            add_le_add_right hProjectionNorm _
         _ = (1 + ‖includeJet‖ * ‖extract‖) * ‖x‖ := by ring
     exact hSimple.trans
       (mul_le_mul_of_nonneg_left hx (by positivity))
