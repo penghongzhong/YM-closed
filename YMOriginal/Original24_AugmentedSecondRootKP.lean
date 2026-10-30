@@ -80,7 +80,7 @@ theorem actual_second_root_augmented_local_U1
         ‖z X‖ * Real.exp (kappa * (d X : ℝ))) +
         (if Delta ∈ rootQ then
            epsilon * Real.exp (kappa * (rootQ.card : ℝ)) else 0) := by
-    simp only [actualThroughBlock, Finset.sum_filter, Finset.sum_univ]
+    simp only [actualThroughBlock, Finset.sum_filter]
     rw [Fintype.sum_sum_type]
     simp [actualSecondRootAugmentedSupport,
       actualSecondRootAugmentedActivity, actualSecondRootAugmentedSize,
