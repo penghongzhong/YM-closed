@@ -85,6 +85,7 @@ theorem actual_second_root_augmented_local_U1
     simp [actualSecondRootAugmentedSupport,
       actualSecondRootAugmentedActivity, actualSecondRootAugmentedSize,
       Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg heps]
+    rfl
   rw [hSplit]
   have hepsNonneg :
       0 ≤ epsilon * Real.exp (kappa * (rootQ.card : ℝ)) :=
