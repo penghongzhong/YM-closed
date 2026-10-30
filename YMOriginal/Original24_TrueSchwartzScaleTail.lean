@@ -1,4 +1,5 @@
 import YMOriginal.Original24_FromPublishedU1ConnectedB10
+import YMOriginal.Original24_NativeShellU1
 import YMOriginal.Original24_PlacementRatio
 import YMOriginal.Original24_PostRLocalization
 
@@ -46,23 +47,27 @@ theorem original24_real_connected_schwartz_postR_all_scales
     (d : Γ → ℕ)
     (hdictionary : ∀ X, D.d j X = (d X : ℝ))
     (root : Finset (PeriodicBlock N))
-    (kappa mu cGeo Ccount : ℝ)
-    (hcount : ∀ Delta : PeriodicBlock N,
-      (∑ X ∈ actualThroughBlock support Delta,
-        Real.exp (-(D.kappaR - kappa) * (d X : ℝ))) ≤ Ccount)
+    (kappa mu cGeo Cpol cpol : ℝ)
+    (hCpol : 0 ≤ Cpol)
+    (hgap : 0 < D.kappaR - kappa - cpol)
+    (hShell : ∀ Delta : PeriodicBlock N, ∀ m : ℕ,
+      ((actualThroughBlock support Delta).filter
+        (fun X => d X = m)).card ≤
+          Cpol * Real.exp (cpol * (m : ℝ)))
     (hg : 0 < D.g j) (hgw : D.g j ≤ D.gamma)
     (hCR : 0 ≤ D.CR) (hCRnew : 0 ≤ D.CRnew)
-    (hCount : 0 ≤ Ccount)
     (hmu : 0 < mu)
     (hdelta : 0 < kappa - cGeo * mu)
     (hsize : ∀ X, (support X).card ≤ d X)
     (hweakOld :
       (((2 * chi + 1 : ℕ) ^ 4 : ℕ) : ℝ) *
-        (oldRActivityFactor (D.g j) D.kappa0 D.CR * Ccount) ≤
+        (oldRActivityFactor (D.g j) D.kappa0 D.CR *
+          (Cpol / (1 - Real.exp (-(D.kappaR - kappa - cpol))))) ≤
           (kappa - cGeo * mu) / 2)
     (hweakNew :
       (((2 * chi + 1 : ℕ) ^ 4 : ℕ) : ℝ) *
-        (newRActivityFactor (D.g j) D.CRnew D.p0 * Ccount) ≤
+        (newRActivityFactor (D.g j) D.CRnew D.p0 *
+          (Cpol / (1 - Real.exp (-(D.kappaR - kappa - cpol))))) ≤
           (kappa - cGeo * mu) / 2)
     (base : PeriodicBlock N)
     (links : PeriodicBlock N → PeriodicBlock N → SU2)
@@ -95,6 +100,8 @@ theorem original24_real_connected_schwartz_postR_all_scales
     (L theta : ℝ) (hL : 1 < L)
     (htheta0 : 0 < theta) (htheta1 : theta < 1)
     (truncation : ℕ) :
+    let Ccount : ℝ :=
+      Cpol / (1 - Real.exp (-(D.kappaR - kappa - cpol)))
     let U : ClosedLinkWalkAt (PeriodicBlock N) base → SU2 :=
       fun w => actualWalkHolonomy links base w.vertices
     let K : ℝ := (Real.exp (radius * Bp) - 1) *
@@ -126,6 +133,28 @@ theorem original24_real_connected_schwartz_postR_all_scales
     Summable (fun m => ‖rem m‖) ∧
     (∑' m, ‖rem m‖) ≤ M / (1 - q) := by
   dsimp
+  let Ccount : ℝ :=
+    Cpol / (1 - Real.exp (-(D.kappaR - kappa - cpol)))
+  have hcount : ∀ Delta : PeriodicBlock N,
+      (∑ X ∈ actualThroughBlock support Delta,
+        Real.exp (-(D.kappaR - kappa) * (d X : ℝ))) ≤ Ccount :=
+    actual_native_U1_shell_count_to_block_norm
+      support d Cpol cpol D.kappaR kappa hCpol hgap hShell
+  have hden : 0 < 1 - Real.exp (-(D.kappaR - kappa - cpol)) := by
+    have he : Real.exp (-(D.kappaR - kappa - cpol)) < 1 :=
+      Real.exp_lt_one_iff.mpr (by linarith [hgap])
+    linarith
+  have hCount : 0 ≤ Ccount := div_nonneg hCpol hden.le
+  have hweakOld' :
+      (((2 * chi + 1 : ℕ) ^ 4 : ℕ) : ℝ) *
+        (oldRActivityFactor (D.g j) D.kappa0 D.CR * Ccount) ≤
+          (kappa - cGeo * mu) / 2 := by
+    simpa only [Ccount] using hweakOld
+  have hweakNew' :
+      (((2 * chi + 1 : ℕ) ^ 4 : ℕ) : ℝ) *
+        (newRActivityFactor (D.g j) D.CRnew D.p0 * Ccount) ≤
+          (kappa - cGeo * mu) / 2 := by
+    simpa only [Ccount] using hweakNew
   let U : ClosedLinkWalkAt (PeriodicBlock N) base → SU2 :=
     fun w => actualWalkHolonomy links base w.vertices
   let K : ℝ := (Real.exp (radius * Bp) - 1) *
@@ -189,7 +218,7 @@ theorem original24_real_connected_schwartz_postR_all_scales
         N chi j omega support d hdictionary root
         kappa mu cGeo Ccount hcount
         hg hgw hCR hCRnew hCount hmu hdelta hsize
-        hweakOld hweakNew base links wp cp wq cq s t radius Bp Bq
+        hweakOld' hweakNew' base links wp cp wq cq s t radius Bp Bq
         hr hp0 hq0 hs ht hp hq
         PhiOld PhiNew position displacement treeOld treeNew
         hPenroseOld hPenroseNew hFPold hFPnew
