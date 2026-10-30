@@ -54,9 +54,24 @@ CRITICAL: If root cover K_N indexes raw UV plaquettes, its cardinality scales as
 
 ## Honest original environment accounting
 
-Inherited conditional theorem-environment acceptance remains 34/39 = 87.18%.
-Still open: original 1, 24, 30, 34, 42. I7 still open; no mass-gap claim.
-None of the new auxiliary statements is counted as an original theorem environment.
+CURRENT HISTORICAL PER-ORIGINAL-ENVIRONMENT OFFICIAL-PIN CONDITIONAL UNION:
+37/39 = 94.87%. Only original 24 and 30 remain open.
+The old 34/39 was the 2026-10-29 baseline, BEFORE additional #1
+(exact published U1 external interface), #42 (conditional I7 master)
+and #34 (conditional published OS-II reconstruction interface) were
+strictly compiled on other YM-closed public branches on 2026-10-30.
+Reference official ledger:
+- status/YM_I7_CONDITIONAL_01_42_20261030.md on branch
+  ym-original01-42-i7-conditional-20261030;
+- status/YM_ORIGINAL34_37_AND_ORIGINAL30_INPUTS_20261030.md on branch
+  ym-original34-exact-os-20261030.
+This is a UNION of separate historical strict Lean receipts, not a new
+monolithic all-37 build on this isolated branch. Original #1 and #34
+use published external interfaces, while #42 is conditional on I7 and
+the stated model/passage premises. I7 remains OPEN and no unconditional
+Yang--Mills mass-gap or fully physical model proof is claimed.
+None of the new supporting statements in this branch is promoted to an
+original manuscript theorem environment.
 
 ## Next minimal burden
 
