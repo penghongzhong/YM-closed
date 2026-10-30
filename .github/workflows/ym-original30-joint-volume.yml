@@ -1,0 +1,83 @@
+name: YM Original30 joint all-volume Schwartz (Lean 4.35 strict pin)
+
+on:
+  push:
+    branches: [ym-original30-joint-all-volume-20261030]
+    paths:
+      - "YMOriginal/Original30_JointProductSchwartzDecay.lean"
+      - "YMOriginal/Original30_AllVolumeJointWilson.lean"
+      - ".github/workflows/ym-original30-joint-volume.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ym-original30-joint-volume
+  cancel-in-progress: true
+
+jobs:
+  joint-volume:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install fixed Lean
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Fetch fixed Mathlib
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Full proof build
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original30_JointProductSchwartzDecay.lean; then exit 1; fi
+          lake build +YMOriginal.Original30_JointProductSchwartzDecay:olean
+          lake env lean -DwarningAsError=true YMOriginal/Original30_JointProductSchwartzDecay.lean
+          if [ -f YMOriginal/Original30_AllVolumeJointWilson.lean ]; then
+            lake build +YMOriginal.Original30_AllVolumeJointWilson:olean
+            lake env lean -DwarningAsError=true YMOriginal/Original30_AllVolumeJointWilson.lean
+          fi
+      - name: Strict root statements and axiom audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/joint-volume
+          {
+            echo "import YMOriginal.Original30_JointProductSchwartzDecay"
+            if [ -f YMOriginal/Original30_AllVolumeJointWilson.lean ]; then
+              echo "import YMOriginal.Original30_AllVolumeJointWilson"
+            fi
+            echo "set_option pp.universes true"
+            echo "#print YMUIC.Original30.joint_schwartz_pays_product_spatial_weights"
+            echo "#print axioms YMUIC.Original30.one_add_pow_uniform"
+            echo "#print axioms YMUIC.Original30.joint_schwartz_pays_product_spatial_weights"
+            if [ -f YMOriginal/Original30_AllVolumeJointWilson.lean ]; then
+              echo "#print YMUIC.Original30.actual_joint_bare_wilson_all_volume_bound"
+              echo "#print axioms YMUIC.Original30.actual_joint_bare_wilson_all_volume_bound"
+            fi
+          } > verification/joint-volume/Audit.lean
+          lake env lean -DwarningAsError=true verification/joint-volume/Audit.lean | tee verification/joint-volume/axioms.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/joint-volume/axioms.log; then exit 1; fi
+      - name: Upload proof evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-original30-joint-volume
+          path: verification/joint-volume/axioms.log
+          if-no-files-found: warn
+          retention-days: 14
