@@ -1,5 +1,6 @@
 import YMOriginal.Original24_FPFirstConnectedBulk
 import YMOriginal.Original24_ExactExtendedTwoRootMayer
+import YMOriginal.Original24_ExactTwoRootAttachment
 import Mathlib.Combinatorics.SimpleGraph.Connectivity.Connected
 
 set_option autoImplicit false
