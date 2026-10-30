@@ -162,12 +162,19 @@ theorem original24_real_connected_schwartz_postR_all_scales
   have hratioId (m : ℕ) :
       L ^ ((4 + theta) * (m : ℝ)) *
         (L ^ (-(m : ℝ))) ^ 5 = q ^ m := by
+    have hp5 :
+        (L ^ (-(m : ℝ))) ^ (5 : ℕ) =
+          L ^ (-(m : ℝ) * (5 : ℝ)) := by
+      calc
+        _ = (L ^ (-(m : ℝ))) ^ (5 : ℝ) :=
+          (Real.rpow_natCast _ 5).symm
+        _ = L ^ (-(m : ℝ) * (5 : ℝ)) := by
+          rw [Real.rpow_mul hLpos.le]
     calc
       L ^ ((4 + theta) * (m : ℝ)) *
           (L ^ (-(m : ℝ))) ^ 5 =
         L ^ ((4 + theta) * (m : ℝ)) *
-          L ^ (-(m : ℝ) * (5 : ℝ)) := by
-            rw [Real.rpow_mul hLpos.le, Real.rpow_natCast]
+          L ^ (-(m : ℝ) * (5 : ℝ)) := by rw [hp5]
       _ = L ^ ((4 + theta) * (m : ℝ) + -(m : ℝ) * 5) := by
             rw [Real.rpow_add hLpos]
       _ = L ^ (-(1 - theta) * (m : ℝ)) := by
