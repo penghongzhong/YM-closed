@@ -44,7 +44,7 @@ theorem original24_exact_connected_graph_sum_of_tree
     le_antisymm hHG (hMin.2 hHC hHG)
   unfold exactExtendedConnectedGraphSum
   rw [Finset.sum_eq_single G]
-  · simp [hG.connected]
+  · rfl
   · intro H _ hne
     have hno : ¬(H ≤ G ∧ H.Connected) := by
       intro hh
@@ -103,10 +103,10 @@ theorem original24_actual_one_bulk_graph_eq_star
               simp [actualExactTwoRootGraph, actualExactTwoRootRelation,
                 SimpleGraph.fromRel_adj]
 
+open Classical in
 /-- **The exact original n=1 Mayer/Ursell coefficient:** +1 if
 the one bulk history contacts BOTH Wilson roots, zero otherwise.
 No Penrose, no FP, no artificial abstract coefficient or axiom. -/
-open Classical in
 theorem original24_exact_one_bulk_ursell_eq_bridge_indicator
     {Γ : Type*} [Fintype Γ]
     (N chi : ℕ)
