@@ -5,6 +5,7 @@ on:
     paths:
       - "YMOriginal/Original24_ActualLatticeLinks.lean"
       - "YMOriginal/Original30_JointLatticeSchwartz.lean"
+      - "YMOriginal/Original30_FixedBoxJointHierarchy.lean"
       - ".github/workflows/ym-physical-wilson-links.yml"
   workflow_dispatch:
 permissions:
@@ -37,7 +38,7 @@ jobs:
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original24_ActualLatticeLinks.lean; then exit 1; fi
-          lake build +YMOriginal.Original24_ActualLatticeLinks:olean +YMOriginal.Original30_JointLatticeSchwartz:olean
+          lake build +YMOriginal.Original24_ActualLatticeLinks:olean +YMOriginal.Original30_FixedBoxJointHierarchy:olean
       - name: Check exact statements and axiom dependencies
         shell: bash
         run: |
@@ -46,12 +47,18 @@ jobs:
           cat > ActualLatticeLinksAudit.lean <<'LEAN'
           import YMOriginal.Original24_ActualLatticeLinks
           import YMOriginal.Original30_JointLatticeSchwartz
+          import YMOriginal.Original30_FixedBoxJointHierarchy
+          #print YMUIC.Original30.actual_word_joint_distribution_apply
+          #print YMUIC.Original30.actual_word_physical_box_OS_E0prime
           #print YMUIC.Original30.actual_word_joint_cutoff_schwartz_bound
           #print YMUIC.Original30.actual_word_joint_physical_box_bound
           #print YMUIC.Original24.actual_walk_gauge_transport
           #print YMUIC.Original24.actual_closed_link_walk_conjugacy
           #print YMUIC.Original24.actual_closed_wilson_root_gauge_invariant
           #print YMUIC.Original24.actual_link_wilson_polynomial_gauge_invariant
+          #print axioms YMUIC.Original30.joint_schwartz_eval_clm_apply
+          #print axioms YMUIC.Original30.actual_word_joint_distribution_apply
+          #print axioms YMUIC.Original30.actual_word_physical_box_OS_E0prime
           #print axioms YMUIC.Original30.actual_word_joint_cutoff_schwartz_bound
           #print axioms YMUIC.Original30.actual_word_joint_physical_box_bound
           #print axioms YMUIC.Original24.actual_walk_gauge_transport
