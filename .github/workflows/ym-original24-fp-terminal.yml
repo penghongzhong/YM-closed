@@ -10,6 +10,7 @@ on:
       - "YMOriginal/Original24_FromPublishedU1ConnectedB10.lean"
       - "YMOriginal/Original24_FixedTemplateConnected.lean"
       - "YMOriginal/Original24_ActualHardCoreGraph.lean"
+      - "YMOriginal/Original24_PeriodicHardCoreEquivalence.lean"
       - "YMOriginal/Original24_ConnectedWilsonB10.lean"
       - ".github/workflows/ym-original24-fp-terminal.yml"
   workflow_dispatch:
@@ -58,6 +59,8 @@ jobs:
           lake env lean -DwarningAsError=true YMOriginal/Original24_FixedTemplateConnected.lean
           lake build +YMOriginal.Original24_ActualHardCoreGraph:olean
           lake env lean -DwarningAsError=true YMOriginal/Original24_ActualHardCoreGraph.lean
+          lake build +YMOriginal.Original24_PeriodicHardCoreEquivalence:olean
+          lake env lean -DwarningAsError=true YMOriginal/Original24_PeriodicHardCoreEquivalence.lean
           lake build +YMOriginal.Original24_ConnectedWilsonB10:olean
           lake env lean -DwarningAsError=true YMOriginal/Original24_ConnectedWilsonB10.lean
       - name: Print full types and audit axioms
@@ -74,6 +77,7 @@ jobs:
           import YMOriginal.Original24_FromPublishedU1ConnectedB10
           import YMOriginal.Original24_FixedTemplateConnected
           import YMOriginal.Original24_ActualHardCoreGraph
+          import YMOriginal.Original24_PeriodicHardCoreEquivalence
           set_option pp.universes true
           #print YMUIC.Original24.original24_connected_ursell_from_periodic_FP
           #print YMUIC.Original24.original24_actual_two_root_connected_ursell
@@ -95,6 +99,9 @@ jobs:
           #print axioms YMUIC.Original24.actual_periodic_labeled_hardcore_adj
           #print axioms YMUIC.Original24.actual_periodic_mayer_bond_symm
           #print axioms YMUIC.Original24.actual_periodic_labeled_mayer_edge
+          #print axioms YMUIC.Original24.four_dim_periodic_neighborhood_symm
+          #print axioms YMUIC.Original24.actual_periodic_polymer_children_symm
+          #print axioms YMUIC.Original24.actual_hardcore_graph_adj_iff_U2_child
           #print YMUIC.Original24.original24_connected_Wilson_B10_from_U1_FP
           #print axioms YMUIC.Original24.original24_connected_Wilson_B10_from_U1_FP
           LEAN
