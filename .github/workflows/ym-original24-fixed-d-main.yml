@@ -1,0 +1,65 @@
+name: YM Original24 one Fixed-D main environment strict Lean
+on:
+  push:
+    branches: [ym-original24-fixed-d-main-core-20261030]
+    paths:
+      - "YMOriginal/Original24_FixedDMainCore.lean"
+      - ".github/workflows/ym-original24-fixed-d-main.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original24-fixedD:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Official Lean 4.35
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Pinned Mathlib exact SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Compile one actual Fixed-D terminal theorem
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          f=YMOriginal/Original24_FixedDMainCore.lean
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' "$f"; then exit 1; fi
+          lake build +YMOriginal.Original24_FixedDMainCore:olean
+          lake env lean -DwarningAsError=true "$f"
+      - name: Full unchanged theorem type and axioms audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/original24-fixedD
+          cat > verification/original24-fixedD/Audit.lean <<'LEAN'
+          import YMOriginal.Original24_FixedDMainCore
+          set_option pp.universes true
+          #print YMUIC.Original24.original24_fixedD_same_source_full_series_and_cocycle
+          #print axioms YMUIC.Original24.original24_fixedD_same_source_full_series_and_cocycle
+          LEAN
+          lake env lean -DwarningAsError=true verification/original24-fixedD/Audit.lean | tee verification/original24-fixedD/axioms.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original24-fixedD/axioms.log; then exit 1; fi
+      - name: Preserve original24 terminal evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original24-one-fixedD-main
+          path: verification/original24-fixedD/axioms.log
+          if-no-files-found: warn
