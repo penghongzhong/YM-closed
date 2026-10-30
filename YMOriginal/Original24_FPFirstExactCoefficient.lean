@@ -27,14 +27,10 @@ The all-n original PhysicalExactTwoRootFPCriterion remains OPEN.
 /-- The maximal possible n=1 two-root graph is the three-vertex
 star (p -- bulk -- q). It is a literal tree, with no p-q bond. -/
 private def oneBulkStar : SimpleGraph (Sum (Fin 1) (Fin 2)) :=
-  SimpleGraph.fromRel (fun a b =>
-    match a, b with
-    | Sum.inl _, Sum.inr _ => True
-    | Sum.inr _, Sum.inl _ => True
-    | _, _ => False)
+  SimpleGraph.starGraph (Sum.inl (0 : Fin 1))
 
-private theorem oneBulkStar_isTree : oneBulkStar.IsTree := by
-  decide
+private theorem oneBulkStar_isTree : oneBulkStar.IsTree :=
+  SimpleGraph.isTree_starGraph _
 
 private theorem actual_one_bulk_graph_le_star
     {Γ : Type*} [Fintype Γ]
@@ -51,7 +47,8 @@ private theorem actual_one_bulk_graph_le_star
       | inl j =>
           fin_cases i
           fin_cases j
-          exact ((SimpleGraph.ne_of_adj h) rfl).elim
+          exact ((actualExactTwoRootGraph 1 N chi
+            rootP rootQ support tuple).ne_of_adj h rfl).elim
       | inr k =>
           simp [oneBulkStar, SimpleGraph.fromRel_adj]
   | inr i =>
@@ -83,6 +80,7 @@ theorem original24_one_bulk_connected_isTree
 
 /-- Exact spanning tree count, for all true 4D regulator data,
 all source supports and all polymer species: either one path, or zero. -/
+open Classical in
 theorem original24_one_bulk_exact_tree_count
     {Γ : Type*} [Fintype Γ]
     (N chi : ℕ)
@@ -115,15 +113,22 @@ theorem original24_one_bulk_exact_tree_count
       · intro heq
         subst T
         exact ⟨le_refl _, hG⟩
-    simp [hc, hset]
+    change (exactExtendedSpanningTrees 1 G).card =
+      if G.Connected then 1 else 0
+    rw [hset]
+    simp [hc]
   · have hset : exactExtendedSpanningTrees 1 G = ∅ := by
-      apply Finset.eq_empty_iff_forall_not_mem.mpr
-      intro T hT
+      ext T
+      simp only [Finset.not_mem_empty, iff_false]
+      intro hT
       have hsub : T ≤ G ∧ T.IsTree := by
         simpa only [exactExtendedSpanningTrees,
           Finset.mem_filter, Finset.mem_univ, true_and] using hT
       exact hc (hsub.2.connected.mono hsub.1)
-    simp [hc, hset]
+    change (exactExtendedSpanningTrees 1 G).card =
+      if G.Connected then 1 else 0
+    rw [hset]
+    simp [hc]
 
 /-- The EXACT first nonzero n=1 2-root spanning-tree coefficient,
 with no hFP/graph-tree hypothesis, is literally the total activity
@@ -168,7 +173,7 @@ theorem original24_exact_first_tree_majorant_eq_bridge
   unfold exactExtendedTwoRootTreeMajorant
   simp only [Nat.factorial_one, Nat.cast_one, inv_one, one_mul]
   rw [hsum]
-  simp [A, Finset.sum_filter]
+  simp [A]
 
 /-- The desired physical FP inequality is STRICTLY PROVED at its
 first nonzero order, not assumed. It uses the exact graph coefficient
