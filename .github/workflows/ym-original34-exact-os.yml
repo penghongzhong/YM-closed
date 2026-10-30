@@ -14,6 +14,7 @@ on:
       - "YMOriginal/Original24_B10FromU2Exp.lean"
       - "YMOriginal/Original24_TaylorU1U2Marked.lean"
       - "YMOriginal/Original24_PhysicalSchwartzLine.lean"
+      - "YMOriginal/Original24_ActualSchwartzB10.lean"
       - "YM/Wilson/WeightedSmearing.lean"
       - "YM/Wilson/FixedBoxSmearing.lean"
       - ".github/workflows/ym-original34-exact-os.yml"
@@ -50,7 +51,7 @@ jobs:
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original34_*.lean; then exit 1; fi
-          lake build +YMOriginal.Original34_ManuscriptReconstruction:olean +YMOriginal.Original30_AnalyticToE0prime:olean +YMOriginal.Original30_ActualWordPhysicalBox:olean +YMOriginal.Original24_LocalGaugeInvariance:olean +YMOriginal.Original24_FromU1U2B10:olean +YMOriginal.Original24_Taylor5FromU2Moment:olean +YMOriginal.Original24_B10FromU2Exp:olean +YMOriginal.Original24_TaylorU1U2Marked:olean +YMOriginal.Original24_PhysicalSchwartzLine:olean
+          lake build +YMOriginal.Original34_ManuscriptReconstruction:olean +YMOriginal.Original30_AnalyticToE0prime:olean +YMOriginal.Original30_ActualWordPhysicalBox:olean +YMOriginal.Original24_LocalGaugeInvariance:olean +YMOriginal.Original24_FromU1U2B10:olean +YMOriginal.Original24_Taylor5FromU2Moment:olean +YMOriginal.Original24_B10FromU2Exp:olean +YMOriginal.Original24_TaylorU1U2Marked:olean +YMOriginal.Original24_PhysicalSchwartzLine:olean +YMOriginal.Original24_ActualSchwartzB10:olean
           lake env lean -DwarningAsError=true YMOriginal/Original34_ManuscriptReconstruction.lean
           lake env lean -DwarningAsError=true YMOriginal/Original30_AnalyticToE0prime.lean
           lake env lean -DwarningAsError=true YMOriginal/Original30_ActualWordSmearing.lean
@@ -61,6 +62,7 @@ jobs:
           lake env lean -DwarningAsError=true YMOriginal/Original24_B10FromU2Exp.lean
           lake env lean -DwarningAsError=true YMOriginal/Original24_TaylorU1U2Marked.lean
           lake env lean -DwarningAsError=true YMOriginal/Original24_PhysicalSchwartzLine.lean
+          lake env lean -DwarningAsError=true YMOriginal/Original24_ActualSchwartzB10.lean
       - name: Original theorem type and exact axiom dependencies
         shell: bash
         run: |
@@ -77,7 +79,10 @@ jobs:
           import YMOriginal.Original24_B10FromU2Exp
           import YMOriginal.Original24_TaylorU1U2Marked
           import YMOriginal.Original24_PhysicalSchwartzLine
+          import YMOriginal.Original24_ActualSchwartzB10
           set_option pp.universes true
+          #print YMUIC.Original24.actual_schwartz_directional_fifth_bound
+          #print YMUIC.Original24.actual_schwartz_B10_from_U1_U2
           #print YMUIC.Original24.physical_test_line_smooth
           #print YMUIC.Original24.physical_test_line_fifth_norm
           #print YMUIC.Original24.physical_test_line_within_fifth_norm
@@ -103,6 +108,8 @@ jobs:
           #print YMUIC.Original34.PublishedOSII
           #print YMUIC.Original34.original34_manuscript_axioms_iff
           #print YMUIC.Original34.original34_manuscript_reconstruction
+          #print axioms YMUIC.Original24.actual_schwartz_directional_fifth_bound
+          #print axioms YMUIC.Original24.actual_schwartz_B10_from_U1_U2
           #print axioms YMUIC.Original24.physical_line_clm_norm
           #print axioms YMUIC.Original24.physical_test_line_smooth
           #print axioms YMUIC.Original24.physical_test_line_fifth_norm
