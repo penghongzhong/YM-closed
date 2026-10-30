@@ -79,8 +79,10 @@ theorem actual_bare_wilson_joint_OS1975_growth
     calc
       _ ≤ C ^ r * 2 :=
         mul_le_mul_of_nonneg_right hpow (by norm_num)
-      _ ≤ (C ^ r * 2) * (Nat.factorial r : ℝ) :=
-        mul_le_mul_of_nonneg_left hfct (by positivity)
+      _ ≤ (C ^ r * 2) * (Nat.factorial r : ℝ) := by
+        simpa only [mul_one] using
+          (mul_le_mul_of_nonneg_left hfct
+            (by positivity : 0 ≤ C ^ r * 2))
       _ = 2 * C ^ r * (Nat.factorial r : ℝ) := by ring
   change ‖(actualSpatialBareSchwingerHierarchy N a U words coeff).S r f‖ ≤
     (2 * C ^ r * (Nat.factorial r : ℝ)) * J
