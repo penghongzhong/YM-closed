@@ -82,8 +82,12 @@ theorem actual_marked_exponential_moment_from_U1_U2
             Real.exp (mu * d γ)) :=
           mul_le_mul_of_nonneg_right hSrc htail
       _ = (B * A) * Real.exp (-(kappa - mu) * d γ) := by
-          rw [← mul_assoc, hexp]
-          ring
+          calc
+            _ = (B * A) *
+                (Real.exp (-kappa * d γ) *
+                  Real.exp (mu * d γ)) := by ring
+            _ = (B * A) * Real.exp (-(kappa - mu) * d γ) := by
+                  rw [hexp]
   calc
     (∑ γ : Γ, ‖actualWordMarkedR U words coeff s unmarked γ‖ *
       Real.exp (mu * d γ)) ≤
@@ -135,8 +139,7 @@ theorem actual_U1_U2_fifth_Taylor_source
   have hmoment := actual_marked_exponential_moment_from_U1_U2
     U words coeff s hsmall unmarked d kappa mu A Ctree
     hA hunmarked hU2tree
-  simpa only [Fintype.sum_eq_sum_univ] using
-    finite_B10_Taylor_from_U2_exponential
+  exact finite_B10_Taylor_from_U2_exponential
       (actualWordMarkedR U words coeff s unmarked) line d
       aJ aN Mf mu
       ((2 * ‖s‖ * actualWilsonPolynomialBudget words coeff * A) *
