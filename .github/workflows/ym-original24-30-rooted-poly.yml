@@ -5,6 +5,7 @@ on:
     branches: [ym-original24-30-rooted-poly-20261030]
     paths:
       - "YM/Wilson/CompositeWordPolynomial24.lean"
+      - "YM/Wilson/CompositeWordDirection24_30.lean"
       - "YM/OSGrowth/Moments.lean"
       - "YM/OSGrowth/Polymer.lean"
       - "YM/OSGrowth/PolynomialRadiusBound.lean"
@@ -51,6 +52,8 @@ jobs:
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YM/Wilson/CompositeWordPolynomial24.lean; then exit 1; fi
           lake build +YM.Wilson.CompositeWordPolynomial24:olean
           lake env lean -DwarningAsError=true YM/Wilson/CompositeWordPolynomial24.lean
+          lake build +YM.Wilson.CompositeWordDirection24_30:olean
+          lake env lean -DwarningAsError=true YM/Wilson/CompositeWordDirection24_30.lean
           lake build +YM.OSGrowth.Original30PolynomialPolymerGrowth:olean
           lake env lean -DwarningAsError=true YM/OSGrowth/Original30PolynomialPolymerGrowth.lean
           lake build +YM.OSTensor.Original30RootedMaxShell:olean
@@ -64,6 +67,7 @@ jobs:
           source "$HOME/.elan/env"
           cat > /tmp/Original24Audit.lean <<'LEAN'
           import YM.Wilson.CompositeWordPolynomial24
+          import YM.Wilson.CompositeWordDirection24_30
           import YM.OSGrowth.Original30PolynomialPolymerGrowth
           import YM.OSTensor.Original30RootedMaxShell
           import YM.OSTensor.Original30RootCoverMaxShell
@@ -78,6 +82,11 @@ jobs:
           #print axioms YMUIC.Wilson.wilson_word_polynomial_schwartz_bound
           #print axioms YMUIC.Wilson.wilson_word_polynomial_schwartz_all_regulators
           #print axioms YMUIC.Wilson.wilson_word_external_root_any_radius
+          #print YMUIC.Wilson.composite_wilson_direction_all_regulators
+          #print axioms YMUIC.Wilson.composite_wilson_direction_uniform
+          #print axioms YMUIC.Wilson.composite_wilson_direction_sub
+          #print axioms YMUIC.Wilson.composite_wilson_direction_lipschitz
+          #print axioms YMUIC.Wilson.composite_wilson_direction_all_regulators
           #print YMUIC.OSGrowth.finite_polymer_polynomial_schwinger_growth
           #print axioms YMUIC.OSGrowth.finite_polymer_polynomial_schwinger_growth
           #print YMUIC.OSTensor.finite_polymer_max_shell_schwinger_growth
