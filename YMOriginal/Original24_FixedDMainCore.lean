@@ -67,7 +67,7 @@ theorem original24_fixedD_same_source_full_series_and_cocycle
     (M : ι → ℝ →
       EuclideanSpace ℝ (Fin Ddim) →L[ℝ] EuclideanSpace ℝ (Fin Ddim))
     (modulus : ℝ → ℝ) (gMax : ℝ) (hgMax : 0 < gMax)
-    (hmodulus : Tendsto modulus (nhdsWithin (0 : ℝ) (Set.Ioi 0)) (nhds 0))
+    (hmodulus : Filter.Tendsto modulus (nhdsWithin (0 : ℝ) (Set.Ioi 0)) (nhds 0))
     (hmod : ∀ i g, 0 < g → g ≤ gMax →
       ‖M i g - (M0 :
         EuclideanSpace ℝ (Fin Ddim) →L[ℝ]
