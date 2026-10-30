@@ -27,12 +27,15 @@ uses this lemma to DELETE the prior independent unmarked total hcount
 hypothesis of the already compiled both-sectors terminal theorem,
 substituting an explicit original-manuscript uniform shell counting
 condition, and preserving the actual n+2 Wilson-Mayer O(aAct) conclusion.
-In run #41044548642 the complete 9016/9016 kernel module build
-SUCCEEDED, but the workflow's separate audit failed solely because it
-put an import after a #print command. The workflow's audit import
-ordering was fixed in the next commit. Check latest rerun for the
-official final 9016/9016 audit status; do not declare complete until
-that job completes successfully.
+The previous #41044548642 compiled the new terminal (9016/9016)
+but failed due solely to a CI audit-file import-order error.
+This was repaired and the complete official STRICT acceptance is:
+- https://github.com/penghongzhong/YM-closed/actions/runs/41045067581
+  SUCCESS: both complete module builds, 9003/9003 shell module,
+  9016/9016 actual Bałaban native-shell terminal, all full theorem
+  types and #print axioms, only core standard axioms.
+  The hcount TOTAL bound is proved from the original native
+  shell-count hypothesis, not an additional unproved scalar premise.
 
 ## Correct unique-q FP contacts and factorial
 
