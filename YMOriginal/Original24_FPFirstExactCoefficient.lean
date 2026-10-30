@@ -121,12 +121,14 @@ theorem original24_one_bulk_exact_tree_count
     simp [hc]
   · have hset : exactExtendedSpanningTrees 1 G = ∅ := by
       ext T
-      simp only [Finset.mem_empty, iff_false]
-      intro hT
-      have hsub : T ≤ G ∧ T.IsTree := by
-        simpa only [exactExtendedSpanningTrees,
-          Finset.mem_filter, Finset.mem_univ, true_and] using hT
-      exact hc (hsub.2.connected.mono hsub.1)
+      constructor
+      · intro hT
+        have hsub : T ≤ G ∧ T.IsTree := by
+          simpa only [exactExtendedSpanningTrees,
+            Finset.mem_filter, Finset.mem_univ, true_and] using hT
+        exact (hc (hsub.2.connected.mono hsub.1)).elim
+      · intro hT
+        simp at hT
     change (exactExtendedSpanningTrees 1 G).card =
       if G.Connected then 1 else 0
     rw [hset]
