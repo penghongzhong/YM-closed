@@ -53,7 +53,8 @@ theorem actual_word_box_smearing_bound
     hbudget
     (wilson_box_weighted_sum_bound
       N a R ha hR hbox position q)
-  convert hW using 1 <;> ring
+  convert hW using 1
+  ring
 
 /-- The same true box-size bound holds simultaneously for every cutoff
 and lattice volume with N*a<=R, without identifying distinct cutoff
