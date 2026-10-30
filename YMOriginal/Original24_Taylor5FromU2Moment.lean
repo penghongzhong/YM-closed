@@ -34,12 +34,11 @@ theorem actual_taylor_four_fifth_remainder
     ‖f 1 - taylorWithinEval f 4 (Icc 0 1) 0 1‖ ≤ C / 24 := by
   have h := taylor_mean_remainder_bound (f := f)
     (a := (0 : ℝ)) (b := 1) (x := 1) (n := 4)
-    (by norm_num) (by simpa using hf) (by norm_num)
+    (by norm_num) hf (by norm_num)
     (by
       intro t ht
       simpa using hC t ht)
-  simpa only [Nat.factorial, Nat.cast_mul, Nat.cast_ofNat, Nat.cast_one,
-    sub_zero, one_pow, mul_one] using h
+  simpa [Nat.factorial] using h
 
 /-- The actual finite-cutoff marked source Taylor remainder, without
 assuming the post-R fifth-order conclusion. -/
@@ -59,7 +58,7 @@ theorem finite_marked_taylor_from_fifth_moment
     (aJ aN Mf C5 : ℝ)
     (haJ : 0 ≤ aJ) (haN : 0 < aN)
     (hMf : 0 ≤ Mf)
-    (hd : ∀ γ, 0 ≤ d γ)
+    (_hd : ∀ γ, 0 ≤ d γ)
     (hf : ∀ γ, ContDiffOn ℝ 5 (line γ) (Icc 0 1))
     (hderiv : ∀ γ (t : ℝ), t ∈ Icc 0 1 →
       ‖iteratedDerivWithin 5 (line γ) (Icc 0 1) t‖ ≤
