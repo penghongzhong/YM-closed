@@ -56,10 +56,12 @@ jobs:
           mkdir -p verification/original24-native-shell
           {
             echo "import YMOriginal.Original24_NativeShellU1"
+            if [ -f YMOriginal/Original24_BalabanNativeShellRealSeries.lean ]; then
+              echo "import YMOriginal.Original24_BalabanNativeShellRealSeries"
+            fi
             echo "#print YMUIC.Original24.actual_native_U1_shell_count_to_block_norm"
             echo "#print axioms YMUIC.Original24.actual_native_U1_shell_count_to_block_norm"
             if [ -f YMOriginal/Original24_BalabanNativeShellRealSeries.lean ]; then
-              echo "import YMOriginal.Original24_BalabanNativeShellRealSeries"
               echo "#print YMUIC.Original24.original24_balaban_native_shell_full_series"
               echo "#print axioms YMUIC.Original24.original24_balaban_native_shell_full_series"
             fi
