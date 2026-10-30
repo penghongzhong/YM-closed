@@ -20,9 +20,7 @@ theorem physical_line_clm_apply (v : TestSpace4) (t : ℝ) :
 theorem physical_line_clm_norm (v : TestSpace4) :
     ‖physicalLineCLM v‖ = ‖v‖ := by
   unfold physicalLineCLM
-  simpa using
-    (ContinuousLinearMap.norm_smulRight_apply
-      (ContinuousLinearMap.id ℝ ℝ) v)
+  simp
 
 /-- Actual Schwartz test-function evaluation along the 4D physical
 RG source-to-root displacement. -/
@@ -67,7 +65,7 @@ theorem physical_test_line_fifth_norm
     rw [iteratedFDeriv_comp_add_left (f := (f : TestSpace4 → ℂ)) 5 x (g t)]
   have hF : ‖iteratedFDeriv ℝ 5 f (x + g t)‖ ≤
       SchwartzMap.seminorm ℂ 0 5 f :=
-    f.norm_iteratedFDeriv_le_seminorm 5 (x + g t)
+    SchwartzMap.norm_iteratedFDeriv_le_seminorm ℂ f 5 (x + g t)
   calc
     ‖iteratedDeriv 5 (physicalTestLine f x v) t‖ =
         ‖iteratedFDeriv ℝ 5 (physicalTestLine f x v) t‖ := by
