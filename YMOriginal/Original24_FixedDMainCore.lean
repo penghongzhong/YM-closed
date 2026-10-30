@@ -150,6 +150,9 @@ theorem original24_fixedD_same_source_full_series_and_cocycle
       Summable (fun n : ℕ => oldTerm n + newTerm n) ∧
       ‖x‖ ≤ ‖sourceLift‖ *
         (K * (Cold * Aold + Cnew * Anew)) ∧
+      ‖jetRemainder extract includeJet x‖ ≤
+        (1 + ‖includeJet‖ * ‖extract‖) *
+          (‖sourceLift‖ * (K * (Cold * Aold + Cnew * Anew))) ∧
       ∀ (m : ℕ) (index : ℕ → ι) (g : ℕ → ℝ),
         (∀ j < m, 0 < g j ∧ g j ≤ gD) →
         ∃ Z : EuclideanSpace ℝ (Fin Ddim) ≃L[ℝ]
@@ -244,10 +247,32 @@ theorem original24_fixedD_same_source_full_series_and_cocycle
       _ ≤ ‖sourceLift‖ *
           (K * (Cold * Aold + Cnew * Anew)) :=
           mul_le_mul_of_nonneg_left htotal (norm_nonneg _)
+  have hProjectionNorm :
+      ‖includeJet (extract x)‖ ≤
+        ‖includeJet‖ * (‖extract‖ * ‖x‖) :=
+    (includeJet.le_opNorm _).trans
+      (mul_le_mul_of_nonneg_left (extract.le_opNorm x) (norm_nonneg _))
+  have hRemainderNorm :
+      ‖jetRemainder extract includeJet x‖ ≤
+        (1 + ‖includeJet‖ * ‖extract‖) *
+          (‖sourceLift‖ * (K * (Cold * Aold + Cnew * Anew))) := by
+    have hSimple :
+        ‖jetRemainder extract includeJet x‖ ≤
+          (1 + ‖includeJet‖ * ‖extract‖) * ‖x‖ := by
+      simp only [jetRemainder, ContinuousLinearMap.sub_apply,
+        ContinuousLinearMap.one_apply, ContinuousLinearMap.comp_apply]
+      calc
+        ‖x - includeJet (extract x)‖ ≤
+            ‖x‖ + ‖includeJet (extract x)‖ := norm_sub_le _ _
+        _ ≤ ‖x‖ + ‖includeJet‖ * (‖extract‖ * ‖x‖) :=
+            add_le_add_left hProjectionNorm _
+        _ = (1 + ‖includeJet‖ * ‖extract‖) * ‖x‖ := by ring
+    exact hSimple.trans
+      (mul_le_mul_of_nonneg_left hx (by positivity))
   obtain ⟨gD, hgD, hgDm, hblock⟩ :=
     original19_fixed_dimension_counterterm M0 M modulus hgMax
       hmodulus hmod
-  refine ⟨gD, Cold, Cnew, hgD, hgDm, hCold, hCnew, hsum, hx, ?_⟩
+  refine ⟨gD, Cold, Cnew, hgD, hgDm, hCold, hCnew, hsum, hx, hRemainderNorm, ?_⟩
   intro m index g hweak
   obtain ⟨Z, hZ, _hsteps, hdual⟩ := hblock m index g hweak
   refine ⟨Z, hZ, ?_⟩
