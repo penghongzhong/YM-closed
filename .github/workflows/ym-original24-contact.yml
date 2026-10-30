@@ -1,0 +1,58 @@
+name: YM Original24 real polymer root contact and U1 norm — Lean strict pin
+on:
+  push:
+    branches: [ym-original24-link-wilson-20261030]
+    paths:
+      - "YMOriginal/Original24_ActualRootContactCounting.lean"
+      - ".github/workflows/ym-original24-contact.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  actual-root-cover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup locked Lean
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Exact mathlib release
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Build and audit actual polymer root contact
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original24_ActualRootContactCounting.lean; then exit 1; fi
+          lake build +YMOriginal.Original24_ActualRootContactCounting:olean
+          cat > ActualRootContactAudit.lean <<'LEAN'
+          import YMOriginal.Original24_ActualRootContactCounting
+          #print YMUIC.Original24.actual_root_contact_covered
+          #print YMUIC.Original24.actual_root_neighborhood_card_le
+          #print YMUIC.Original24.actual_root_contact_sum_from_block_norm
+          #print axioms YMUIC.Original24.actual_root_contact_covered
+          #print axioms YMUIC.Original24.actual_root_neighborhood_card_le
+          #print axioms YMUIC.Original24.actual_root_contact_sum_from_block_norm
+          LEAN
+          lake env lean -DwarningAsError=true ActualRootContactAudit.lean | tee actual-root-contact-audit.log
+          if grep -E 'sorryAx|^error:' actual-root-contact-audit.log; then exit 1; fi
+      - name: Upload strict audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: actual-root-contact-${{ github.sha }}
+          path: actual-root-contact-audit.log
+          if-no-files-found: warn
+          retention-days: 30
