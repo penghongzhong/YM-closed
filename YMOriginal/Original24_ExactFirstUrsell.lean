@@ -3,6 +3,7 @@ import YMOriginal.Original24_PublishedPenroseExtended
 import Mathlib.Combinatorics.SimpleGraph.Star
 
 set_option autoImplicit false
+set_option linter.unusedSimpArgs false
 noncomputable section
 
 namespace YMUIC.Original24
@@ -32,7 +33,7 @@ This is a structural finite-graph identity with no external
 Penrose theorem premise. -/
 theorem original24_exact_connected_graph_sum_of_tree
     (n : ℕ) (G : SimpleGraph (Sum (Fin n) (Fin 2)))
-    (hG : G.IsTree) :
+    [Fintype G.edgeSet] (hG : G.IsTree) :
     exactExtendedConnectedGraphSum n G =
       (-1 : ℝ) ^ G.edgeFinset.card := by
   classical
@@ -40,7 +41,7 @@ theorem original24_exact_connected_graph_sum_of_tree
     SimpleGraph.isTree_iff_minimal_connected.mp hG
   have hOnly (H : SimpleGraph (Sum (Fin n) (Fin 2)))
       (hHG : H ≤ G) (hHC : H.Connected) : H = G :=
-    le_antisymm hHG (hMin.2 H hHC hHG)
+    le_antisymm hHG (hMin.2 hHC hHG)
   unfold exactExtendedConnectedGraphSum
   rw [Finset.sum_eq_single G]
   · simp [hG.connected]
@@ -105,6 +106,7 @@ theorem original24_actual_one_bulk_graph_eq_star
 /-- **The exact original n=1 Mayer/Ursell coefficient:** +1 if
 the one bulk history contacts BOTH Wilson roots, zero otherwise.
 No Penrose, no FP, no artificial abstract coefficient or axiom. -/
+open Classical in
 theorem original24_exact_one_bulk_ursell_eq_bridge_indicator
     {Γ : Type*} [Fintype Γ]
     (N chi : ℕ)
