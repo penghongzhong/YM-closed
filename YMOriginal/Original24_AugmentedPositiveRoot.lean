@@ -73,7 +73,7 @@ theorem actual_positive_second_root_KP_from_U1_margin
           (rootP.card : ℝ)) *
           (aAct + epsilon * Real.exp
             (kappa * (rootQ.card : ℝ))) := by
-  let B : ℝ := ((((2 * chi + 1 : ℕ) ^ 4 : ℕ) : ℝ)
+  let B : ℝ := (((2 * chi + 1 : ℕ) ^ 4 : ℕ) : ℝ)
   let E : ℝ := Real.exp (kappa * (rootQ.card : ℝ))
   let H : ℝ := (kappa - cGeo * mu) / 2
   have hB : 0 < B := by
