@@ -252,7 +252,16 @@ theorem original24_fixedD_same_source_full_series_and_cocycle
   obtain ⟨Z, hZ, _hsteps, hdual⟩ := hblock m index g hweak
   refine ⟨Z, hZ, ?_⟩
   intro J
+  have hZx :
+      Z (extract x) =
+        (actualCocycle (fun k => M (index k) (g k)) m) (extract x) := by
+    exact congrArg
+      (fun L : EuclideanSpace ℝ (Fin Ddim) →L[ℝ]
+          EuclideanSpace ℝ (Fin Ddim) => L (extract x)) hZ
+  have hpair : transportedSource Z J (Z (extract x)) = J (extract x) := by
+    rw [hZx]
+    exact hdual J (extract x)
   have hsplit := jet_remainder_exact extract includeJet hjet x
-  exact ⟨hdual J (extract x), hsplit.1, hsplit.2⟩
+  exact ⟨hpair, hsplit.1, hsplit.2⟩
 
 end YMUIC.Original24
