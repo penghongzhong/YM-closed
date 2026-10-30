@@ -43,7 +43,9 @@ theorem wilson_root_conjugation_invariant
       _ = Matrix.trace ((((g⁻¹ : SU2) : SU2Mat) * (g : SU2Mat)) *
           (u : SU2Mat)) := by rw [Matrix.mul_assoc]
       _ = Matrix.trace (u : SU2Mat) := by rw [hginv, one_mul]
-  simp [wilsonRoot, ht]
+  change 2 - (Matrix.trace (((g * u * g⁻¹ : SU2) : SU2Mat))).re =
+    2 - (Matrix.trace (u : SU2Mat)).re
+  rw [ht]
 
 /-- Correct chronological SU(2) ordered word holonomy transforms
 by simultaneous basepoint gauge conjugation. -/
