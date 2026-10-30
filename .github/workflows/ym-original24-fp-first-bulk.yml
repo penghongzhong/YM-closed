@@ -1,0 +1,63 @@
+name: Original24 physical first-bulk FP coefficient strict
+on:
+  push:
+    branches: [ym-original24-fp-enumeration-20261031]
+    paths:
+      - "YMOriginal/Original24_FPFirstConnectedBulk.lean"
+      - ".github/workflows/ym-original24-fp-first-bulk.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  first-bulk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Exact official Lean pin
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Locked Mathlib cache
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Compile actual one-bulk FP coefficient
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          f=YMOriginal/Original24_FPFirstConnectedBulk.lean
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' "$f"; then exit 1; fi
+          lake build +YMOriginal.Original24_FPFirstConnectedBulk:olean
+          lake env lean -DwarningAsError=true "$f"
+      - name: Print exact terminal type and axioms
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/original24-fp-first-bulk
+          cat > verification/original24-fp-first-bulk/Audit.lean <<'LEAN'
+          import YMOriginal.Original24_FPFirstConnectedBulk
+          set_option pp.universes true
+          #print YMUIC.Original24.original24_FP_one_bulk_connected_from_KP
+          #print axioms YMUIC.Original24.original24_FP_one_bulk_connected_from_KP
+          LEAN
+          lake env lean -DwarningAsError=true verification/original24-fp-first-bulk/Audit.lean | tee verification/original24-fp-first-bulk/axioms.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original24-fp-first-bulk/axioms.log; then exit 1; fi
+      - name: Preserve audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-original24-fp-first-bulk-axioms
+          path: verification/original24-fp-first-bulk/axioms.log
+          if-no-files-found: warn
