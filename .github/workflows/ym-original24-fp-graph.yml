@@ -5,6 +5,7 @@ on:
     paths:
       - "YMOriginal/Original24_ExactGraphToSingleQ.lean"
       - "YMOriginal/Original24_ExactTreeTransport.lean"
+      - "YMOriginal/Original24_ExactTreeCount.lean"
       - "YMOriginal/Original24_ExactAugmentedQContact.lean"
       - "YMOriginal/Original24_UniqueQFactorial.lean"
       - ".github/workflows/ym-original24-fp-graph.yml"
@@ -46,8 +47,8 @@ jobs:
               echo "Prohibited declaration found in $f"; exit 1
             fi
           done
-          lake build +YMOriginal.Original24_ExactTreeTransport:olean
-          lake env lean -DwarningAsError=true YMOriginal/Original24_ExactTreeTransport.lean
+          lake build +YMOriginal.Original24_ExactTreeCount:olean
+          lake env lean -DwarningAsError=true YMOriginal/Original24_ExactTreeCount.lean
       - name: Exact terminal type and axioms
         shell: bash
         run: |
@@ -55,7 +56,7 @@ jobs:
           source "$HOME/.elan/env"
           mkdir -p verification/original24-fp-graph
           cat > verification/original24-fp-graph/Audit.lean <<'LEAN'
-          import YMOriginal.Original24_ExactTreeTransport
+          import YMOriginal.Original24_ExactTreeCount
           set_option pp.universes true
           #print YMUIC.Original24.original24_exact_relation_to_single_q
           #print axioms YMUIC.Original24.original24_exact_relation_to_single_q
@@ -64,6 +65,8 @@ jobs:
           #print axioms YMUIC.Original24.original24_unique_second_root_factorial
           #print YMUIC.Original24.original24_exact_spanning_tree_to_single_q
           #print axioms YMUIC.Original24.original24_exact_spanning_tree_to_single_q
+          #print YMUIC.Original24.original24_exact_tree_count_le_single_q
+          #print axioms YMUIC.Original24.original24_exact_tree_count_le_single_q
           LEAN
           lake env lean -DwarningAsError=true verification/original24-fp-graph/Audit.lean | tee verification/original24-fp-graph/axioms.log
           if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original24-fp-graph/axioms.log; then exit 1; fi
