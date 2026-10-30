@@ -35,7 +35,7 @@ def twoRootToSingleQ (n : ℕ) :
     intro x
     cases x with
     | inl i => rfl
-    | inr k => fin_cases k <;> decide
+    | inr k => fin_cases k <;> simp
   right_inv := by
     intro x
     cases x with
@@ -96,7 +96,9 @@ private theorem bulk_augmented_root_contact_iff
     X ∈ actualContactRoot rootP
         (fourDimPeriodicNeighborhood N chi) support := by
   classical
-  simp [actualContactRoot, actualSecondRootAugmentedSupport]
+  unfold actualContactRoot
+  simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+  rfl
 
 private theorem bulk_augmented_bulk_incompatible
     {Γ : Type*} [Fintype Γ]
