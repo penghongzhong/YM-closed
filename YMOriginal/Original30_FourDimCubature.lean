@@ -46,7 +46,7 @@ theorem lattice_four_dimensional_uniform_all_cutoffs
       latticeFourDimWeight a site) ≤ 16 := by
   let w : Fin N → ℝ := latticeOneDimWeight a
   have hsum1 : (∑ k : Fin N, w k) ≤ 2 := by
-    simpa [w, latticeOneDimWeight, Fin.sum_univ_eq_sum_range] using
+    simpa only [w, latticeOneDimWeight, ← Fin.sum_univ_eq_sum_range] using
       lattice_inverse_square_uniform_all_cutoffs a ha ha1 N
   have hsum0 : 0 ≤ ∑ k : Fin N, w k := by
     apply Finset.sum_nonneg
