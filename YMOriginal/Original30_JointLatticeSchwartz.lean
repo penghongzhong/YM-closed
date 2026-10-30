@@ -97,12 +97,10 @@ theorem actual_word_joint_cutoff_schwartz_bound
           actualWilsonPolynomial (U (tuple j))
             (words (tuple j)) (coeff (tuple j))‖) ≤
         ∏ _j : Fin r, (weightBound * K) := by
-          exact Finset.prod_le_prod
+          exact Finset.prod_le_prod₀
             (fun j hj => norm_nonneg _)
             (fun j hj => hentry (tuple j))
       _ = (weightBound * K) ^ r := by simp
-  have hsem : 0 ≤ SchwartzMap.seminorm ℂ 0 0 f :=
-    apply_nonneg _ _
   have hterm (tuple : Fin r → P) :
       ‖(∏ j : Fin r, weights (tuple j) *
           actualWilsonPolynomial (U (tuple j))
@@ -129,7 +127,7 @@ theorem actual_word_joint_cutoff_schwartz_bound
         exact hterm tuple
     _ = (((Fintype.card P : ℝ) * weightBound * K) ^ r) *
           SchwartzMap.seminorm ℂ 0 0 f := by
-        simp [Fintype.card_fun, Fintype.card_fin, mul_pow]
+        simp [Fintype.card_fin, mul_pow]
         ring
 
 /-- Actual physical 4D periodic box: P=6*N^4 plaquettes and each source
@@ -167,14 +165,24 @@ theorem actual_word_joint_physical_box_bound
   have hcoord :
       ((Fintype.card (WilsonBoxPlaquettes N) : ℝ) * a ^ 4 * K)
         ≤ 6 * K * R ^ 4 := by
+    have hcount :
+        (Fintype.card (WilsonBoxPlaquettes N) : ℝ) =
+          6 * (N : ℝ) ^ 4 := by
+      change (Fintype.card (Fin 6 × Fin (N ^ 4)) : ℝ) =
+        6 * (N : ℝ) ^ 4
+      simp only [Fintype.card_prod, Fintype.card_fin,
+        Nat.cast_mul, Nat.cast_pow, Nat.cast_ofNat]
     have hident :
         ((Fintype.card (WilsonBoxPlaquettes N) : ℝ) * a ^ 4 * K) =
           6 * (((N : ℝ) * a) ^ 4) * K := by
-      simp [WilsonBoxPlaquettes, Fintype.card_prod]
+      rw [hcount]
       ring
     rw [hident]
-    nlinarith [mul_le_mul_of_nonneg_left hvol
-      (mul_nonneg (by norm_num : (0 : ℝ) ≤ 6) hK)]
+    calc
+      6 * (((N : ℝ) * a) ^ 4) * K ≤ 6 * R ^ 4 * K :=
+        mul_le_mul_of_nonneg_right
+          (mul_le_mul_of_nonneg_left hvol (by norm_num)) hK
+      _ = 6 * K * R ^ 4 := by ring
   have hb0 : 0 ≤
       ((Fintype.card (WilsonBoxPlaquettes N) : ℝ) * a ^ 4 * K) := by
     positivity
