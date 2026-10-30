@@ -4,6 +4,7 @@ on:
     branches: [ym-original24-link-wilson-20261030]
     paths:
       - "YMOriginal/Original24_ActualLatticeLinks.lean"
+      - "YMOriginal/Original30_JointLatticeSchwartz.lean"
       - ".github/workflows/ym-physical-wilson-links.yml"
   workflow_dispatch:
 permissions:
@@ -36,7 +37,7 @@ jobs:
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original24_ActualLatticeLinks.lean; then exit 1; fi
-          lake build +YMOriginal.Original24_ActualLatticeLinks:olean
+          lake build +YMOriginal.Original24_ActualLatticeLinks:olean +YMOriginal.Original30_JointLatticeSchwartz:olean
       - name: Check exact statements and axiom dependencies
         shell: bash
         run: |
@@ -44,10 +45,15 @@ jobs:
           source "$HOME/.elan/env"
           cat > ActualLatticeLinksAudit.lean <<'LEAN'
           import YMOriginal.Original24_ActualLatticeLinks
+          import YMOriginal.Original30_JointLatticeSchwartz
+          #print YMUIC.Original30.actual_word_joint_cutoff_schwartz_bound
+          #print YMUIC.Original30.actual_word_joint_physical_box_bound
           #print YMUIC.Original24.actual_walk_gauge_transport
           #print YMUIC.Original24.actual_closed_link_walk_conjugacy
           #print YMUIC.Original24.actual_closed_wilson_root_gauge_invariant
           #print YMUIC.Original24.actual_link_wilson_polynomial_gauge_invariant
+          #print axioms YMUIC.Original30.actual_word_joint_cutoff_schwartz_bound
+          #print axioms YMUIC.Original30.actual_word_joint_physical_box_bound
           #print axioms YMUIC.Original24.actual_walk_gauge_transport
           #print axioms YMUIC.Original24.actual_closed_link_walk_conjugacy
           #print axioms YMUIC.Original24.actual_closed_wilson_root_gauge_invariant
