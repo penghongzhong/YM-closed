@@ -29,8 +29,9 @@ in the same physical periodic N^4 lattice. -/
 def actualOnePolymerTwoRootBridge
     {Γ : Type*} [Fintype Γ]
     (N chi : ℕ) (rootP rootQ : Finset (PeriodicBlock N))
-    (support : Γ → Finset (PeriodicBlock N)) : Finset Γ :=
-  actualContactRoot rootP (fourDimPeriodicNeighborhood N chi) support ∩
+    (support : Γ → Finset (PeriodicBlock N)) : Finset Γ := by
+  classical
+  exact actualContactRoot rootP (fourDimPeriodicNeighborhood N chi) support ∩
     actualContactRoot rootQ (fourDimPeriodicNeighborhood N chi) support
 
 /-- The actual two-root SOURCE-NORM bound for one connected polymer,
@@ -99,7 +100,13 @@ theorem actual_one_polymer_two_root_from_local_U1
   have hsubset :
       bridge ⊆ actualContactRoot rootP
         (fourDimPeriodicNeighborhood N chi) support :=
-    Finset.inter_subset_left
+    by
+      classical
+      simpa only [bridge, actualOnePolymerTwoRootBridge] using
+        (Finset.inter_subset_left :
+          (actualContactRoot rootP (fourDimPeriodicNeighborhood N chi) support ∩
+            actualContactRoot rootQ (fourDimPeriodicNeighborhood N chi) support) ⊆
+            actualContactRoot rootP (fourDimPeriodicNeighborhood N chi) support)
   have hBridgeNorm :
       (∑ X ∈ bridge, weight X) ≤
       ((((2 * chi + 1 : ℕ) ^ 4 : ℕ) : ℝ) *
@@ -111,7 +118,7 @@ theorem actual_one_polymer_two_root_from_local_U1
         ‖actualTwoRootMarkedR U wp cp wq cq s t z X‖ ≤
           K * Real.exp (mu * cRt) * weight X := by
     have hg := hgeom X hX
-    have hµ : mu * dRoot ≤
+    have hmuBound : mu * dRoot ≤
         mu * cRt + kappa * length X := by
       have hmul :=
         mul_le_mul_of_nonneg_left hg hmu
@@ -121,7 +128,7 @@ theorem actual_one_polymer_two_root_from_local_U1
         Real.exp (mu * dRoot) ≤
           Real.exp (mu * cRt) * Real.exp (kappa * length X) := by
       rw [← Real.exp_add]
-      exact Real.exp_le_exp.mpr hµ
+      exact Real.exp_le_exp.mpr hmuBound
     calc
       Real.exp (mu * dRoot) *
           ‖actualTwoRootMarkedR U wp cp wq cq s t z X‖ =
