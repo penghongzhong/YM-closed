@@ -7,6 +7,7 @@ on:
       - "YMOriginal/Original24_TwoExternalWilsonRoots.lean"
       - "YMOriginal/Original24_TwoRootFullRadius.lean"
       - "YMOriginal/Original24_TwoRootOldNewU1.lean"
+      - "YMOriginal/Original24_FixedLinkSupport.lean"
       - "YMOriginal/Original30_JointLatticeSchwartz.lean"
       - "YMOriginal/Original30_FixedBoxJointHierarchy.lean"
       - "YMOriginal/Original30_WilsonProbabilityMoments.lean"
@@ -42,7 +43,7 @@ jobs:
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original24_ActualLatticeLinks.lean; then exit 1; fi
-          lake build +YMOriginal.Original24_TwoRootOldNewU1:olean +YMOriginal.Original30_FixedBoxJointHierarchy:olean +YMOriginal.Original30_WilsonProbabilityMoments:olean
+          lake build +YMOriginal.Original24_TwoRootOldNewU1:olean +YMOriginal.Original24_FixedLinkSupport:olean +YMOriginal.Original30_FixedBoxJointHierarchy:olean +YMOriginal.Original30_WilsonProbabilityMoments:olean
       - name: Check exact statements and axiom dependencies
         shell: bash
         run: |
@@ -53,9 +54,13 @@ jobs:
           import YMOriginal.Original24_TwoExternalWilsonRoots
           import YMOriginal.Original24_TwoRootFullRadius
           import YMOriginal.Original24_TwoRootOldNewU1
+          import YMOriginal.Original24_FixedLinkSupport
           import YMOriginal.Original30_JointLatticeSchwartz
           import YMOriginal.Original30_FixedBoxJointHierarchy
           import YMOriginal.Original30_WilsonProbabilityMoments
+          #print YMUIC.Original24.actual_link_walk_support_radius
+          #print YMUIC.Original24.actual_fixed_word_support_radius
+          #print YMUIC.Original24.actual_two_fixed_wilson_root_support_separation
           #print YMUIC.Original24.actual_wilson_word_insertion_full_radius
           #print YMUIC.Original24.actual_two_root_insertion_full_radius
           #print YMUIC.Original24.actual_two_root_full_radius_rooted_tree
@@ -73,6 +78,9 @@ jobs:
           #print YMUIC.Original24.actual_closed_link_walk_conjugacy
           #print YMUIC.Original24.actual_closed_wilson_root_gauge_invariant
           #print YMUIC.Original24.actual_link_wilson_polynomial_gauge_invariant
+          #print axioms YMUIC.Original24.actual_link_walk_support_radius
+          #print axioms YMUIC.Original24.actual_fixed_word_support_radius
+          #print axioms YMUIC.Original24.actual_two_fixed_wilson_root_support_separation
           #print axioms YMUIC.Original24.actual_wilson_word_insertion_full_radius
           #print axioms YMUIC.Original24.actual_two_root_insertion_full_radius
           #print axioms YMUIC.Original24.actual_two_root_full_radius_rooted_tree
