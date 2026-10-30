@@ -9,6 +9,10 @@ namespace YMUIC.Original34
 
 /-!
 # Original #34: Osterwalder--Schrader 1975 Theorem E' -> R'
+
+The 2026-10-30 strengthened source enforces S_0=1 and the FULL E1
+Euclidean action (translations and rotations) as model-side hypotheses;
+the earlier type missed these physical normalization/covariance inputs.
 # EXACT PUBLISHED-INPUT USE BOUNDARY (not a new proof of OS II).
 
 Osterwalder--Schrader, "Axioms for Euclidean Green's Functions II",
@@ -40,6 +44,7 @@ All four are fixed once, and not allowed to depend on the cutoff.
 The physical source-to-test geometry dictionary must still be checked. -/
 structure OSTestGeometry (Rot PosPoly : Type*) where
   rotate : ∀ r, Rot → JointTest r → JointTest r
+  translate : ∀ r, EuclideanSpace ℝ (Fin 4) → JointTest r → JointTest r
   permute : ∀ r, Equiv.Perm (Fin r) → JointTest r → JointTest r
   separate : ∀ r s, JointTest r → JointTest s → ℝ → JointTest (r + s)
   positiveTime : PosPoly → Prop
@@ -60,9 +65,13 @@ or positivity is manufactured by the definition. -/
 structure OSSchwingerAxioms
     {Rot PosPoly : Type*}
     (G : OSTestGeometry Rot PosPoly) (H : SchwingerHierarchy) : Prop where
+  normalization : ∀ f : JointTest 0, H.S 0 f = f 0
   E0prime : OS_E0prime H
   E1 : ∀ (r : ℕ) (R : Rot) (f : JointTest r),
     H.S r (G.rotate r R f) = H.S r f
+  E1translations : ∀ (r : ℕ) (x : EuclideanSpace ℝ (Fin 4))
+      (f : JointTest r),
+    H.S r (G.translate r x f) = H.S r f
   E2 : ∀ p : PosPoly, G.positiveTime p →
     (G.reflectedPolynomialMoment H p p).im = 0 ∧
     0 ≤ (G.reflectedPolynomialMoment H p p).re
