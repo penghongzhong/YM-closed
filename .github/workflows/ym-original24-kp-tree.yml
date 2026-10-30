@@ -4,6 +4,7 @@ on:
     branches: [ym-original24-link-wilson-20261030]
     paths:
       - "YMOriginal/Original24_PeriodicKPFiniteTree.lean"
+      - "YMOriginal/Original24_PeriodicRootTreeLimit.lean"
       - ".github/workflows/ym-original24-kp-tree.yml"
   workflow_dispatch:
 permissions:
@@ -36,11 +37,17 @@ jobs:
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original24_PeriodicKPFiniteTree.lean; then exit 1; fi
-          lake build +YMOriginal.Original24_PeriodicKPFiniteTree:olean
+          lake build +YMOriginal.Original24_PeriodicRootTreeLimit:olean
           cat > KPTreeAudit.lean <<'LEAN'
-          import YMOriginal.Original24_PeriodicKPFiniteTree
+          import YMOriginal.Original24_PeriodicRootTreeLimit
+          #print YMUIC.Original24.actual_periodic_tree_height_mono
+          #print YMUIC.Original24.actual_periodic_first_root_uniform
+          #print YMUIC.Original24.actual_periodic_first_root_limit_exists_and_bounded
           #print YMUIC.Original24.actual_periodic_U1_to_U2_child_barrier
           #print YMUIC.Original24.actual_periodic_U2_tree_height_bound
+          #print axioms YMUIC.Original24.actual_periodic_tree_height_mono
+          #print axioms YMUIC.Original24.actual_periodic_first_root_uniform
+          #print axioms YMUIC.Original24.actual_periodic_first_root_limit_exists_and_bounded
           #print axioms YMUIC.Original24.actual_periodic_U1_to_U2_child_barrier
           #print axioms YMUIC.Original24.actual_periodic_U2_tree_height_bound
           LEAN
