@@ -71,7 +71,9 @@ theorem one_q_nonempty_bulk_le_double_fugacity
         ring
   have hterm (T : Tree) :
       0 ≤ weight T * lam ^ bulkCount T * eps ^ qCount T := by
-    positivity
+    exact mul_nonneg
+      (mul_nonneg (hweight T) (pow_nonneg hlam0 _))
+      (pow_nonneg heps _)
   calc
     (lam * eps) *
         (∑ T ∈ trees.filter
@@ -106,7 +108,14 @@ theorem one_q_nonempty_bulk_from_doped_majorant
         M / (lam * eps) := by
   have hlam0 : 0 < lam := by linarith
   apply (le_div_iff₀ (mul_pos hlam0 heps)).mpr
-  exact (one_q_nonempty_bulk_le_double_fugacity
-    trees bulkCount qCount weight hweight lam eps hlam heps.le).trans hfull
+  calc
+    (∑ T ∈ trees.filter
+      (fun T => 1 ≤ bulkCount T ∧ qCount T = 1), weight T) *
+        (lam * eps) =
+      (lam * eps) * (∑ T ∈ trees.filter
+        (fun T => 1 ≤ bulkCount T ∧ qCount T = 1), weight T) := by ring
+    _ ≤ M :=
+      (one_q_nonempty_bulk_le_double_fugacity
+        trees bulkCount qCount weight hweight lam eps hlam heps.le).trans hfull
 
 end YMUIC.Original24
