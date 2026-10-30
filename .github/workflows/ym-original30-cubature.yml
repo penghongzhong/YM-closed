@@ -1,0 +1,58 @@
+name: YM Original30 unbounded-volume one-dimensional cubature proof
+on:
+  push:
+    branches: [ym-original24-link-wilson-20261030]
+    paths:
+      - "YMOriginal/Original30_OneDimCubature.lean"
+      - ".github/workflows/ym-original30-cubature.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lattice-cubature:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install official pinned Lean
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Load locked Mathlib
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Compile physical lattice cubature
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original30_OneDimCubature.lean; then exit 1; fi
+          lake build +YMOriginal.Original30_OneDimCubature:olean
+          cat > CubatureAudit.lean <<'LEAN'
+          import YMOriginal.Original30_OneDimCubature
+          #print YMUIC.Original30.lattice_inverse_square_telescope_step
+          #print YMUIC.Original30.lattice_inverse_square_prefix
+          #print YMUIC.Original30.lattice_inverse_square_uniform_all_cutoffs
+          #print axioms YMUIC.Original30.lattice_inverse_square_telescope_step
+          #print axioms YMUIC.Original30.lattice_inverse_square_prefix
+          #print axioms YMUIC.Original30.lattice_inverse_square_uniform_all_cutoffs
+          LEAN
+          lake env lean -DwarningAsError=true CubatureAudit.lean | tee cubature-audit.log
+          if grep -E 'sorryAx|^error:' cubature-audit.log; then exit 1; fi
+      - name: Preserve audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-original30-1d-cubature-${{ github.sha }}
+          path: cubature-audit.log
+          if-no-files-found: warn
+          retention-days: 30
