@@ -1,7 +1,7 @@
 name: Original24 true 4D Schwartz source B10 all-scale terminal
 on:
   push:
-    branches: [ym-original24-terminal-source-tail-20261031]
+    branches: [ym-original24-source-tail-native-20261031]
     paths:
       - "YMOriginal/Original24_TrueSchwartzScaleTail.lean"
       - ".github/workflows/ym-original24-true-b10-terminal.yml"
