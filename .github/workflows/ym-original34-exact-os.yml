@@ -8,6 +8,7 @@ on:
       - "YMOriginal/Original30_AnalyticToE0prime.lean"
       - "YMOriginal/Original30_ActualWordSmearing.lean"
       - "YMOriginal/Original30_ActualWordPhysicalBox.lean"
+      - "YMOriginal/Original24_LocalGaugeInvariance.lean"
       - "YM/Wilson/WeightedSmearing.lean"
       - "YM/Wilson/FixedBoxSmearing.lean"
       - ".github/workflows/ym-original34-exact-os.yml"
@@ -44,11 +45,12 @@ jobs:
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original34_*.lean; then exit 1; fi
-          lake build +YMOriginal.Original34_ManuscriptReconstruction:olean +YMOriginal.Original30_AnalyticToE0prime:olean +YMOriginal.Original30_ActualWordPhysicalBox:olean
+          lake build +YMOriginal.Original34_ManuscriptReconstruction:olean +YMOriginal.Original30_AnalyticToE0prime:olean +YMOriginal.Original30_ActualWordPhysicalBox:olean +YMOriginal.Original24_LocalGaugeInvariance:olean
           lake env lean -DwarningAsError=true YMOriginal/Original34_ManuscriptReconstruction.lean
           lake env lean -DwarningAsError=true YMOriginal/Original30_AnalyticToE0prime.lean
           lake env lean -DwarningAsError=true YMOriginal/Original30_ActualWordSmearing.lean
           lake env lean -DwarningAsError=true YMOriginal/Original30_ActualWordPhysicalBox.lean
+          lake env lean -DwarningAsError=true YMOriginal/Original24_LocalGaugeInvariance.lean
       - name: Original theorem type and exact axiom dependencies
         shell: bash
         run: |
@@ -59,7 +61,9 @@ jobs:
           import YMOriginal.Original30_AnalyticToE0prime
           import YMOriginal.Original30_ActualWordSmearing
           import YMOriginal.Original30_ActualWordPhysicalBox
+          import YMOriginal.Original24_LocalGaugeInvariance
           set_option pp.universes true
+          #print YMUIC.Original24.actual_wilson_polynomial_gauge_invariant
           #print YMUIC.Original30.actual_word_box_smearing_bound
           #print YMUIC.Original30.actual_word_box_smearing_all_regulators
           #print YMUIC.Original30.actual_word_schwartz_smearing_bound
@@ -72,6 +76,11 @@ jobs:
           #print YMUIC.Original34.PublishedOSII
           #print YMUIC.Original34.original34_manuscript_axioms_iff
           #print YMUIC.Original34.original34_manuscript_reconstruction
+          #print axioms YMUIC.Original24.wilson_root_conjugation_invariant
+          #print axioms YMUIC.Original24.wilson_word_holonomy_conjugation
+          #print axioms YMUIC.Original24.wilson_word_root_conjugation_invariant
+          #print axioms YMUIC.Original24.actual_wilson_monomial_gauge_invariant
+          #print axioms YMUIC.Original24.actual_wilson_polynomial_gauge_invariant
           #print axioms YMUIC.Original30.actual_word_box_smearing_bound
           #print axioms YMUIC.Original30.actual_word_box_smearing_all_regulators
           #print axioms YMUIC.Original30.actual_word_schwartz_smearing_bound
