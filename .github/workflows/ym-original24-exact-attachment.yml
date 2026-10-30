@@ -5,6 +5,7 @@ on:
     paths:
       - "YMOriginal/Original24_ExactTwoRootAttachment.lean"
       - "YMOriginal/Original24_TwoRootHubLemma.lean"
+      - "YMOriginal/Original24_AugmentedSecondRootKP.lean"
       - ".github/workflows/ym-original24-exact-attachment.yml"
   workflow_dispatch:
 
@@ -44,6 +45,8 @@ jobs:
           lake env lean -DwarningAsError=true YMOriginal/Original24_ExactTwoRootAttachment.lean
           lake build +YMOriginal.Original24_TwoRootHubLemma:olean
           lake env lean -DwarningAsError=true YMOriginal/Original24_TwoRootHubLemma.lean
+          lake build +YMOriginal.Original24_AugmentedSecondRootKP:olean
+          lake env lean -DwarningAsError=true YMOriginal/Original24_AugmentedSecondRootKP.lean
       - name: Full theorem statement and axiom audit
         shell: bash
         run: |
@@ -53,6 +56,7 @@ jobs:
           cat > verification/original24-exact-attachment/Audit.lean <<'LEAN'
           import YMOriginal.Original24_ExactTwoRootAttachment
           import YMOriginal.Original24_TwoRootHubLemma
+          import YMOriginal.Original24_AugmentedSecondRootKP
           set_option pp.universes true
           #print YMUIC.Original24.actual_exact_connected_has_two_root_contacts
           #print YMUIC.Original24.actual_exact_two_root_graph_zero_bulk_disconnected
@@ -66,6 +70,10 @@ jobs:
           #print YMUIC.Original24.actual_two_root_hub_not_bulk_connected
           #print axioms YMUIC.Original24.actual_two_root_extended_connected_by_q_hub
           #print axioms YMUIC.Original24.actual_two_root_hub_not_bulk_connected
+          #print YMUIC.Original24.actual_second_root_augmented_local_U1
+          #print YMUIC.Original24.actual_second_root_augmented_U2_KP
+          #print axioms YMUIC.Original24.actual_second_root_augmented_local_U1
+          #print axioms YMUIC.Original24.actual_second_root_augmented_U2_KP
           LEAN
           lake env lean -DwarningAsError=true verification/original24-exact-attachment/Audit.lean | tee verification/original24-exact-attachment/axioms.log
           if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original24-exact-attachment/axioms.log; then exit 1; fi
