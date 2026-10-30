@@ -33,7 +33,7 @@ theorem true_site_coordinate_le_norm
   have hx : 0 ≤ a * (site i : ℝ) :=
     mul_nonneg ha (by positivity)
   have h := lp.norm_apply_le_norm
-    (by norm_num : (2 : ℝ≥0∞) ≠ 0)
+    (by norm_num : (2 : ENNReal) ≠ 0)
     (trueLatticeSitePosition a site) i
   change ‖a * (site i : ℝ)‖ ≤ ‖trueLatticeSitePosition a site‖ at h
   rwa [Real.norm_eq_abs, abs_of_nonneg hx] at h
@@ -75,7 +75,9 @@ theorem true_site_product_weight_le_schwartz
   have hprod :
       (∏ i : Fin 4, (1 + a * (site i : ℝ)) ^ 2) ≤
         ∏ _i : Fin 4, (1 + ‖x‖) ^ 2 := by
-    apply Finset.prod_le_prod
+    apply Finset.prod_le_prod₀
+    · intro i hi
+      positivity
     intro i hi
     exact pow_le_pow_left₀
       (by positivity : 0 ≤ 1 + a * (site i : ℝ))
