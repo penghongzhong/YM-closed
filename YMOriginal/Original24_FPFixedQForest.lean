@@ -50,7 +50,7 @@ theorem original24_fixed_q_doubled_bulk_KP_from_U1
     ∃ lam eps : ℝ,
       1 ≤ lam ∧ 0 < eps ∧
       (lam * eps) *
-        (64 * (((((2 * chi + 1 : ℕ) ^ 4 : ℕ) : ℝ) ^ 2) *
+        (64 * ((((2 * chi + 1 : ℕ) ^ 4 : ℕ) : ℝ) ^ 2) *
           Real.exp (kappa * (rootQ.card : ℝ)) *
           aAct / (kappa - cGeo * mu) ^ 2) = 1 ∧
       ∀ h : ℕ,
