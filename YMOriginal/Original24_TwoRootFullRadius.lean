@@ -53,7 +53,7 @@ theorem actual_wilson_word_insertion_full_radius
     ‖actualWilsonInsertion U words coeff s‖ =
         ‖Complex.exp (s * actualWilsonPolynomial U words coeff) - 1‖ := rfl
     _ ≤ Real.exp ‖s * actualWilsonPolynomial U words coeff‖ - 1 :=
-        norm_exp_sub_one_le_exp_norm_sub_one _
+        YMUICV128.Section03.norm_exp_sub_one_le_exp_norm_sub_one _
     _ ≤ Real.exp (radius * B) - 1 :=
         sub_le_sub_right (Real.exp_le_exp.mpr hNorm) 1
 
