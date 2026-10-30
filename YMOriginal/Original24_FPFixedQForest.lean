@@ -89,6 +89,6 @@ theorem original24_fixed_q_doubled_bulk_KP_from_U1
       kappa mu cGeo (2 * aAct)
       (by positivity) hdelta hsize h2Small h2Local
   refine ⟨lam, eps, hlam, heps, ?_, hforest⟩
-  convert hprod using 1 <;> ring
+  convert hprod using 1; ring
 
 end YMUIC.Original24
