@@ -7,6 +7,7 @@ on:
       - "YMOriginal/Original30_FourDimCubature.lean"
       - "YMOriginal/Original30_SpatialLatticeGeometry.lean"
       - "YMOriginal/Original30_VolumeUniformWilsonSchwartz.lean"
+      - "YMOriginal/Original30_AllVolumeBareMoments.lean"
       - ".github/workflows/ym-original30-cubature.yml"
   workflow_dispatch:
 permissions:
@@ -39,9 +40,11 @@ jobs:
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original30_OneDimCubature.lean; then exit 1; fi
-          lake build +YMOriginal.Original30_VolumeUniformWilsonSchwartz:olean
+          lake build +YMOriginal.Original30_AllVolumeBareMoments:olean
           cat > CubatureAudit.lean <<'LEAN'
-          import YMOriginal.Original30_VolumeUniformWilsonSchwartz
+          import YMOriginal.Original30_AllVolumeBareMoments
+          #print YMUIC.Original30.actual_bare_wilson_all_order_uniform
+          #print YMUIC.Original30.actual_bare_wilson_probability_all_order
           #print YMUIC.Original30.true_site_cubature_weight_identity
           #print YMUIC.Original30.actual_site_schwartz_cubature_point
           #print YMUIC.Original30.actual_spatial_wilson_uniform_unbounded_box
@@ -53,6 +56,8 @@ jobs:
           #print YMUIC.Original30.lattice_inverse_square_telescope_step
           #print YMUIC.Original30.lattice_inverse_square_prefix
           #print YMUIC.Original30.lattice_inverse_square_uniform_all_cutoffs
+          #print axioms YMUIC.Original30.actual_bare_wilson_all_order_uniform
+          #print axioms YMUIC.Original30.actual_bare_wilson_probability_all_order
           #print axioms YMUIC.Original30.true_site_cubature_weight_identity
           #print axioms YMUIC.Original30.actual_site_schwartz_cubature_point
           #print axioms YMUIC.Original30.actual_spatial_wilson_uniform_unbounded_box
