@@ -88,7 +88,7 @@ theorem actual_two_root_mayer_zero_of_empty_first_contact
     intro h
     obtain ⟨⟨i,hi⟩, _⟩ := h
     rw [hEmpty] at hi
-    simpa using hi
+    simp at hi
   unfold actualTwoRootHardCoreMayerTerm
   simp [hNoTuple]
 
