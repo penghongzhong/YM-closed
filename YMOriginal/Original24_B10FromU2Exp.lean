@@ -33,8 +33,11 @@ theorem fifth_power_absorbed_by_exp
     (kappa d : ℝ) (hk : 0 < kappa) (hd : 0 ≤ d) :
     d ^ 5 ≤ (120 / kappa ^ 5) * Real.exp (kappa * d) := by
   have hE : (kappa * d) ^ 5 / 120 ≤ Real.exp (kappa * d) := by
-    simpa using Real.pow_div_factorial_le_exp
+    have hRaw := Real.pow_div_factorial_le_exp
       (kappa * d) (mul_nonneg hk.le hd) 5
+    have hFac : ((Nat.factorial 5 : ℕ) : ℝ) = 120 := by norm_num
+    rw [hFac] at hRaw
+    exact hRaw
   have hk5 : 0 < kappa ^ 5 := pow_pos hk _
   have hpoly : kappa ^ 5 * d ^ 5 ≤
       120 * Real.exp (kappa * d) := by
