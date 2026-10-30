@@ -94,7 +94,7 @@ theorem original24_two_root_tree_O_aAct_from_U1_and_FP
   have hproductR : (lam * eps) * R = 1 := by
     simpa only [R, B, E, delta] using hproduct
   have hdenom : M / (lam * eps) = M * R := by
-    apply (div_eq_iff₀ hpositive).mpr
+    apply (div_eq_iff (ne_of_gt hpositive)).mpr
     calc
       M = M * 1 := by ring
       _ = M * ((lam * eps) * R) := by rw [hproductR]
