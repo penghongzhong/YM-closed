@@ -68,7 +68,8 @@ theorem finite_marked_taylor_from_fifth_moment
     ‖finiteMarkedTaylorRemainder K line‖ ≤
       C5 * Mf * (aJ / aN) ^ 5 / 24 := by
   have hscale : 0 ≤ (aJ / aN) ^ 5 := pow_nonneg (div_nonneg haJ haN.le) 5
-  have hcoef : 0 ≤ Mf * (aJ / aN) ^ 5 / 24 := by positivity
+  have hcoef : 0 ≤ Mf * (aJ / aN) ^ 5 / 24 := by
+    exact div_nonneg (mul_nonneg hMf hscale) (by norm_num)
   have hterm (γ : Γ) :
       ‖line γ 1 - taylorWithinEval (line γ) 4 (Icc 0 1) 0 1‖ ≤
         (Mf * (aJ / aN) ^ 5 * (d γ)^5) / 24 := by
