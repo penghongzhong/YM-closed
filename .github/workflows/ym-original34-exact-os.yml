@@ -5,6 +5,7 @@ on:
     branches: [ym-original34-exact-os-20261030]
     paths:
       - "YMOriginal/Original34_*"
+      - "YMOriginal/Original30_AnalyticToE0prime.lean"
       - ".github/workflows/ym-original34-exact-os.yml"
   workflow_dispatch:
 
@@ -39,8 +40,9 @@ jobs:
           set -euo pipefail
           source "$HOME/.elan/env"
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original34_*.lean; then exit 1; fi
-          lake build +YMOriginal.Original34_ManuscriptReconstruction:olean
+          lake build +YMOriginal.Original34_ManuscriptReconstruction:olean +YMOriginal.Original30_AnalyticToE0prime:olean
           lake env lean -DwarningAsError=true YMOriginal/Original34_ManuscriptReconstruction.lean
+          lake env lean -DwarningAsError=true YMOriginal/Original30_AnalyticToE0prime.lean
       - name: Original theorem type and exact axiom dependencies
         shell: bash
         run: |
@@ -48,13 +50,17 @@ jobs:
           source "$HOME/.elan/env"
           cat > Original34ExactAudit.lean <<'LEAN'
           import YMOriginal.Original34_ManuscriptReconstruction
+          import YMOriginal.Original30_AnalyticToE0prime
           set_option pp.universes true
+          #print YMUIC.Original30.JointSourceAnalyticCertificate
+          #print YMUIC.Original30.joint_source_analytic_implies_os_E0prime
           #print YMUIC.Original34.OS_E0prime
           #print YMUIC.Original34.OSSchwingerAxioms
           #print YMUIC.Original34.Original34ManuscriptInputs
           #print YMUIC.Original34.PublishedOSII
           #print YMUIC.Original34.original34_manuscript_axioms_iff
           #print YMUIC.Original34.original34_manuscript_reconstruction
+          #print axioms YMUIC.Original30.joint_source_analytic_implies_os_E0prime
           #print axioms YMUIC.Original34.original34_os_reconstruction_external_interface
           #print axioms YMUIC.Original34.original34_manuscript_axioms_iff
           #print axioms YMUIC.Original34.original34_manuscript_reconstruction
