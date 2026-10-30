@@ -12,6 +12,8 @@ on:
       - "YM/OSGrowth/Original30PolynomialPolymerGrowth.lean"
       - "YM/OSTensor/MaxShellMoment.lean"
       - "YM/OSTensor/Original30RootedMaxShell.lean"
+      - "YM/OSGrowth/RootCoverCount.lean"
+      - "YM/OSTensor/Original30RootCoverMaxShell.lean"
       - ".github/workflows/ym-original24-30-rooted-poly.yml"
   workflow_dispatch:
 
@@ -53,6 +55,8 @@ jobs:
           lake env lean -DwarningAsError=true YM/OSGrowth/Original30PolynomialPolymerGrowth.lean
           lake build +YM.OSTensor.Original30RootedMaxShell:olean
           lake env lean -DwarningAsError=true YM/OSTensor/Original30RootedMaxShell.lean
+          lake build +YM.OSTensor.Original30RootCoverMaxShell:olean
+          lake env lean -DwarningAsError=true YM/OSTensor/Original30RootCoverMaxShell.lean
       - name: Audit complete theorem statements and axioms
         shell: bash
         run: |
@@ -62,6 +66,7 @@ jobs:
           import YM.Wilson.CompositeWordPolynomial24
           import YM.OSGrowth.Original30PolynomialPolymerGrowth
           import YM.OSTensor.Original30RootedMaxShell
+          import YM.OSTensor.Original30RootCoverMaxShell
           set_option pp.universes true
           #print YMUIC.Wilson.wilson_word_polynomial_bound
           #print YMUIC.Wilson.wilson_word_external_root_all_regulators
@@ -78,6 +83,9 @@ jobs:
           #print YMUIC.OSTensor.finite_polymer_max_shell_schwinger_growth
           #print axioms YMUIC.OSTensor.max_shell_moment
           #print axioms YMUIC.OSTensor.finite_polymer_max_shell_schwinger_growth
+          #print YMUIC.OSTensor.finite_polymer_root_cover_max_shell_growth
+          #print axioms YMUIC.OSGrowth.polymer_level_count_of_root_cover
+          #print axioms YMUIC.OSTensor.finite_polymer_root_cover_max_shell_growth
           LEAN
           lake env lean -DwarningAsError=true /tmp/Original24Audit.lean | tee /tmp/original24-axioms.log
           if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' /tmp/original24-axioms.log; then exit 1; fi
