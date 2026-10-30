@@ -5,6 +5,8 @@ on:
     paths:
       - "YMOriginal/Original24_FPFirstConnectedBulk.lean"
       - "YMOriginal/Original24_FPFirstGraph.lean"
+      - "YMOriginal/Original24_FPFixedQFactorial.lean"
+      - "YMOriginal/Original24_FPFixedQForest.lean"
       - ".github/workflows/ym-original24-fp-first-bulk.yml"
   workflow_dispatch:
 permissions:
@@ -39,8 +41,10 @@ jobs:
           source "$HOME/.elan/env"
           f=YMOriginal/Original24_FPFirstConnectedBulk.lean
           if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' "$f"; then exit 1; fi
-          lake build +YMOriginal.Original24_FPFirstGraph:olean
+          lake build +YMOriginal.Original24_FPFixedQForest:olean +YMOriginal.Original24_FPFirstGraph:olean
           lake env lean -DwarningAsError=true "$f"
+          lake env lean -DwarningAsError=true YMOriginal/Original24_FPFixedQFactorial.lean
+          lake env lean -DwarningAsError=true YMOriginal/Original24_FPFixedQForest.lean
           lake env lean -DwarningAsError=true YMOriginal/Original24_FPFirstGraph.lean
       - name: Print exact terminal type and axioms
         shell: bash
@@ -50,11 +54,16 @@ jobs:
           mkdir -p verification/original24-fp-first-bulk
           cat > verification/original24-fp-first-bulk/Audit.lean <<'LEAN'
           import YMOriginal.Original24_FPFirstGraph
+          import YMOriginal.Original24_FPFixedQForest
           set_option pp.universes true
           #print YMUIC.Original24.original24_FP_one_bulk_connected_from_KP
           #print axioms YMUIC.Original24.original24_FP_one_bulk_connected_from_KP
           #print YMUIC.Original24.original24_exact_one_bulk_graph_connected_iff
           #print axioms YMUIC.Original24.original24_exact_one_bulk_graph_connected_iff
+          #print YMUIC.Original24.original24_fixed_q_factorial_absorbed
+          #print axioms YMUIC.Original24.original24_fixed_q_factorial_absorbed
+          #print YMUIC.Original24.original24_fixed_q_doubled_bulk_KP_from_U1
+          #print axioms YMUIC.Original24.original24_fixed_q_doubled_bulk_KP_from_U1
           LEAN
           lake env lean -DwarningAsError=true verification/original24-fp-first-bulk/Audit.lean | tee verification/original24-fp-first-bulk/axioms.log
           if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/original24-fp-first-bulk/axioms.log; then exit 1; fi
