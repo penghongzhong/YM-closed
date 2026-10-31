@@ -1,0 +1,4 @@
+'YMUIC.Original30.SourceObstruction.root_at_centralMinusOne' depends on axioms: [propext, Classical.choice, Quot.sound]
+'YMUIC.Original30.SourceObstruction.no_uniform_scaled_root_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

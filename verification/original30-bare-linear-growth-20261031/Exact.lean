@@ -1,0 +1,5 @@
+import YMOriginal.Original30_BareLinearGrowthCertificate
+set_option pp.all true
+set_option pp.maxSteps 10000000
+#check @YMUIC.Original30.bare_joint_linear_weight_factorial_bound
+#print axioms YMUIC.Original30.bare_joint_linear_weight_factorial_bound

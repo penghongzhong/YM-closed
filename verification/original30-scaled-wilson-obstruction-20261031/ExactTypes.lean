@@ -1,0 +1,7 @@
+import YMOriginal.Original30_ScaledWilsonObstruction
+set_option pp.all true
+set_option pp.maxSteps 10000000
+#check @YMUIC.Original30.SourceObstruction.root_at_centralMinusOne
+#check @YMUIC.Original30.SourceObstruction.no_uniform_scaled_root_bound
+#print axioms YMUIC.Original30.SourceObstruction.root_at_centralMinusOne
+#print axioms YMUIC.Original30.SourceObstruction.no_uniform_scaled_root_bound
