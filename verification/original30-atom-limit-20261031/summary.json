@@ -1,0 +1,97 @@
+{
+  "status": "PASS_DENSE_ATOM_COMMON_FILTER_EXTENSION",
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "mathlib": "516d31250e96c4e8e76888c3d8e2e43a9642b9ee",
+  "checks": [
+    {
+      "command": [
+        "lake",
+        "build",
+        "YMOriginal.Original30_DenseTestLimit",
+        "YMOriginal.Original30_AtomHierarchyLimit"
+      ],
+      "exit_code": 0,
+      "seconds": 4.149,
+      "log": "build.log"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-DwarningAsError=true",
+        "verification/original30-atom-limit-20261031/ExactTypesAndAxioms.lean"
+      ],
+      "exit_code": 0,
+      "seconds": 5.824,
+      "log": "exact-types-axioms.log.gz"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "-v",
+        "YMOriginal.Original30_DenseTestLimit"
+      ],
+      "exit_code": 0,
+      "seconds": 5.403,
+      "log": "kernel-0.log"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "-v",
+        "YMOriginal.Original30_AtomHierarchyLimit"
+      ],
+      "exit_code": 0,
+      "seconds": 5.576,
+      "log": "kernel-1.log"
+    }
+  ],
+  "theorems": [
+    "YMUIC.Original30.dense_test_same_filter_limit",
+    "YMUIC.Original30.joint_atom_same_filter_limit"
+  ],
+  "axioms": {
+    "YMUIC.Original30.dense_test_same_filter_limit": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "YMUIC.Original30.joint_atom_same_filter_limit": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "source_sha256": {
+    "YMOriginal/Original30_DenseTestLimit.lean": "878225f08cc0912c72533f2fdaa34277e2084bdb3ecfdf0402c0a82bfa9deb4e",
+    "YMOriginal/Original34_OSII_ExternalInterface.lean": "b1a2090eadc1c4b4cbb3bf6301fac54dae7f3e3d2dca1e75efad72ab9ac57d15",
+    "YM/OSTensor/JointSchwartzControl.lean": "efc80c42fbe6c284e11aae3d8c79042d93da8727f4596481d83cc088e59db98b",
+    "YMOriginal/Original30_AtomHierarchyLimit.lean": "d789192551305a4a00e9c581ab56bd5acfce5849ac95cce0c8fd4ea6c318f2fb"
+  },
+  "derived": [
+    "finite-span convergence from atom convergence",
+    "unique continuous joint hierarchy",
+    "convergence on all joint tests along the original filter",
+    "unchanged uniform seminorm bounds"
+  ],
+  "inputs": [
+    "same nontrivial regulator filter for every order",
+    "density of the chosen atom spans in joint Schwartz topology",
+    "convergence on individual atoms",
+    "regulated joint continuous linear functionals and uniform seminorm bounds"
+  ],
+  "not_derived": [
+    "physical renormalized source construction",
+    "actual Fourier/pure-tensor atom-span density dictionary",
+    "physical uniform analytic radius and estimates",
+    "actual atom convergence"
+  ],
+  "original_environment_30": "OPEN",
+  "original_conditional_ledger": "37/39 unchanged",
+  "I7": "explicit unproved premise"
+}
