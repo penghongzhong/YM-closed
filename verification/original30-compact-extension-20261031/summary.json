@@ -1,0 +1,164 @@
+{
+  "status": "PASS_CONCRETE_COMPACT_SCHWARTZ_EXTENSION",
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "mathlib": "516d31250e96c4e8e76888c3d8e2e43a9642b9ee",
+  "checks": [
+    {
+      "command": [
+        "lake",
+        "build",
+        "YM.OSGrowth.DyadicSchwartzTail",
+        "YM.OSGrowth.DyadicSchwartzApproximation",
+        "YM.OSGrowth.SchwartzCompactDensity",
+        "YM.OSGrowth.SchwartzCompactExtension",
+        "YMOriginal.Original30_CompactTestLimit"
+      ],
+      "exit_code": 0,
+      "seconds": 3.996,
+      "log": "build.log"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-DwarningAsError=true",
+        "verification/original30-compact-extension-20261031/ExactTypesAndAxioms.lean"
+      ],
+      "exit_code": 0,
+      "seconds": 8.633,
+      "log": "exact-types-axioms.log.gz"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "-v",
+        "YM.OSGrowth.DyadicSchwartzTail"
+      ],
+      "exit_code": 0,
+      "seconds": 4.236,
+      "log": "kernel-0.log"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "-v",
+        "YM.OSGrowth.DyadicSchwartzApproximation"
+      ],
+      "exit_code": 0,
+      "seconds": 4.145,
+      "log": "kernel-1.log"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "-v",
+        "YM.OSGrowth.SchwartzCompactDensity"
+      ],
+      "exit_code": 0,
+      "seconds": 3.848,
+      "log": "kernel-2.log"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "-v",
+        "YM.OSGrowth.SchwartzCompactExtension"
+      ],
+      "exit_code": 0,
+      "seconds": 4.055,
+      "log": "kernel-3.log"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "-v",
+        "YMOriginal.Original30_CompactTestLimit"
+      ],
+      "exit_code": 0,
+      "seconds": 5.707,
+      "log": "kernel-4.log"
+    }
+  ],
+  "theorems": [
+    "YMUIC.OSGrowth.dyadic_schwartz_tail_bound",
+    "YMUIC.OSGrowth.dyadic_schwartz_approximation",
+    "YMUIC.OSGrowth.compact_support_schwartz_dense",
+    "YMUIC.OSGrowth.compact_schwartz_extension",
+    "YMUIC.Original30.joint_compact_same_filter_limit"
+  ],
+  "axioms": {
+    "YMUIC.OSGrowth.dyadic_schwartz_tail_bound": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "YMUIC.OSGrowth.dyadic_schwartz_approximation": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "YMUIC.OSGrowth.compact_support_schwartz_dense": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "YMUIC.OSGrowth.compact_schwartz_extension": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "YMUIC.Original30.joint_compact_same_filter_limit": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "source_sha256": {
+    "YM/OSGrowth/DyadicSchwartzTail.lean": "54062bedfd747d62648f3bdcef57b84594239442cb721a8175d4a2c40d1e9e49",
+    "YM/OSGrowth/DyadicCutoffDerivativeBound.lean": "3f7858fbad87e72febdf2eb2dcc1aa97a54261e80b89a74c325c6068d894588a",
+    "YM/OSGrowth/DyadicCutoff.lean": "87ab3b1b0e136be28fc291059c821688caa22287727d156a08eabc6eb4d7c992",
+    "YM/OSGrowth/Cauchy.lean": "3cef03c85aed5de75ea4a39d4de4e52a552d31f0374540a94a13c2597282bfb6",
+    "YM/OSGrowth/DyadicSchwartzApproximation.lean": "1847233c24794fe15f4de2c3a2df5b947e09ccc05d8a09ebe9d366a9df3d6534",
+    "YM/OSGrowth/SchwartzCompactDensity.lean": "db6e79037677b83b9119564743d7cebc22044f735914cccdb1430e2a26c5cf3e",
+    "YM/OSGrowth/SchwartzCompactExtension.lean": "22204b4b3d5935fdb996f885de288f0f3e978cece172823a892ae369d969ff46",
+    "YMOriginal/Original30_CompactTestLimit.lean": "a9af93a0f3a473ced94171bf9f5db7fb896b8bc195d7dc85e132ac1a280e3206",
+    "YMOriginal/Original30_AtomHierarchyLimit.lean": "d789192551305a4a00e9c581ab56bd5acfce5849ac95cce0c8fd4ea6c318f2fb",
+    "YMOriginal/Original30_DenseTestLimit.lean": "878225f08cc0912c72533f2fdaa34277e2084bdb3ecfdf0402c0a82bfa9deb4e",
+    "YMOriginal/Original34_OSII_ExternalInterface.lean": "b1a2090eadc1c4b4cbb3bf6301fac54dae7f3e3d2dca1e75efad72ab9ac57d15",
+    "YM/OSTensor/JointSchwartzControl.lean": "efc80c42fbe6c284e11aae3d8c79042d93da8727f4596481d83cc088e59db98b"
+  },
+  "derived": [
+    "explicit dyadic cutoff error <= 2^(-n) times a finite seminorm budget",
+    "convergence in every Schwartz weight and derivative order",
+    "density of actual smooth compactly supported joint tests",
+    "unique continuous extension from compact-test linear functionals",
+    "regulated Schwartz functionals constructed, not assumed",
+    "full joint convergence along the original common regulator filter",
+    "unique full hierarchy with unchanged growth constants"
+  ],
+  "inputs": [
+    "linear functionals on actual compactly supported joint tests",
+    "one support-independent continuous seminorm bound at each order",
+    "convergence on compact joint tests along one nontrivial filter"
+  ],
+  "not_derived": [
+    "physical renormalized-source identification and analytic radius",
+    "actual model uniform compact-joint estimate and convergence",
+    "pure-tensor to compact-joint construction",
+    "global tempered bounds from arbitrary support-dependent constants"
+  ],
+  "original_environment_30": "OPEN",
+  "original_conditional_ledger": "37/39 unchanged",
+  "I7": "explicit unproved premise"
+}

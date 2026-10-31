@@ -1,0 +1,5 @@
+ℹ [8984/8987] Replayed YMOriginal.Original34_OSII_ExternalInterface
+info: YMOriginal/Original34_OSII_ExternalInterface.lean:125:0: 'YMUIC.Original34.original34_os_reconstruction_external_interface' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Build completed successfully (8987 jobs).
