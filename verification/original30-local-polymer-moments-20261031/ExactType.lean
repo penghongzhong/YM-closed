@@ -1,0 +1,5 @@
+import YMOriginal.Original30_LocalSourcePolymerMoments
+set_option pp.all true
+set_option pp.maxSteps 10000000
+#check @YMUIC.Original30.local_polymer_source_normalized_moments
+#print axioms YMUIC.Original30.local_polymer_source_normalized_moments

@@ -1,0 +1,7 @@
+import YMOriginal.Original30_LocalSourceShellBudget
+set_option pp.all true
+set_option pp.maxSteps 10000000
+#check @YMUIC.Original30.active_polymer_shell_budget
+#check @YMUIC.Original30.local_source_moments_from_shell_count
+#print axioms YMUIC.Original30.active_polymer_shell_budget
+#print axioms YMUIC.Original30.local_source_moments_from_shell_count

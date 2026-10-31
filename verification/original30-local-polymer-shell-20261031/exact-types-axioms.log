@@ -1,0 +1,297 @@
+@YMUIC.Original30.active_polymer_shell_budget.{u_1} : ∀ {ι : Type u_1} (F : Finset.{u_1} ι) (length : ι → Nat)
+  (ε C κ σ : Real)
+  (hε : @LE.le.{0} Real Real.instLE (@OfNat.ofNat.{0} Real (nat_lit 0) (@Zero.toOfNat0.{0} Real Real.instZero)) ε)
+  (hC : @LE.le.{0} Real Real.instLE (@OfNat.ofNat.{0} Real (nat_lit 0) (@Zero.toOfNat0.{0} Real Real.instZero)) C)
+  (hgap : @LT.lt.{0} Real Real.instLT σ κ)
+  (hcount :
+    ∀ (m : Nat),
+      @LE.le.{0} Real Real.instLE
+        (@Nat.cast.{0} Real Real.instNatCast
+          (@Finset.card.{u_1} ι
+            (@Finset.filter.{u_1} ι (fun (i : ι) => @Eq.{1} Nat (length i) m)
+              (fun (a : ι) => instDecidableEqNat (length a) m) F)))
+        (@HMul.hMul.{0, 0, 0} Real Real Real (@instHMul.{0} Real Real.instMul) C
+          (Real.exp
+            (@HMul.hMul.{0, 0, 0} Real Real Real (@instHMul.{0} Real Real.instMul) σ
+              (@Nat.cast.{0} Real Real.instNatCast m))))),
+  @LE.le.{0} Real Real.instLE
+    (@Finset.sum.{u_1, 0} ι Real Real.instAddCommMonoid F fun (i : ι) =>
+      @HMul.hMul.{0, 0, 0} Real Real Real (@instHMul.{0} Real Real.instMul) ε
+        (Real.exp
+          (@HMul.hMul.{0, 0, 0} Real Real Real (@instHMul.{0} Real Real.instMul) (@Neg.neg.{0} Real Real.instNeg κ)
+            (@Nat.cast.{0} Real Real.instNatCast (length i)))))
+    (@HDiv.hDiv.{0, 0, 0} Real Real Real (@instHDiv.{0} Real (@DivInvMonoid.toDiv.{0} Real Real.instDivInvMonoid))
+      (@HMul.hMul.{0, 0, 0} Real Real Real (@instHMul.{0} Real Real.instMul) ε C)
+      (@HSub.hSub.{0, 0, 0} Real Real Real (@instHSub.{0} Real Real.instSub)
+        (@OfNat.ofNat.{0} Real (nat_lit 1) (@One.toOfNat1.{0} Real Real.instOne))
+        (Real.exp
+          (@Neg.neg.{0} Real Real.instNeg
+            (@HSub.hSub.{0, 0, 0} Real Real Real (@instHSub.{0} Real Real.instSub) κ σ)))))
+@YMUIC.Original30.local_source_moments_from_shell_count.{u_1,
+    u_2} : ∀ {E : Type u_1} {ι : Type u_2} [inst : NormedAddCommGroup.{u_1} E]
+  [inst_1 :
+    @NormedSpace.{0, u_1} Complex E Complex.instNormedField (@NormedAddCommGroup.toSeminormedAddCommGroup.{u_1} E inst)]
+  (Γ : Finset.{u_2} ι) (active : ι → Prop) [inst_2 : @DecidablePred.{u_2 + 1} ι active] (activity : ι → E → Complex)
+  (length : ι → Nat) (ε C κ σ ρ : Real)
+  (hρ : @LT.lt.{0} Real Real.instLT (@OfNat.ofNat.{0} Real (nat_lit 0) (@Zero.toOfNat0.{0} Real Real.instZero)) ρ)
+  (hε : @LE.le.{0} Real Real.instLE (@OfNat.ofNat.{0} Real (nat_lit 0) (@Zero.toOfNat0.{0} Real Real.instZero)) ε)
+  (hC : @LE.le.{0} Real Real.instLE (@OfNat.ofNat.{0} Real (nat_lit 0) (@Zero.toOfNat0.{0} Real Real.instZero)) C)
+  (hgap : @LT.lt.{0} Real Real.instLT σ κ)
+  (hlocal :
+    ∀ (i : ι),
+      @Membership.mem.{u_2, u_2} ι (Finset.{u_2} ι)
+          (@SetLike.instMembership.{u_2, u_2} (Finset.{u_2} ι) ι (@Finset.instSetLike.{u_2} ι)) Γ i →
+        Not (active i) →
+          ∀ (J : E),
+            @Membership.mem.{u_1, u_1} E (Set.{u_1} E) (@Set.instMembership.{u_1} E)
+                (@Metric.ball.{u_1} E
+                  (@SeminormedAddCommGroup.toPseudoMetricSpace.{u_1} E
+                    (@NormedAddCommGroup.toSeminormedAddCommGroup.{u_1} E inst))
+                  (@OfNat.ofNat.{u_1} E (nat_lit 0)
+                    (@Zero.toOfNat0.{u_1} E
+                      (@NegZeroClass.toZero.{u_1} E
+                        (@SubNegZeroMonoid.toNegZeroClass.{u_1} E
+                          (@SubtractionMonoid.toSubNegZeroMonoid.{u_1} E
+                            (@SubtractionCommMonoid.toSubtractionMonoid.{u_1} E
+                              (@AddCommGroup.toDivisionAddCommMonoid.{u_1} E
+                                (@NormedAddCommGroup.toAddCommGroup.{u_1} E inst))))))))
+                  ρ)
+                J →
+              @Eq.{1} Complex (activity i J)
+                (activity i
+                  (@OfNat.ofNat.{u_1} E (nat_lit 0)
+                    (@Zero.toOfNat0.{u_1} E
+                      (@NegZeroClass.toZero.{u_1} E
+                        (@SubNegZeroMonoid.toNegZeroClass.{u_1} E
+                          (@SubtractionMonoid.toSubNegZeroMonoid.{u_1} E
+                            (@SubtractionCommMonoid.toSubtractionMonoid.{u_1} E
+                              (@AddCommGroup.toDivisionAddCommMonoid.{u_1} E
+                                (@NormedAddCommGroup.toAddCommGroup.{u_1} E inst))))))))))
+  (hanalytic :
+    ∀ (i : ι),
+      @Membership.mem.{u_2, u_2} ι (Finset.{u_2} ι)
+          (@SetLike.instMembership.{u_2, u_2} (Finset.{u_2} ι) ι (@Finset.instSetLike.{u_2} ι))
+          (@Finset.filter.{u_2} ι active inst_2 Γ) i →
+        @AnalyticOnNhd.{0, u_1, 0} Complex E Complex
+          (@DenselyNormedField.toNontriviallyNormedField.{0} Complex Complex.instDenselyNormedField) inst inst_1
+          Complex.instNormedAddCommGroup
+          (@InnerProductSpace.toNormedSpace.{0, 0} Complex Complex Complex.instRCLike
+            (@NormedAddCommGroup.toSeminormedAddCommGroup.{0} Complex Complex.instNormedAddCommGroup)
+            (@RCLike.innerProductSpace.{0} Complex Complex.instRCLike))
+          (activity i)
+          (@Metric.ball.{u_1} E
+            (@SeminormedAddCommGroup.toPseudoMetricSpace.{u_1} E
+              (@NormedAddCommGroup.toSeminormedAddCommGroup.{u_1} E inst))
+            (@OfNat.ofNat.{u_1} E (nat_lit 0)
+              (@Zero.toOfNat0.{u_1} E
+                (@NegZeroClass.toZero.{u_1} E
+                  (@SubNegZeroMonoid.toNegZeroClass.{u_1} E
+                    (@SubtractionMonoid.toSubNegZeroMonoid.{u_1} E
+                      (@SubtractionCommMonoid.toSubtractionMonoid.{u_1} E
+                        (@AddCommGroup.toDivisionAddCommMonoid.{u_1} E
+                          (@NormedAddCommGroup.toAddCommGroup.{u_1} E inst))))))))
+            ρ))
+  (hweight :
+    ∀ (i : ι),
+      @Membership.mem.{u_2, u_2} ι (Finset.{u_2} ι)
+          (@SetLike.instMembership.{u_2, u_2} (Finset.{u_2} ι) ι (@Finset.instSetLike.{u_2} ι))
+          (@Finset.filter.{u_2} ι active inst_2 Γ) i →
+        ∀ (J : E),
+          @Membership.mem.{u_1, u_1} E (Set.{u_1} E) (@Set.instMembership.{u_1} E)
+              (@Metric.ball.{u_1} E
+                (@SeminormedAddCommGroup.toPseudoMetricSpace.{u_1} E
+                  (@NormedAddCommGroup.toSeminormedAddCommGroup.{u_1} E inst))
+                (@OfNat.ofNat.{u_1} E (nat_lit 0)
+                  (@Zero.toOfNat0.{u_1} E
+                    (@NegZeroClass.toZero.{u_1} E
+                      (@SubNegZeroMonoid.toNegZeroClass.{u_1} E
+                        (@SubtractionMonoid.toSubNegZeroMonoid.{u_1} E
+                          (@SubtractionCommMonoid.toSubtractionMonoid.{u_1} E
+                            (@AddCommGroup.toDivisionAddCommMonoid.{u_1} E
+                              (@NormedAddCommGroup.toAddCommGroup.{u_1} E inst))))))))
+                ρ)
+              J →
+            @LE.le.{0} Real Real.instLE (@Norm.norm.{0} Complex Complex.instNorm (activity i J))
+              (@HMul.hMul.{0, 0, 0} Real Real Real (@instHMul.{0} Real Real.instMul) ε
+                (Real.exp
+                  (@HMul.hMul.{0, 0, 0} Real Real Real (@instHMul.{0} Real Real.instMul)
+                    (@Neg.neg.{0} Real Real.instNeg κ) (@Nat.cast.{0} Real Real.instNatCast (length i))))))
+  (hcount :
+    ∀ (m : Nat),
+      @LE.le.{0} Real Real.instLE
+        (@Nat.cast.{0} Real Real.instNatCast
+          (@Finset.card.{u_2} ι
+            (@Finset.filter.{u_2} ι (fun (i : ι) => @Eq.{1} Nat (length i) m)
+              (fun (a : ι) => instDecidableEqNat (length a) m) (@Finset.filter.{u_2} ι active inst_2 Γ))))
+        (@HMul.hMul.{0, 0, 0} Real Real Real (@instHMul.{0} Real Real.instMul) C
+          (Real.exp
+            (@HMul.hMul.{0, 0, 0} Real Real Real (@instHMul.{0} Real Real.instMul) σ
+              (@Nat.cast.{0} Real Real.instNatCast m))))),
+  have A : Real :=
+    @HDiv.hDiv.{0, 0, 0} Real Real Real (@instHDiv.{0} Real (@DivInvMonoid.toDiv.{0} Real Real.instDivInvMonoid))
+      (@HMul.hMul.{0, 0, 0} Real Real Real (@instHMul.{0} Real Real.instMul) ε C)
+      (@HSub.hSub.{0, 0, 0} Real Real Real (@instHSub.{0} Real Real.instSub)
+        (@OfNat.ofNat.{0} Real (nat_lit 1) (@One.toOfNat1.{0} Real Real.instOne))
+        (Real.exp
+          (@Neg.neg.{0} Real Real.instNeg
+            (@HSub.hSub.{0, 0, 0} Real Real Real (@instHSub.{0} Real Real.instSub) κ σ))));
+  have Z : E → Complex := fun (J : E) =>
+    Complex.exp
+      (@HSub.hSub.{0, 0, 0} Complex Complex Complex (@instHSub.{0} Complex Complex.instSub)
+        (@Finset.sum.{u_2, 0} ι Complex Complex.instAddCommMonoid Γ fun (i : ι) => activity i J)
+        (@Finset.sum.{u_2, 0} ι Complex Complex.instAddCommMonoid Γ fun (i : ι) =>
+          activity i
+            (@OfNat.ofNat.{u_1} E (nat_lit 0)
+              (@Zero.toOfNat0.{u_1} E
+                (@NegZeroClass.toZero.{u_1} E
+                  (@SubNegZeroMonoid.toNegZeroClass.{u_1} E
+                    (@SubtractionMonoid.toSubNegZeroMonoid.{u_1} E
+                      (@SubtractionCommMonoid.toSubtractionMonoid.{u_1} E
+                        (@AddCommGroup.toDivisionAddCommMonoid.{u_1} E
+                          (@NormedAddCommGroup.toAddCommGroup.{u_1} E inst))))))))));
+  And
+    (@AnalyticOnNhd.{0, u_1, 0} Complex E Complex
+      (@DenselyNormedField.toNontriviallyNormedField.{0} Complex Complex.instDenselyNormedField) inst inst_1
+      Complex.instNormedAddCommGroup
+      (@InnerProductSpace.toNormedSpace.{0, 0} Complex Complex Complex.instRCLike
+        (@NormedAddCommGroup.toSeminormedAddCommGroup.{0} Complex Complex.instNormedAddCommGroup)
+        (@RCLike.innerProductSpace.{0} Complex Complex.instRCLike))
+      Z
+      (@Metric.ball.{u_1} E
+        (@SeminormedAddCommGroup.toPseudoMetricSpace.{u_1} E
+          (@NormedAddCommGroup.toSeminormedAddCommGroup.{u_1} E inst))
+        (@OfNat.ofNat.{u_1} E (nat_lit 0)
+          (@Zero.toOfNat0.{u_1} E
+            (@NegZeroClass.toZero.{u_1} E
+              (@SubNegZeroMonoid.toNegZeroClass.{u_1} E
+                (@SubtractionMonoid.toSubNegZeroMonoid.{u_1} E
+                  (@SubtractionCommMonoid.toSubtractionMonoid.{u_1} E
+                    (@AddCommGroup.toDivisionAddCommMonoid.{u_1} E
+                      (@NormedAddCommGroup.toAddCommGroup.{u_1} E inst))))))))
+        ρ))
+    (And
+      (@Eq.{1} Complex
+        (Z
+          (@OfNat.ofNat.{u_1} E (nat_lit 0)
+            (@Zero.toOfNat0.{u_1} E
+              (@NegZeroClass.toZero.{u_1} E
+                (@SubNegZeroMonoid.toNegZeroClass.{u_1} E
+                  (@SubtractionMonoid.toSubNegZeroMonoid.{u_1} E
+                    (@SubtractionCommMonoid.toSubtractionMonoid.{u_1} E
+                      (@AddCommGroup.toDivisionAddCommMonoid.{u_1} E
+                        (@NormedAddCommGroup.toAddCommGroup.{u_1} E inst)))))))))
+        (@OfNat.ofNat.{0} Complex (nat_lit 1) (@One.toOfNat1.{0} Complex Complex.instOne)))
+      (∀ (r : Nat) (h : Fin r → E),
+        @LE.le.{0} Real Real.instLE
+          (@Norm.norm.{0} Complex Complex.instNorm
+            (@DFunLike.coe.{u_1 + 1, u_1 + 1, 1}
+              (@ContinuousMultilinearMap.{0, 0, u_1, 0} Complex (Fin r) (fun (_i : Fin r) => E) Complex
+                (@CommSemiring.toSemiring.{0} Complex
+                  (@Semifield.toCommSemiring.{0} Complex
+                    (@Field.toSemifield.{0} Complex
+                      (@NormedField.toField.{0} Complex
+                        (@NontriviallyNormedField.toNormedField.{0} Complex
+                          (@DenselyNormedField.toNontriviallyNormedField.{0} Complex
+                            Complex.instDenselyNormedField))))))
+                (fun (i : Fin r) =>
+                  @AddCommGroup.toAddCommMonoid.{u_1} E (@NormedAddCommGroup.toAddCommGroup.{u_1} E inst))
+                (@AddCommGroup.toAddCommMonoid.{0} Complex
+                  (@NormedAddCommGroup.toAddCommGroup.{0} Complex Complex.instNormedAddCommGroup))
+                (fun (i : Fin r) =>
+                  @NormedSpace.toModule.{0, u_1} Complex E
+                    (@NontriviallyNormedField.toNormedField.{0} Complex
+                      (@DenselyNormedField.toNontriviallyNormedField.{0} Complex Complex.instDenselyNormedField))
+                    (@NormedAddCommGroup.toSeminormedAddCommGroup.{u_1} E inst) inst_1)
+                (@NormedSpace.toModule.{0, 0} Complex Complex
+                  (@NontriviallyNormedField.toNormedField.{0} Complex
+                    (@DenselyNormedField.toNontriviallyNormedField.{0} Complex Complex.instDenselyNormedField))
+                  (@NormedAddCommGroup.toSeminormedAddCommGroup.{0} Complex Complex.instNormedAddCommGroup)
+                  (@InnerProductSpace.toNormedSpace.{0, 0} Complex Complex Complex.instRCLike
+                    (@NormedAddCommGroup.toSeminormedAddCommGroup.{0} Complex Complex.instNormedAddCommGroup)
+                    (@RCLike.innerProductSpace.{0} Complex Complex.instRCLike)))
+                (fun (i : Fin r) =>
+                  @UniformSpace.toTopologicalSpace.{u_1} E
+                    (@PseudoMetricSpace.toUniformSpace.{u_1} E
+                      (@SeminormedAddCommGroup.toPseudoMetricSpace.{u_1} E
+                        (@NormedAddCommGroup.toSeminormedAddCommGroup.{u_1} E inst))))
+                (@UniformSpace.toTopologicalSpace.{0} Complex
+                  (@PseudoMetricSpace.toUniformSpace.{0} Complex
+                    (@SeminormedAddCommGroup.toPseudoMetricSpace.{0} Complex
+                      (@NormedAddCommGroup.toSeminormedAddCommGroup.{0} Complex Complex.instNormedAddCommGroup)))))
+              ((i : Fin r) → E) (fun (x : (i : Fin r) → E) => Complex)
+              (@ContinuousMultilinearMap.funLike.{0, 0, u_1, 0} Complex (Fin r) (fun (_i : Fin r) => E) Complex
+                (@CommSemiring.toSemiring.{0} Complex
+                  (@Semifield.toCommSemiring.{0} Complex
+                    (@Field.toSemifield.{0} Complex
+                      (@NormedField.toField.{0} Complex
+                        (@NontriviallyNormedField.toNormedField.{0} Complex
+                          (@DenselyNormedField.toNontriviallyNormedField.{0} Complex
+                            Complex.instDenselyNormedField))))))
+                (fun (i : Fin r) =>
+                  @AddCommGroup.toAddCommMonoid.{u_1} E (@NormedAddCommGroup.toAddCommGroup.{u_1} E inst))
+                (@AddCommGroup.toAddCommMonoid.{0} Complex
+                  (@NormedAddCommGroup.toAddCommGroup.{0} Complex Complex.instNormedAddCommGroup))
+                (fun (i : Fin r) =>
+                  @NormedSpace.toModule.{0, u_1} Complex E
+                    (@NontriviallyNormedField.toNormedField.{0} Complex
+                      (@DenselyNormedField.toNontriviallyNormedField.{0} Complex Complex.instDenselyNormedField))
+                    (@NormedAddCommGroup.toSeminormedAddCommGroup.{u_1} E inst) inst_1)
+                (@NormedSpace.toModule.{0, 0} Complex Complex
+                  (@NontriviallyNormedField.toNormedField.{0} Complex
+                    (@DenselyNormedField.toNontriviallyNormedField.{0} Complex Complex.instDenselyNormedField))
+                  (@NormedAddCommGroup.toSeminormedAddCommGroup.{0} Complex Complex.instNormedAddCommGroup)
+                  (@InnerProductSpace.toNormedSpace.{0, 0} Complex Complex Complex.instRCLike
+                    (@NormedAddCommGroup.toSeminormedAddCommGroup.{0} Complex Complex.instNormedAddCommGroup)
+                    (@RCLike.innerProductSpace.{0} Complex Complex.instRCLike)))
+                (fun (i : Fin r) =>
+                  @UniformSpace.toTopologicalSpace.{u_1} E
+                    (@PseudoMetricSpace.toUniformSpace.{u_1} E
+                      (@SeminormedAddCommGroup.toPseudoMetricSpace.{u_1} E
+                        (@NormedAddCommGroup.toSeminormedAddCommGroup.{u_1} E inst))))
+                (@UniformSpace.toTopologicalSpace.{0} Complex
+                  (@PseudoMetricSpace.toUniformSpace.{0} Complex
+                    (@SeminormedAddCommGroup.toPseudoMetricSpace.{0} Complex
+                      (@NormedAddCommGroup.toSeminormedAddCommGroup.{0} Complex Complex.instNormedAddCommGroup)))))
+              (@iteratedFDeriv.{0, u_1, 0} Complex
+                (@DenselyNormedField.toNontriviallyNormedField.{0} Complex Complex.instDenselyNormedField) E inst inst_1
+                Complex Complex.instNormedAddCommGroup
+                (@InnerProductSpace.toNormedSpace.{0, 0} Complex Complex Complex.instRCLike
+                  (@NormedAddCommGroup.toSeminormedAddCommGroup.{0} Complex Complex.instNormedAddCommGroup)
+                  (@RCLike.innerProductSpace.{0} Complex Complex.instRCLike))
+                r Z
+                (@OfNat.ofNat.{u_1} E (nat_lit 0)
+                  (@Zero.toOfNat0.{u_1} E
+                    (@NegZeroClass.toZero.{u_1} E
+                      (@SubNegZeroMonoid.toNegZeroClass.{u_1} E
+                        (@SubtractionMonoid.toSubNegZeroMonoid.{u_1} E
+                          (@SubtractionCommMonoid.toSubtractionMonoid.{u_1} E
+                            (@AddCommGroup.toDivisionAddCommMonoid.{u_1} E
+                              (@NormedAddCommGroup.toAddCommGroup.{u_1} E inst)))))))))
+              h))
+          (@HMul.hMul.{0, 0, 0} Real Real Real (@instHMul.{0} Real Real.instMul)
+            (@HMul.hMul.{0, 0, 0} Real Real Real (@instHMul.{0} Real Real.instMul)
+              (@HMul.hMul.{0, 0, 0} Real Real Real (@instHMul.{0} Real Real.instMul)
+                (Real.exp (@OfNat.ofNat.{0} Real (nat_lit 1) (@One.toOfNat1.{0} Real Real.instOne)))
+                (@Nat.cast.{0} Real Real.instNatCast (Nat.factorial r)))
+              (@HPow.hPow.{0, 0, 0} Real Nat Real
+                (@instHPow.{0, 0} Real Nat (@NPow.toPow.{0} Real (@Monoid.toNPow.{0} Real Real.instMonoid)))
+                (@HDiv.hDiv.{0, 0, 0} Real Real Real
+                  (@instHDiv.{0} Real (@DivInvMonoid.toDiv.{0} Real Real.instDivInvMonoid))
+                  (@HMul.hMul.{0, 0, 0} Real Real Real (@instHMul.{0} Real Real.instMul)
+                    (Real.exp (@OfNat.ofNat.{0} Real (nat_lit 1) (@One.toOfNat1.{0} Real Real.instOne)))
+                    (@HAdd.hAdd.{0, 0, 0} Real Real Real (@instHAdd.{0} Real Real.instAdd)
+                      (@OfNat.ofNat.{0} Real (nat_lit 1) (@One.toOfNat1.{0} Real Real.instOne))
+                      (@HMul.hMul.{0, 0, 0} Real Real Real (@instHMul.{0} Real Real.instMul)
+                        (@OfNat.ofNat.{0} Real (nat_lit 2)
+                          (@instOfNatAtLeastTwo.{0} Real (nat_lit 2) Real.instNatCast
+                            (@Nat.instAtLeastTwoHAddOfNat (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))
+                              (@Nat.instNeZeroSucc (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))))))
+                        A)))
+                  ρ)
+                r))
+            (@Finset.prod.{0, 0} (Fin r) Real Real.instCommMonoid (@Finset.univ.{0} (Fin r) (Fin.fintype r))
+              fun (j : Fin r) => @Norm.norm.{u_1} E (@NormedAddCommGroup.toNorm.{u_1} E inst) (h j)))))
+'YMUIC.Original30.active_polymer_shell_budget' depends on axioms: [propext, Classical.choice.{u}, Quot.sound.{u}]
+'YMUIC.Original30.local_source_moments_from_shell_count' depends on axioms: [propext,
+ Classical.choice.{u},
+ Quot.sound.{u}]

@@ -1,0 +1,13 @@
+ℹ [8979/8992] Replayed YM.Wilson.RootBound
+info: YM/Wilson/RootBound.lean:51:0: 'YMUICV128.Section03.diagonal_re_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: YM/Wilson/RootBound.lean:52:0: 'YMUICV128.Section03.trace_re_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: YM/Wilson/RootBound.lean:53:0: 'YMUICV128.Section03.wilsonRoot_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [8989/8992] Replayed YMOriginal.Original34_OSII_ExternalInterface
+info: YMOriginal/Original34_OSII_ExternalInterface.lean:125:0: 'YMUIC.Original34.original34_os_reconstruction_external_interface' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+ℹ [8992/8992] Built YMOriginal.Original30_OSZeroOrderBridge (4.7s)
+info: YMOriginal/Original30_OSZeroOrderBridge.lean:152:0: 'YMUIC.Original30.radial_zero_order_controls_schwartz' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: YMOriginal/Original30_OSZeroOrderBridge.lean:153:0: 'YMUIC.Original30.bare_joint_os_zero_weight_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: YMOriginal/Original30_OSZeroOrderBridge.lean:154:0: 'YMUIC.Original30.bare_joint_os_radial_zero_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (8992 jobs).
