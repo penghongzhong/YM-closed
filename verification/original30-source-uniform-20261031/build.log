@@ -1,0 +1,17 @@
+ℹ [8979/8999] Replayed YM.Wilson.RootBound
+info: YM/Wilson/RootBound.lean:51:0: 'YMUICV128.Section03.diagonal_re_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: YM/Wilson/RootBound.lean:52:0: 'YMUICV128.Section03.trace_re_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: YM/Wilson/RootBound.lean:53:0: 'YMUICV128.Section03.wilsonRoot_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [8985/8999] Replayed YMOriginal.Original34_OSII_ExternalInterface
+info: YMOriginal/Original34_OSII_ExternalInterface.lean:125:0: 'YMUIC.Original34.original34_os_reconstruction_external_interface' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+✔ [8993/8999] Built YMOriginal.Original30_OneDimCubature (3.3s)
+✔ [8994/8999] Built YMOriginal.Original30_FourDimCubature (2.4s)
+✔ [8995/8999] Built YMOriginal.Original30_SpatialLatticeGeometry (9.4s)
+✔ [8996/8999] Built YMOriginal.Original30_VolumeUniformWilsonSchwartz (4.9s)
+✔ [8997/8999] Built YMOriginal.Original30_AllVolumeJointSchwartz (5.6s)
+ℹ [8998/8999] Built YMOriginal.Original30_BareLinearGrowthCertificate (4.6s)
+info: YMOriginal/Original30_BareLinearGrowthCertificate.lean:59:0: 'YMUIC.Original30.bare_joint_linear_weight_factorial_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+✔ [8999/8999] Built YMOriginal.Original30_SourceJointUniformBound (4.4s)
+Build completed successfully (8999 jobs).

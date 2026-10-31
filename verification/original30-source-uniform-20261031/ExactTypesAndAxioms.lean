@@ -1,0 +1,7 @@
+import YMOriginal.Original30_SourceJointUniformBound
+set_option pp.all true
+set_option pp.maxSteps 10000000
+#check @YMUIC.Original30.actual_source_joint_uniform_bound
+#print axioms YMUIC.Original30.actual_source_joint_uniform_bound
+#print YMUIC.Original30.actualWilsonGeneratingFunction
+#print YMUIC.Original30.actualWilsonSourceJointDistribution
