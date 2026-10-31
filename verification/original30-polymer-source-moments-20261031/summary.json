@@ -1,0 +1,65 @@
+{
+  "status": "PASS_ANALYTIC_LOG_SOURCE_TO_FULL_MOMENTS",
+  "theorem": "YMUIC.Original30.polymer_source_normalized_moments",
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "mathlib": "516d31250e96c4e8e76888c3d8e2e43a9642b9ee",
+  "checks": [
+    {
+      "command": [
+        "lake",
+        "build",
+        "YMOriginal.Original30_PolymerSourceMoments"
+      ],
+      "exit_code": 0,
+      "seconds": 2.009,
+      "log": "build.log"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-DwarningAsError=true",
+        "verification/original30-polymer-source-moments-20261031/ExactTypeAndAxioms.lean"
+      ],
+      "exit_code": 0,
+      "seconds": 2.957,
+      "log": "exact-type-axioms.log.gz"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "-v",
+        "YMOriginal.Original30_PolymerSourceMoments"
+      ],
+      "exit_code": 0,
+      "seconds": 4.09,
+      "log": "kernel-replay.log"
+    }
+  ],
+  "source_sha256": {
+    "YMOriginal/Original30_PolymerSourceMoments.lean": "08183775e43f775d032c2510dba7753ad4b6470ac662840ec8f35809d440d6c7",
+    "YM/OSGrowth/Cauchy.lean": "3cef03c85aed5de75ea4a39d4de4e52a552d31f0374540a94a13c2597282bfb6"
+  },
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "bound": "e * r! * (e * (1 + 2*A) / rho)^r * product_j norm(h_j)",
+  "orders": "all natural r, including zero",
+  "generating_function": "Z(J) = exp(sum_Gamma activity_i(J) - sum_Gamma activity_i(0))",
+  "inputs": [
+    "0 < rho",
+    "0 <= A",
+    "each activity analytic on the rho source ball",
+    "each activity bounded there by weight_i",
+    "sum_Gamma weight_i <= A"
+  ],
+  "original_environment_30": "OPEN: physical renormalized-source identification, uniform input budgets, joint Schwartz extension and continuum passage",
+  "original_environment_24": "OPEN: unchanged",
+  "original_conditional_ledger": "37/39 unchanged",
+  "I7": "explicit unproved global hypothesis"
+}
