@@ -1,0 +1,15 @@
+import YMOriginal.Original30_JointUltrafilterCompactness
+import YMOriginal.Original30_ActualSourceClusterHierarchy
+import YMOriginal.Original30_ActualSourceDiagonalLimit
+set_option pp.all true
+set_option pp.maxSteps 10000000
+#check @YMUIC.Original30.joint_ultrafilter_compactness
+#print axioms YMUIC.Original30.joint_ultrafilter_compactness
+#check @YMUIC.Original30.actual_source_cluster_hierarchy
+#print axioms YMUIC.Original30.actual_source_cluster_hierarchy
+#check @YMUIC.Original30.actual_source_diagonal_limit
+#print axioms YMUIC.Original30.actual_source_diagonal_limit
+#print YMUIC.Original30.actualWilsonGeneratingFunction
+#print YMUIC.Original30.actualWilsonSourceJointDistribution
+#print YMUIC.Original30.wilsonDiagonalSpacing
+#print YMUIC.Original30.wilsonDiagonalSize

@@ -1,0 +1,15 @@
+ℹ [8981/9003] Replayed YMOriginal.Original34_OSII_ExternalInterface
+info: YMOriginal/Original34_OSII_ExternalInterface.lean:125:0: 'YMUIC.Original34.original34_os_reconstruction_external_interface' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+ℹ [8982/9003] Replayed YMOriginal.Original30_SameFilterLimit
+info: YMOriginal/Original30_SameFilterLimit.lean:54:0: 'YMUIC.Original30.joint_same_filter_limit' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [8984/9003] Replayed YM.Wilson.RootBound
+info: YM/Wilson/RootBound.lean:51:0: 'YMUICV128.Section03.diagonal_re_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: YM/Wilson/RootBound.lean:52:0: 'YMUICV128.Section03.trace_re_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: YM/Wilson/RootBound.lean:53:0: 'YMUICV128.Section03.wilsonRoot_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [9000/9003] Replayed YMOriginal.Original30_BareLinearGrowthCertificate
+info: YMOriginal/Original30_BareLinearGrowthCertificate.lean:59:0: 'YMUIC.Original30.bare_joint_linear_weight_factorial_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+✔ [9002/9003] Built YMOriginal.Original30_ActualSourceClusterHierarchy (18s)
+✔ [9003/9003] Built YMOriginal.Original30_ActualSourceDiagonalLimit (16s)
+Build completed successfully (9003 jobs).
