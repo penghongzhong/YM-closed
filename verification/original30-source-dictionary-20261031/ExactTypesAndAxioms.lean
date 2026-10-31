@@ -1,0 +1,19 @@
+import YM.OSGrowth.ExponentialSourceDerivatives
+import YM.OSGrowth.BoundedProbabilitySource
+import YMOriginal.Original30_WilsonObservableContinuity
+import YMOriginal.Original30_WilsonSourceDerivatives
+import YMOriginal.Original30_JointSourceDictionary
+set_option pp.all true
+set_option pp.maxSteps 10000000
+#check @YMUIC.OSGrowth.exponential_linear_source_derivatives
+#print axioms YMUIC.OSGrowth.exponential_linear_source_derivatives
+#check @YMUIC.OSGrowth.bounded_probability_source_derivatives
+#print axioms YMUIC.OSGrowth.bounded_probability_source_derivatives
+#check @YMUIC.Original30.actual_wilson_polynomial_continuous
+#print axioms YMUIC.Original30.actual_wilson_polynomial_continuous
+#check @YMUIC.Original30.actual_wilson_source_derivatives
+#print axioms YMUIC.Original30.actual_wilson_source_derivatives
+#check @YMUIC.Original30.actual_wilson_joint_source_dictionary
+#print axioms YMUIC.Original30.actual_wilson_joint_source_dictionary
+#print YMUIC.Original30.actualWilsonGeneratingFunction
+#print YMUIC.Original30.actualWilsonSourceJointDistribution

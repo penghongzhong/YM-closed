@@ -1,0 +1,174 @@
+{
+  "status": "PASS_ACTUAL_FINITE_WILSON_SOURCE_DICTIONARY",
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "mathlib": "516d31250e96c4e8e76888c3d8e2e43a9642b9ee",
+  "checks": [
+    {
+      "command": [
+        "lake",
+        "build",
+        "YM.OSGrowth.ExponentialSourceDerivatives",
+        "YM.OSGrowth.BoundedProbabilitySource",
+        "YMOriginal.Original30_WilsonObservableContinuity",
+        "YMOriginal.Original30_WilsonSourceDerivatives",
+        "YMOriginal.Original30_JointSourceDictionary"
+      ],
+      "exit_code": 0,
+      "seconds": 31.406,
+      "log": "build.log"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-DwarningAsError=true",
+        "verification/original30-source-dictionary-20261031/ExactTypesAndAxioms.lean"
+      ],
+      "exit_code": 0,
+      "seconds": 25.194,
+      "log": "exact-types-axioms.log.gz"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "-v",
+        "YM.OSGrowth.ExponentialSourceDerivatives"
+      ],
+      "exit_code": 0,
+      "seconds": 4.995,
+      "log": "kernel-0.log"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "-v",
+        "YM.OSGrowth.BoundedProbabilitySource"
+      ],
+      "exit_code": 0,
+      "seconds": 3.976,
+      "log": "kernel-1.log"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "-v",
+        "YMOriginal.Original30_WilsonObservableContinuity"
+      ],
+      "exit_code": 0,
+      "seconds": 17.563,
+      "log": "kernel-2.log"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "-v",
+        "YMOriginal.Original30_WilsonSourceDerivatives"
+      ],
+      "exit_code": 0,
+      "seconds": 15.419,
+      "log": "kernel-3.log"
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "-v",
+        "YMOriginal.Original30_JointSourceDictionary"
+      ],
+      "exit_code": 0,
+      "seconds": 6.228,
+      "log": "kernel-4.log"
+    }
+  ],
+  "theorems": [
+    "YMUIC.OSGrowth.exponential_linear_source_derivatives",
+    "YMUIC.OSGrowth.bounded_probability_source_derivatives",
+    "YMUIC.Original30.actual_wilson_polynomial_continuous",
+    "YMUIC.Original30.actual_wilson_source_derivatives",
+    "YMUIC.Original30.actual_wilson_joint_source_dictionary"
+  ],
+  "axioms": {
+    "YMUIC.OSGrowth.exponential_linear_source_derivatives": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "YMUIC.OSGrowth.bounded_probability_source_derivatives": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "YMUIC.Original30.actual_wilson_polynomial_continuous": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "YMUIC.Original30.actual_wilson_source_derivatives": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "YMUIC.Original30.actual_wilson_joint_source_dictionary": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "printed_definitions": [
+    "YMUIC.Original30.actualWilsonGeneratingFunction",
+    "YMUIC.Original30.actualWilsonSourceJointDistribution"
+  ],
+  "source_sha256": {
+    "YM/OSGrowth/ExponentialSourceDerivatives.lean": "299a5b734e60a900f541be2408ed0e7c4fc4db7f403de459891094ca67258ac2",
+    "YM/OSGrowth/BoundedProbabilitySource.lean": "e2a5d83d1b53a7f4e17e1e1c1f229ecb074fe932e68198da26b797f8bf8c0831",
+    "YMOriginal/Original30_WilsonObservableContinuity.lean": "01153893ff78b5004e5876e0f0fd4c9b1f2408fea0a3e995a8c0ce6be592c4c5",
+    "YMOriginal/Original24_WilsonWordPolynomial.lean": "25ca729ab66db8080e06db1890955de4c0757990addde87a36cf4435967a0e9d",
+    "YM/Wilson/WordSource.lean": "b2af68a2b68e2494000336c74659de8b507f548bbe5e39406e7f576379fbec09",
+    "YM/Wilson/SourceDirection.lean": "6c4b8e41913300e7297b2792c0c24d1953038aad43349fb7a622c4412338d414",
+    "YM/Wilson/RootBound.lean": "1deb34b367a5faf93b6eb9a66677f2160f0238dc108da94bded14db0bc4cff37",
+    "YMOriginal/Original30_WilsonSourceDerivatives.lean": "125d6b724c05aa7d6a863f4b83ca834a1e9474071cf8ddc3112c0518698c89bb",
+    "YMOriginal/Original30_JointSourceDictionary.lean": "1f8094e606e93f801813637fce4a0777b135186774315d6c69e5e3bd0fd27c8b",
+    "YMOriginal/Original30_FixedBoxJointHierarchy.lean": "d6c5bae30f831953d969258a1837819349acd81cb371a4f0cb86fc5d8dd0c9d4",
+    "YMOriginal/Original30_JointLatticeSchwartz.lean": "6aac51b41bd169dad9f49647cfae76d0d759313ee7134fc48f3f2cd67a81ec0d",
+    "YMOriginal/Original30_ActualWordPhysicalBox.lean": "9c40f1c153f166e61083443754881d1c63aa4e46991d70f6784abd910e982381",
+    "YMOriginal/Original30_ActualWordSmearing.lean": "7705a230fe35518c40432d5a6b69f451a1d400f4ac5576ffdd688f229df4fe2f",
+    "YM/Wilson/WeightedSmearing.lean": "348a7a9525f376109b066b1fecfbe14968815bbfa1fd6e5f8925031c656436d0",
+    "YM/Wilson/FixedBoxSmearing.lean": "21b1dc5628324cf7a928caef420ded8a442456124e35882a2267cd8e02a8169f",
+    "YMOriginal/Original34_OSII_ExternalInterface.lean": "b1a2090eadc1c4b4cbb3bf6301fac54dae7f3e3d2dca1e75efad72ab9ac57d15",
+    "YM/OSTensor/JointSchwartzControl.lean": "efc80c42fbe6c284e11aae3d8c79042d93da8727f4596481d83cc088e59db98b"
+  },
+  "derived": [
+    "exact all-order exponential source derivatives in a Banach algebra",
+    "differentiation of the actual probability expectation to every order",
+    "continuity of actual Wilson polynomials from continuous link coordinates",
+    "entire finite Wilson source with Z(0)=1",
+    "mixed derivatives equal correlated moments under the same probability law",
+    "continuous general joint Schwartz distribution built from coordinate derivatives",
+    "exact equality with the existing actualWordJointCutoff expectation"
+  ],
+  "inputs": [
+    "finite source label and polynomial index sets",
+    "arbitrary probability law on the configuration space",
+    "continuous SU(2) link coordinate maps and measurable open sets",
+    "explicit finite weights and Wilson-word polynomial coefficients"
+  ],
+  "not_derived": [
+    "identification with the physical renormalized RG polymer source",
+    "nonlinear source counterterm dictionary",
+    "regulator-uniform renormalized joint seminorm estimate",
+    "actual continuum or infinite-volume same-filter convergence"
+  ],
+  "original_environment_30": "OPEN",
+  "original_conditional_ledger": "37/39 unchanged",
+  "I7": "explicit unproved premise"
+}
