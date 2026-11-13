@@ -44,6 +44,40 @@ theorem bphz_source_transport_le
       mul_le_mul_of_nonneg_left hspow1 hqpow
     _ = q ^ m := by ring
 
+/-- Model-facing R7 form.  A source-cocycle inverse may cost rho^r
+per RG age.  If rho is strictly smaller than the block factor L,
+one extra subtraction per source insertion contributes L^{-r} and
+absorbs the entire source-transport growth.  The remaining fifth-order
+four-dimensional surplus is q = L^{-(1-theta)}. -/
+theorem bphz_source_inverse_absorbed
+    (L rho theta : ℝ) (r : ℕ)
+    (hL : 1 < L)
+    (hrho0 : 0 ≤ rho)
+    (hrhoL : rho < L)
+    (htheta : theta < 1) :
+    Summable (fun m : ℕ =>
+      (L ^ (-(1 - theta) : ℝ)) ^ m *
+        (rho / L) ^ (r * m)) := by
+  let q : ℝ := L ^ (-(1 - theta) : ℝ)
+  let s : ℝ := rho / L
+  have hL0 : 0 < L := lt_trans zero_lt_one hL
+  have hq0 : 0 ≤ q := by
+    dsimp [q]
+    exact Real.rpow_nonneg hL0.le _
+  have hq1 : q < 1 := by
+    dsimp [q]
+    exact Real.rpow_lt_one_of_one_lt_of_neg hL (by linarith)
+  have hs0 : 0 ≤ s := by
+    dsimp [s]
+    exact div_nonneg hrho0 hL0.le
+  have hs1 : s ≤ 1 := by
+    dsimp [s]
+    exact (div_le_one hL0).2 (le_of_lt hrhoL)
+  simpa only [q, s] using
+    bphz_source_transport_summable q s r hq0 hq1 hs0 hs1
+
+#print axioms bphz_source_inverse_absorbed
+
 #print axioms bphz_source_transport_summable
 #print axioms bphz_source_transport_le
 
