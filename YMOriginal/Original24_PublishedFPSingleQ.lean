@@ -52,6 +52,7 @@ structure PublishedFernandezProcacciSingleQ : Prop where
 /-- The published single-q enumeration plus the internally proved exact
 physical graph embedding yields the formerly separate physical
 two-root FP criterion. -/
+set_option maxHeartbeats 800000 in
 theorem physicalExactTwoRootFPCriterion_of_published
     (FP : PublishedFernandezProcacciSingleQ)
     {Γ : Type*} [Fintype Γ]
