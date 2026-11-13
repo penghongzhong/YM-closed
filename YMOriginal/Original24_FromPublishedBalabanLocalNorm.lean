@@ -26,10 +26,10 @@ internally proved physical two-root/single-q graph dictionary.
 -/
 
 theorem original24_complete_two_root_series_from_published_local_norm
-    (Pub : PublishedPenroseExtendedTwoRoot)
-    (FP : PublishedFernandezProcacciSingleQ)
     {Γ Ω T S : Type*}
     [Fintype Γ] [Fintype T] [Fintype S]
+    (Pub : PublishedPenroseExtendedTwoRoot)
+    (FP : PublishedFernandezProcacciSingleQ Γ)
     (D : U1Data Γ Ω)
     (N chi j : ℕ) (omega : Ω)
     (support : Γ → Finset (PeriodicBlock N))
