@@ -1,0 +1,38 @@
+name: I7-assumed closure fast gate
+on:
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ym-uic-i7-assumed-fast-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  original24-fast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Lean
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Resolve pinned Mathlib and repair cache
+        run: |
+          lake update
+          lake exe cache get
+          test -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Tactic/CategoryTheory/BicategoryCoherence.olean || \
+            lake build Mathlib.Tactic.CategoryTheory.BicategoryCoherence
+      - name: Compile new Original24 closure chain
+        run: |
+          lake env lean YMOriginal/Original24_FPMarkedExactFactorial.lean
+          lake env lean YMOriginal/Original24_PublishedFPSingleQ.lean
+          lake env lean YMOriginal/Original24_FixedDMainCore.lean
+      - name: Forbidden placeholder scan
+        run: |
+          ! grep -R -n -E '(^|[^A-Za-z])(sorry|admit)([^A-Za-z]|$)|sorryAx' \
+            YMOriginal/Original24_FPMarkedExactFactorial.lean \
+            YMOriginal/Original24_PublishedFPSingleQ.lean \
+            YMOriginal/Original24_FixedDMainCore.lean
