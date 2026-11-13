@@ -1,5 +1,5 @@
 import YMOriginal.Original24_NativeShellU1
-import YMOriginal.Original24_ExactRealTwoRootFPSeries
+import YMOriginal.Original24_PublishedFPSingleQ
 import YMConditional.Original19_CountertermCocycle
 import YMOriginal.Original24_ActualLatticeLinks
 import Mathlib.Analysis.Normed.Group.InfiniteSum
@@ -105,10 +105,8 @@ theorem original24_fixedD_same_source_full_series_and_cocycle
         (Cpol / (1 - Real.exp (-(D.kappaR - kappa - cpol))))) ≤
        kappa - cGeo * mu)
     (Pub : PublishedPenroseExtendedTwoRoot)
-    (hFPold : PhysicalExactTwoRootFPCriterion N chi
-      rootP rootQ support (fun X => D.oldR j X omega) d cGeo mu)
-    (hFPnew : PhysicalExactTwoRootFPCriterion N chi
-      rootP rootQ support (fun X => D.newR j X omega) d cGeo mu)
+    (FP : PublishedFernandezProcacciSingleQ)
+    (hgeom : 0 ≤ cGeo * mu)
     (base : PeriodicBlock N)
     (links : PeriodicBlock N → PeriodicBlock N → SU2)
     (wp : T → List (List (ClosedLinkWalkAt (PeriodicBlock N) base)))
@@ -189,6 +187,16 @@ theorem original24_fixedD_same_source_full_series_and_cocycle
         Real.exp (-(D.kappaR - kappa) * (d X : ℝ))) ≤ Ccount :=
     actual_native_U1_shell_count_to_block_norm
       support d Cpol cpol D.kappaR kappa hCpol hgap hShell
+  have hFPold : PhysicalExactTwoRootFPCriterion N chi
+      rootP rootQ support (fun X => D.oldR j X omega) d cGeo mu :=
+    physicalExactTwoRootFPCriterion_of_published
+      FP N chi rootP rootQ support (fun X => D.oldR j X omega)
+      d cGeo mu hgeom
+  have hFPnew : PhysicalExactTwoRootFPCriterion N chi
+      rootP rootQ support (fun X => D.newR j X omega) d cGeo mu :=
+    physicalExactTwoRootFPCriterion_of_published
+      FP N chi rootP rootQ support (fun X => D.newR j X omega)
+      d cGeo mu hgeom
   obtain ⟨hLocalOld, hLocalNew⟩ :=
     original24_real_U1_old_new_local_norm
       D pub N j omega support d hdictionary kappa Ccount hcount
