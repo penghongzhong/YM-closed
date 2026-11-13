@@ -1,0 +1,45 @@
+name: YM R7 external-root family Lean
+on:
+  push:
+    branches: [ym-r7-external-roots-20261113]
+    paths:
+      - "YMOriginal/R7_ExternalRootFamily.lean"
+      - ".github/workflows/ym-r7-external-roots.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pinned Lean and Mathlib
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Strict proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          f=YMOriginal/R7_ExternalRootFamily.lean
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' "$f"; then exit 1; fi
+          lake build +YMOriginal.R7_ExternalRootFamily:olean
+          lake env lean -DwarningAsError=true "$f"
+          cat > /tmp/R7ExternalAudit.lean <<'EOF'
+          import YMOriginal.R7_ExternalRootFamily
+          #print YMUIC.R7.actual_wilson_external_root_product_bound
+          #print axioms YMUIC.R7.actual_wilson_external_root_product_bound
+          #print YMUIC.R7.actual_wilson_external_root_product_uniform_bound
+          #print axioms YMUIC.R7.actual_wilson_external_root_product_uniform_bound
+          EOF
+          lake env lean -DwarningAsError=true /tmp/R7ExternalAudit.lean
