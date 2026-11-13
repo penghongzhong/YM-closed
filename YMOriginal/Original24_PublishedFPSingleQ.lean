@@ -105,9 +105,40 @@ theorem published_single_q_weighted_sum
   exact published_single_q_weighted_term
     N chi rootP rootQ support z lam eps hlam heps (k + 1)
 
-/-- The published single-q enumeration plus the internally proved exact
-physical graph embedding yields the formerly separate physical
-two-root FP criterion. -/
+/-- Fully explicit physical FP inequality, avoiding any unfolding of the
+named criterion during the main proof. -/
+theorem published_single_q_explicit_physical_FP
+    (FP : PublishedFernandezProcacciSingleQ)
+    {Γ : Type*} [Fintype Γ]
+    (N chi : ℕ)
+    (rootP rootQ : Finset (PeriodicBlock N))
+    (support : Γ → Finset (PeriodicBlock N))
+    (z : Γ → ℂ) (d : Γ → ℕ)
+    (cGeo mu : ℝ)
+    (hgeom : 0 ≤ cGeo * mu) :
+    ∀ lam eps : ℝ, ∀ h : ℕ, 1 ≤ lam → 0 < eps →
+      (∑ k ∈ Finset.range (h - 2),
+        exactExtendedTwoRootTreeMajorant
+          (k + 1) N chi rootP rootQ support z *
+          lam ^ (k + 1) * eps) ≤
+      Real.exp
+        (actualPeriodicFirstRootSum N chi rootP
+          (actualSecondRootAugmentedSupport N support rootQ)
+          (actualSecondRootAugmentedActivity
+            (fun X => (lam : ℂ) * z X) eps)
+          (actualSecondRootAugmentedSize d rootQ.card)
+          cGeo mu h) - 1 := by
+  intro lam eps h hlam heps
+  have hlam0 : 0 ≤ lam := le_trans (by norm_num) hlam
+  have heps0 : 0 ≤ eps := heps.le
+  exact
+    (published_single_q_weighted_sum
+      N chi rootP rootQ support z lam eps hlam0 heps0 h).trans
+      (FP.finiteHeightBound N chi rootP rootQ support z d
+        cGeo mu lam eps h hgeom hlam heps)
+
+/-- The explicit theorem is definitionally the previously used named
+physical criterion.  This wrapper contains no unfolding tactic. -/
 theorem physicalExactTwoRootFPCriterion_of_published
     (FP : PublishedFernandezProcacciSingleQ)
     {Γ : Type*} [Fintype Γ]
@@ -118,19 +149,13 @@ theorem physicalExactTwoRootFPCriterion_of_published
     (cGeo mu : ℝ)
     (hgeom : 0 ≤ cGeo * mu) :
     PhysicalExactTwoRootFPCriterion
-      N chi rootP rootQ support z d cGeo mu := by
-  unfold PhysicalExactTwoRootFPCriterion
-  intro lam eps h hlam heps
-  have hlam0 : 0 ≤ lam := le_trans (by norm_num) hlam
-  have heps0 : 0 ≤ eps := heps.le
-  exact
-    (published_single_q_weighted_sum
-      N chi rootP rootQ support z lam eps hlam0 heps0 h).trans
-      (FP.finiteHeightBound N chi rootP rootQ support z d
-        cGeo mu lam eps h hgeom hlam heps)
+      N chi rootP rootQ support z d cGeo mu :=
+  published_single_q_explicit_physical_FP
+    FP N chi rootP rootQ support z d cGeo mu hgeom
 
 #print axioms published_single_q_weighted_term
 #print axioms published_single_q_weighted_sum
+#print axioms published_single_q_explicit_physical_FP
 #print axioms physicalExactTwoRootFPCriterion_of_published
 
 end YMUIC.Original24
