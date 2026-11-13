@@ -26,11 +26,11 @@ vertex. The recursive right-hand side is the already kernel-checked
 finite-height KP recursion. The sign condition 0 <= cGeo * mu is explicit.
 -/
 
+universe u
+
 /-- Universal published rooted-tree enumeration, specialized only to the
 finite single-q hard-core model. This is a typed external theorem
 interface, not a custom axiom and not a Yang--Mills analytic estimate. -/
-universe u
-
 structure PublishedFernandezProcacciSingleQ
     (Γ : Type u) [Fintype Γ] : Prop where
   finiteHeightBound :
