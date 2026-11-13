@@ -1,4 +1,5 @@
 import Mathlib.Analysis.SpecificLimits.Basic
+import YMOriginal.Original24_PlacementRatio
 
 set_option autoImplicit false
 noncomputable section
@@ -61,12 +62,10 @@ theorem bphz_source_inverse_absorbed
   let q : ℝ := L ^ (-(1 - theta) : ℝ)
   let s : ℝ := rho / L
   have hL0 : 0 < L := lt_trans zero_lt_one hL
-  have hq0 : 0 ≤ q := by
-    dsimp [q]
-    exact Real.rpow_nonneg hL0.le _
-  have hq1 : q < 1 := by
-    dsimp [q]
-    exact Real.rpow_lt_one_of_one_lt_of_neg hL (by linarith)
+  obtain ⟨hqpos, hq1⟩ :=
+    YMUIC.Original24.original24_four_dimensional_q_contracts
+      L theta hL (by linarith) htheta
+  have hq0 : 0 ≤ q := hqpos.le
   have hs0 : 0 ≤ s := by
     dsimp [s]
     exact div_nonneg hrho0 hL0.le
