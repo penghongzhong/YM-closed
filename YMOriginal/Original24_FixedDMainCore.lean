@@ -187,33 +187,23 @@ theorem original24_fixedD_same_source_full_series_and_cocycle
         Real.exp (-(D.kappaR - kappa) * (d X : ℝ))) ≤ Ccount :=
     actual_native_U1_shell_count_to_block_norm
       support d Cpol cpol D.kappaR kappa hCpol hgap hShell
-  have hFPold : PhysicalExactTwoRootFPCriterion N chi
-      rootP rootQ support (fun X => D.oldR j X omega) d cGeo mu :=
-    physicalExactTwoRootFPCriterion_of_published
-      FP N chi rootP rootQ support (fun X => D.oldR j X omega)
-      d cGeo mu hgeom
-  have hFPnew : PhysicalExactTwoRootFPCriterion N chi
-      rootP rootQ support (fun X => D.newR j X omega) d cGeo mu :=
-    physicalExactTwoRootFPCriterion_of_published
-      FP N chi rootP rootQ support (fun X => D.newR j X omega)
-      d cGeo mu hgeom
   obtain ⟨hLocalOld, hLocalNew⟩ :=
     original24_real_U1_old_new_local_norm
       D pub N j omega support d hdictionary kappa Ccount hcount
       hg hgw hCR hCRnew
   obtain ⟨Cold, hCold, hsOld, hnOld, hbOld⟩ :=
-    actual_original24_two_root_mayer_full_sum_from_U1_FP
-      Pub N chi rootP rootQ support
+    actual_original24_two_root_mayer_full_sum_from_published_FP
+      Pub FP N chi rootP rootQ support
       (fun X => D.oldR j X omega) d
-      kappa mu cGeo Aold hActOld hdelta hsize
-      hsmallOld hLocalOld hFPold
+      kappa mu cGeo Aold hgeom hActOld hdelta hsize
+      hsmallOld hLocalOld
       U wp cp wq cq s t radius Bp Bq hr hp0 hq0 hs ht hp hq
   obtain ⟨Cnew, hCnew, hsNew, hnNew, hbNew⟩ :=
-    actual_original24_two_root_mayer_full_sum_from_U1_FP
-      Pub N chi rootP rootQ support
+    actual_original24_two_root_mayer_full_sum_from_published_FP
+      Pub FP N chi rootP rootQ support
       (fun X => D.newR j X omega) d
-      kappa mu cGeo Anew hActNew hdelta hsize
-      hsmallNew hLocalNew hFPnew
+      kappa mu cGeo Anew hgeom hActNew hdelta hsize
+      hsmallNew hLocalNew
       U wp cp wq cq s t radius Bp Bq hr hp0 hq0 hs ht hp hq
   have hsum : Summable (fun n : ℕ => oldTerm n + newTerm n) :=
     hsOld.add hsNew
