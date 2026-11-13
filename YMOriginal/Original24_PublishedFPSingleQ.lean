@@ -186,7 +186,7 @@ theorem actual_original24_two_root_mayer_full_sum_from_published_FP
         N chi rootP rootQ support z lam eps
         (le_trans (by norm_num) hlam) heps.le h
     have hpub :=
-      FP.finiteHeightBound N chi rootP rootQ support z d
+      FP.finiteHeightBound (Γ := Γ) N chi rootP rootQ support z d
         cGeo mu lam eps h hgeom hlam heps
     simpa only [pow_one, w] using hs.trans hpub
   obtain ⟨C, hC, htree⟩ :=
