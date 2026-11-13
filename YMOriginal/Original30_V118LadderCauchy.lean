@@ -12,8 +12,8 @@ This is the exact logical order used by the D=4 renormalized Schwinger
 ladder:
   1. choose the old-history age R so the uniform old tail is small;
   2. keep R fixed;
-  3. send the weak-stop index n to infinity so the recent small-/large-
-     field error is small.
+  3. send the weak-stop index n to infinity so the recent small-field and large-field
+     errors is small.
 
 No Yang--Mills estimate is manufactured here.  The theorem only assembles
 the two quantitative inputs, and it works for the actual complex connected
@@ -45,7 +45,7 @@ theorem v118_two_parameter_ladder_cauchy_criterion
       have hr := hN n hn
       linarith)
   · subst n
-    simp
+    simpa using hε
   · have hb := hbound n m R hmn
     have hr := hN m hm
     have hs : ‖S m - S n‖ = ‖S n - S m‖ := by
