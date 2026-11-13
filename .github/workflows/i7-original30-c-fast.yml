@@ -1,0 +1,50 @@
+name: I7-assumed Original30-C fast gate
+on:
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ym-uic-i7-original30-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  original30-c-fast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Lean
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Resolve pinned Mathlib and repair cache
+        run: |
+          lake update
+          lake exe cache get
+          test -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Tactic/CategoryTheory/BicategoryCoherence.olean || \
+            lake build Mathlib.Tactic.CategoryTheory.BicategoryCoherence
+      - name: Compile physical Original30 and C-stage main chain
+        run: |
+          lake build YMOriginal.Original34_OSII_ExternalInterface
+          lake build YMOriginal.Original30_AnalyticToE0prime
+          lake build YMOriginal.Original30_PolymerSourceMoments
+          lake build YMOriginal.Original30_V116JointCutoffVolume
+          lake build YMOriginal.Original30_V118LadderCauchy
+          lake build YMOriginal.Original15_OsterwalderSeilerPublished
+          lake build YMConditional.Original25_RotationMatching
+          lake build YMConditional.Original28_ContinuumRP
+          lake build YMConditional.Original31_Euclidean
+          lake build YMConditional.Original32_PermutationLimit
+          lake build YMConditional.Original33_CutoffPassage
+          lake build YMConditional.Original40_ToContinuum
+          lake build YMOriginal.Original34_ManuscriptReconstruction
+          lake build YMOriginal.Original42_ConditionalMaster
+      - name: Forbidden placeholder scan
+        run: |
+          ! grep -R -n -E '(^|[^A-Za-z])(sorry|admit)([^A-Za-z]|$)|sorryAx' \
+            YMOriginal/Original30_V116JointCutoffVolume.lean \
+            YMOriginal/Original30_V118LadderCauchy.lean \
+            YMOriginal/Original34_OSII_ExternalInterface.lean \
+            YMOriginal/Original42_ConditionalMaster.lean
