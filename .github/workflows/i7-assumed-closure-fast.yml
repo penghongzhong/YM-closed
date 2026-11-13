@@ -36,6 +36,7 @@ jobs:
           lake env lean YMOriginal/Original30_AnalyticToE0prime.lean
           lake env lean YMOriginal/Original30_AllVolumeJointSchwartz.lean
           lake env lean YMOriginal/Original30_AllVolumeJointHierarchy.lean
+          lake env lean YMOriginal/Original30_AllVolumeProbabilityHierarchy.lean
           lake env lean YMOriginal/Original34_ManuscriptReconstruction.lean
       - name: Forbidden placeholder scan
         run: |
@@ -44,4 +45,5 @@ jobs:
             YMOriginal/Original24_PublishedFPSingleQ.lean \
             YMOriginal/Original24_FixedDMainCore.lean \
             YMOriginal/Original30_AllVolumeJointHierarchy.lean \
+            YMOriginal/Original30_AllVolumeProbabilityHierarchy.lean \
             YMOriginal/Original34_OSII_ExternalInterface.lean
