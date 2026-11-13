@@ -34,10 +34,10 @@ No final two-root sum bound, no arbitrary Ursell Phi_n, no already
 summable connected series and no post-R source analyticity is passed
 as an assumption.
 
-IMPORTANT: The external finite-height FP estimate for the exact
-physical graph and the CMP119/122 R-history identification remain
-unproved; this is a strict conditional theorem, not yet the original
-manuscript B11 original environment #24.
+IMPORTANT: The exact physical finite-height FP estimate is now discharged downstream
+by the published single-q Fernández--Procacci interface together with the
+internally proved physical graph embedding.  CMP/Bałaban history/source
+identification remains a separate model dictionary obligation.
 -/
 
 /-- The genuine positive full n+2-vertex Penrose tree majorant is
