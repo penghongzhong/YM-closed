@@ -50,15 +50,30 @@ structure OSTestGeometry (Rot PosPoly : Type*) where
   positiveTime : PosPoly → Prop
   reflectedPolynomialMoment : SchwingerHierarchy → PosPoly → PosPoly → ℂ
 
-/-- Corrected, factorial, LINEAR-DERIVATIVE-ORDER joint-test E0'.
-This demands a bound on true joint Schwartz tests; the naive
-pure-tensor estimate is deliberately insufficient. -/
-def OS_E0prime (H : SchwingerHierarchy) : Prop :=
+/-- Stronger fixed-spatial-weight variant retained for backwards
+compatibility with early certificates.  It is not the literal OS75 E0'. -/
+def OS_E0primeFixedWeight (H : SchwingerHierarchy) : Prop :=
   ∃ (q k : ℕ) (A C : ℝ), 0 ≤ A ∧ 0 < C ∧
     ∀ (r : ℕ) (f : JointTest r),
       ‖H.S r f‖ ≤
         (A * C ^ r * (Nat.factorial r : ℝ)) *
         YMUIC.OSTensor.jointSchwartzControl r q (k * r) f
+
+/-- Osterwalder--Schrader 1975 E0' in its literal linear-growth form.
+On p.287, equation (4.1), OS require |S_r(f)| <= sigma_r |f|_{r*s},
+with sigma_r of fixed factorial growth.  Thus the complete Schwartz
+order, including the polynomial spatial weight, is allowed to grow
+linearly with r.  The two integer slopes below are harmlessly separated;
+taking their maximum recovers the single OS index s.
+
+This is a bound on genuine joint 4r-variable Schwartz tests, not only
+on pure tensors. -/
+def OS_E0prime (H : SchwingerHierarchy) : Prop :=
+  ∃ (q k : ℕ) (A C : ℝ), 0 ≤ A ∧ 0 < C ∧
+    ∀ (r : ℕ) (f : JointTest r),
+      ‖H.S r f‖ ≤
+        (A * C ^ r * (Nat.factorial r : ℝ)) *
+        YMUIC.OSTensor.jointSchwartzControl r (q * r) (k * r) f
 
 /-- Typed O-S E1--E4 test conditions; no continuum moment convergence
 or positivity is manufactured by the definition. -/
