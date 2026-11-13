@@ -42,7 +42,9 @@ jobs:
           lake build YMOriginal.Original30_DriftRenormalizedSourceBudget21
           lake build YMOriginal.Original30_DriftJointAllVolume21
           lake build YMOriginal.Original30_BoundedD4GramE0prime
+          lake build YMOriginal.Original15_OsterwalderSeilerPublished
           lake build YMOriginal.Original34_ManuscriptReconstruction
+          lake build YMOriginal.Original42_ConditionalMaster
       - name: Forbidden placeholder scan
         run: |
           ! grep -R -n -E '(^|[^A-Za-z])(sorry|admit)([^A-Za-z]|$)|sorryAx' \
