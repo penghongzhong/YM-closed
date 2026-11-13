@@ -1,4 +1,5 @@
 name: YM R7 conditional paper-closure Lean
+# R7 revision trigger 20261113-b
 on:
   push:
     branches: [ym-r7-paper-closure-lean-20261113]
