@@ -29,6 +29,7 @@ jobs:
         run: |
           lake build YMOriginal.Original01_BalabanPublishedBundle
           lake build YMOriginal.Original24_PublishedFPSingleQ
+          lake build YMOriginal.Original24_FromPublishedBalabanLocalNorm
           lake build YMOriginal.Original24_FixedDMainCore
       - name: Compile corrected Original30 OS chain
         run: |
