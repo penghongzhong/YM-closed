@@ -24,10 +24,9 @@ already checked original24_real_U1_old_new_local_norm from
 Balaban pointwise old/new-R decay and an explicitly required
 UNMARKED history count.
 
-The only new graph combinatorial input is the PHYSICAL exact
-two-root finite-height FP criterion for each original sector.
-These are exact n+2-vertex graph statements with 1/n! and not
-the stronger desired full connected norm/series conclusion.
+The graph combinatorial input can now be produced from the published
+single-q Fernández--Procacci theorem plus the internally proved exact
+n+2-vertex physical graph embedding, with the correct 1/n! normalization.
 
 A direct source-jet identification with published CMP119/122,
 uniform unmarked history counting and fixed-D counterterm is
