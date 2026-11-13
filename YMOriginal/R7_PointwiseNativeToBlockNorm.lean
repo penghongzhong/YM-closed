@@ -39,8 +39,9 @@ theorem r7_pointwise_native_to_block_norm
               Real.exp (kappa * (d X : ℝ)) :=
         mul_le_mul_of_nonneg_right (hz X) (Real.exp_pos _).le
       _ = amp * Real.exp (-(kappaR - kappa) * (d X : ℝ)) := by
-        rw [← Real.exp_add]
-        ring_nf
+        rw [mul_assoc, ← Real.exp_add]
+        congr 2
+        ring
   calc
     (∑ X ∈ actualThroughBlock support Delta,
       ‖z X‖ * Real.exp (kappa * (d X : ℝ)))
