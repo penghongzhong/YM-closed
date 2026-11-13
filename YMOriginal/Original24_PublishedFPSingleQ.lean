@@ -77,7 +77,20 @@ theorem physicalExactTwoRootFPCriterion_of_published
         (k + 1) N chi rootP rootQ support z
     have hfactor : 0 ≤ lam ^ (k + 1) * eps := by
       exact mul_nonneg (pow_nonneg (by linarith) _) heps.le
-    exact mul_le_mul_of_nonneg_right htree hfactor
+    calc
+      exactExtendedTwoRootTreeMajorant
+          (k + 1) N chi rootP rootQ support z *
+          lam ^ (k + 1) * eps =
+        exactExtendedTwoRootTreeMajorant
+          (k + 1) N chi rootP rootQ support z *
+          (lam ^ (k + 1) * eps) := by ring
+      _ ≤ actualSingleQWeightedTreeMajorant
+          (k + 1) N chi rootP rootQ support z *
+          (lam ^ (k + 1) * eps) :=
+        mul_le_mul_of_nonneg_right htree hfactor
+      _ = actualSingleQWeightedTreeMajorant
+          (k + 1) N chi rootP rootQ support z *
+          lam ^ (k + 1) * eps := by ring
   calc
     (∑ k ∈ Finset.range (h - 2),
       exactExtendedTwoRootTreeMajorant
