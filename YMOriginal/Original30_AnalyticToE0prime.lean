@@ -71,21 +71,21 @@ theorem joint_source_analytic_implies_os_E0prime
         ((YMUIC.OSTensor.joint_schwartz_control 0 (C.q * 0) (C.k * 0)).2
           f 0 (by omega)).1
     have hp : 0 ≤ YMUIC.OSTensor.jointSchwartzControl
-        0 C.q (C.k * 0) f := apply_nonneg _ _
+        0 (C.q * 0) (C.k * 0) f := apply_nonneg _ _
     have hM : YMUIC.OSTensor.jointSchwartzControl
-        0 C.q (C.k * 0) f ≤
+        0 (C.q * 0) (C.k * 0) f ≤
       C.M * YMUIC.OSTensor.jointSchwartzControl
-        0 C.q (C.k * 0) f := by
+        0 (C.q * 0) (C.k * 0) f := by
       calc
         _ = 1 * YMUIC.OSTensor.jointSchwartzControl
-            0 C.q (C.k * 0) f := by ring
+            0 (C.q * 0) (C.k * 0) f := by ring
         _ ≤ C.M * YMUIC.OSTensor.jointSchwartzControl
-            0 C.q (C.k * 0) f :=
+            0 (C.q * 0) (C.k * 0) f :=
             mul_le_mul_of_nonneg_right C.M_ge_one hp
     simpa using hnorm.trans hM
   · have hrpos : 0 < r := Nat.pos_of_ne_zero hr
     let P : ℝ := YMUIC.OSTensor.jointSchwartzControl
-      r C.q (C.k * r) f
+      r (C.q * r) (C.k * r) f
     have hp : 0 ≤ P := apply_nonneg _ _
     have hM : 0 ≤ C.M * P := mul_nonneg (by linarith [C.M_ge_one]) hp
     have hCauchy :=
