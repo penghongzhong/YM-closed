@@ -49,10 +49,65 @@ structure PublishedFernandezProcacciSingleQ : Prop where
           (actualSecondRootAugmentedSize d rootQ.card)
           cGeo mu h) - 1
 
+/-- Pointwise weighted comparison after the exact physical graph
+embedding.  Keeping this as a separate lemma avoids repeatedly unfolding
+the full physical FP criterion during the finite-sum proof. -/
+theorem published_single_q_weighted_term
+    {Γ : Type*} [Fintype Γ]
+    (N chi : ℕ)
+    (rootP rootQ : Finset (PeriodicBlock N))
+    (support : Γ → Finset (PeriodicBlock N))
+    (z : Γ → ℂ)
+    (lam eps : ℝ) (hlam : 0 ≤ lam) (heps : 0 ≤ eps)
+    (n : ℕ) :
+    exactExtendedTwoRootTreeMajorant
+        n N chi rootP rootQ support z * lam ^ n * eps ≤
+      actualSingleQWeightedTreeMajorant
+        n N chi rootP rootQ support z * lam ^ n * eps := by
+  have htree :=
+    original24_exact_two_root_weighted_tree_le_single_q
+      n N chi rootP rootQ support z
+  have hfactor : 0 ≤ lam ^ n * eps :=
+    mul_nonneg (pow_nonneg hlam _) heps
+  calc
+    exactExtendedTwoRootTreeMajorant
+        n N chi rootP rootQ support z * lam ^ n * eps =
+      exactExtendedTwoRootTreeMajorant
+        n N chi rootP rootQ support z * (lam ^ n * eps) := by
+          ring
+    _ ≤ actualSingleQWeightedTreeMajorant
+        n N chi rootP rootQ support z * (lam ^ n * eps) :=
+      mul_le_mul_of_nonneg_right htree hfactor
+    _ = actualSingleQWeightedTreeMajorant
+        n N chi rootP rootQ support z * lam ^ n * eps := by
+          ring
+
+/-- Finite-height physical two-root tree sum is bounded by the
+corresponding positive single-q sum. -/
+theorem published_single_q_weighted_sum
+    {Γ : Type*} [Fintype Γ]
+    (N chi : ℕ)
+    (rootP rootQ : Finset (PeriodicBlock N))
+    (support : Γ → Finset (PeriodicBlock N))
+    (z : Γ → ℂ)
+    (lam eps : ℝ) (hlam : 0 ≤ lam) (heps : 0 ≤ eps)
+    (h : ℕ) :
+    (∑ k ∈ Finset.range (h - 2),
+      exactExtendedTwoRootTreeMajorant
+          (k + 1) N chi rootP rootQ support z *
+          lam ^ (k + 1) * eps) ≤
+    ∑ k ∈ Finset.range (h - 2),
+      actualSingleQWeightedTreeMajorant
+          (k + 1) N chi rootP rootQ support z *
+          lam ^ (k + 1) * eps := by
+  apply Finset.sum_le_sum
+  intro k hk
+  exact published_single_q_weighted_term
+    N chi rootP rootQ support z lam eps hlam heps (k + 1)
+
 /-- The published single-q enumeration plus the internally proved exact
 physical graph embedding yields the formerly separate physical
 two-root FP criterion. -/
-set_option maxHeartbeats 800000 in
 theorem physicalExactTwoRootFPCriterion_of_published
     (FP : PublishedFernandezProcacciSingleQ)
     {Γ : Type*} [Fintype Γ]
@@ -64,52 +119,18 @@ theorem physicalExactTwoRootFPCriterion_of_published
     (hgeom : 0 ≤ cGeo * mu) :
     PhysicalExactTwoRootFPCriterion
       N chi rootP rootQ support z d cGeo mu := by
+  unfold PhysicalExactTwoRootFPCriterion
   intro lam eps h hlam heps
-  have hterm : ∀ k ∈ Finset.range (h - 2),
-      exactExtendedTwoRootTreeMajorant
-          (k + 1) N chi rootP rootQ support z *
-          lam ^ (k + 1) * eps ≤
-      actualSingleQWeightedTreeMajorant
-          (k + 1) N chi rootP rootQ support z *
-          lam ^ (k + 1) * eps := by
-    intro k hk
-    have htree :=
-      original24_exact_two_root_weighted_tree_le_single_q
-        (k + 1) N chi rootP rootQ support z
-    have hfactor : 0 ≤ lam ^ (k + 1) * eps := by
-      exact mul_nonneg (pow_nonneg (by linarith) _) heps.le
-    calc
-      exactExtendedTwoRootTreeMajorant
-          (k + 1) N chi rootP rootQ support z *
-          lam ^ (k + 1) * eps =
-        exactExtendedTwoRootTreeMajorant
-          (k + 1) N chi rootP rootQ support z *
-          (lam ^ (k + 1) * eps) := by ring
-      _ ≤ actualSingleQWeightedTreeMajorant
-          (k + 1) N chi rootP rootQ support z *
-          (lam ^ (k + 1) * eps) :=
-        mul_le_mul_of_nonneg_right htree hfactor
-      _ = actualSingleQWeightedTreeMajorant
-          (k + 1) N chi rootP rootQ support z *
-          lam ^ (k + 1) * eps := by ring
-  calc
-    (∑ k ∈ Finset.range (h - 2),
-      exactExtendedTwoRootTreeMajorant
-          (k + 1) N chi rootP rootQ support z *
-          lam ^ (k + 1) * eps) ≤
-      ∑ k ∈ Finset.range (h - 2),
-        actualSingleQWeightedTreeMajorant
-          (k + 1) N chi rootP rootQ support z *
-          lam ^ (k + 1) * eps := by
-        exact Finset.sum_le_sum hterm
-    _ ≤ Real.exp
-        (actualPeriodicFirstRootSum N chi rootP
-          (actualSecondRootAugmentedSupport N support rootQ)
-          (actualSecondRootAugmentedActivity
-            (fun X => (lam : ℂ) * z X) eps)
-          (actualSecondRootAugmentedSize d rootQ.card)
-          cGeo mu h) - 1 :=
-      FP.finiteHeightBound N chi rootP rootQ support z d
-        cGeo mu lam eps h hgeom hlam heps
+  have hlam0 : 0 ≤ lam := le_trans (by norm_num) hlam
+  have heps0 : 0 ≤ eps := heps.le
+  exact
+    (published_single_q_weighted_sum
+      N chi rootP rootQ support z lam eps hlam0 heps0 h).trans
+      (FP.finiteHeightBound N chi rootP rootQ support z d
+        cGeo mu lam eps h hgeom hlam heps)
+
+#print axioms published_single_q_weighted_term
+#print axioms published_single_q_weighted_sum
+#print axioms physicalExactTwoRootFPCriterion_of_published
 
 end YMUIC.Original24
