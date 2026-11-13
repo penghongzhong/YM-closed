@@ -29,6 +29,5 @@ theorem original24_one_marked_weight_exact
   have hn : (n + 1 : ℝ) ≠ 0 := by positivity
   have hf : (Nat.factorial n : ℝ) ≠ 0 := by positivity
   field_simp [hn, hf]
-  ring
 
 end YMUIC.Original24
