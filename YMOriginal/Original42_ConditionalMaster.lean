@@ -1,4 +1,5 @@
 import YMConditional.Original16_FromI7
+import YMOriginal.Original15_OsterwalderSeilerPublished
 
 set_option autoImplicit false
 noncomputable section
@@ -116,5 +117,61 @@ theorem original42_master_assembly_from_I7
     hB14 _ hGap.2⟩
 
 #print axioms original42_master_assembly_from_I7
+
+
+/-- Final conditional master theorem with the lattice transfer positivity
+supplied through the explicit Osterwalder--Seiler published interface.
+The only new spectral input beyond that published transfer construction
+is the visible I7 Gram hypothesis. -/
+theorem original42_master_assembly_from_published_OS_and_I7
+    {κ : Type*}
+    (V : κ → Type*) (I : Type*)
+    [∀ k, NormedAddCommGroup (V k)]
+    [∀ k, InnerProductSpace ℂ (V k)]
+    [∀ k, CompleteSpace (V k)]
+    (Ω : ∀ k, V k) (v : ∀ k, I → V k)
+    (T : ∀ k, V k →L[ℂ] V k)
+    (OS : YMUIC.Original15Published.PublishedOsterwalderSeilerTransfer V Ω T)
+    (η cPlus Lambda : ℝ) (a : κ → ℝ)
+    (hη0 : 0 < η) (hη1 : η < 1)
+    (hc : 0 < cPlus) (hLambda : 0 < Lambda)
+    (ha : ∀ k, 0 < a k)
+    (hdense : ∀ k,
+      Dense (Submodule.span ℂ (Set.range (v k)) : Set (V k)))
+    (hI7 : ∀ k, I7Gram
+      (fun i => center (Ω k) (v k i)) (T k) η)
+    (A : ∀ k, vacuumSector (Ω k) →ₗ.[ℂ] vacuumSector (Ω k))
+    (hSpectral : ∀ k, NonnegativeHeatCalculus (A k) (2 * a k)
+      (vacuumTransfer (Ω k) (T k) (OS.positive k).isSelfAdjoint
+        (OS.vacuumFixed k)))
+    (hscale : ∀ k, a k ≤ cPlus / Lambda)
+    {Hcont : Type*} [NormedAddCommGroup Hcont]
+    [InnerProductSpace ℂ Hcont] [CompleteSpace Hcont]
+    (OmegaCont : Hcont)
+    (Acont : vacuumSector OmegaCont →ₗ.[ℂ] vacuumSector OmegaCont)
+    (hB14 : ∀ d : ℝ,
+      (∀ k, ((d : ℝ) : EReal) ≤ generatorGap (A k)) →
+        ((d : ℝ) : EReal) ≤ generatorGap Acont)
+    (S : Original42Stages)
+    (hPhase : S.phaseLocked)
+    (hJoint : S.jointCutoffVolumeLimits)
+    (hLocal : S.fixedDLocalPolynomialBlock)
+    (hRotation : S.rotationMatchingO4)
+    (hRP : S.continuumReflectionPositivity)
+    (hGrowth : S.continuumOSGrowth)
+    (hNontrivial : S.continuumNontriviality)
+    (hReconstruction : S.osWightmanReconstruction) :
+    Original42UICMain V Ω A OmegaCont Acont S
+      ((-Real.log (1 - η) / (2 * cPlus)) * Lambda) := by
+  exact original42_master_assembly_from_I7
+    V I Ω v T η cPlus Lambda a
+    hη0 hη1 hc hLambda ha
+    OS.positive OS.vacuumFixed
+    hdense hI7 A hSpectral hscale
+    OmegaCont Acont hB14 S
+    hPhase hJoint hLocal hRotation hRP hGrowth
+    hNontrivial hReconstruction
+
+#print axioms original42_master_assembly_from_published_OS_and_I7
 
 end YMUIC.Original42
