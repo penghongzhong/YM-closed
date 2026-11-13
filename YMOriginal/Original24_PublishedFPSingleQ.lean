@@ -186,9 +186,26 @@ theorem actual_original24_two_root_mayer_full_sum_from_published_FP
       published_single_q_weighted_sum
         N chi rootP rootQ support z lam eps
         (le_trans (by norm_num) hlam) heps.le h
-    have hpub :=
-      FP.finiteHeightBound (Γ := Γ) N chi rootP rootQ support z d
-        cGeo mu lam eps h hgeom hlam heps
+    have hpub :
+        (∑ k ∈ Finset.range (h - 2),
+          actualSingleQWeightedTreeMajorant
+            (k + 1) N chi rootP rootQ support z *
+            lam ^ (k + 1) * eps) ≤
+        Real.exp
+          (actualPeriodicFirstRootSum N chi rootP
+            (actualSecondRootAugmentedSupport N support rootQ)
+            (actualSecondRootAugmentedActivity
+              (fun X => (lam : ℂ) * z X) eps)
+            (actualSecondRootAugmentedSize d rootQ.card)
+            cGeo mu h) - 1 := by
+      exact FP.finiteHeightBound
+        (Γ := Γ)
+        (N := N) (chi := chi)
+        (rootP := rootP) (rootQ := rootQ)
+        (support := support) (z := z) (d := d)
+        (cGeo := cGeo) (mu := mu)
+        (lam := lam) (eps := eps) (h := h)
+        hgeom hlam heps
     simpa only [pow_one, w] using hs.trans hpub
   obtain ⟨C, hC, htree⟩ :=
     original24_two_root_tree_O_aAct_from_U1_and_FP
