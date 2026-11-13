@@ -105,7 +105,7 @@ theorem original24_fixedD_same_source_full_series_and_cocycle
         (Cpol / (1 - Real.exp (-(D.kappaR - kappa - cpol))))) ≤
        kappa - cGeo * mu)
     (Pub : PublishedPenroseExtendedTwoRoot)
-    (FP : PublishedFernandezProcacciSingleQ)
+    (FP : PublishedFernandezProcacciSingleQ Γ)
     (hgeom : 0 ≤ cGeo * mu)
     (base : PeriodicBlock N)
     (links : PeriodicBlock N → PeriodicBlock N → SU2)
