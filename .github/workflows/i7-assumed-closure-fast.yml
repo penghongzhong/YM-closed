@@ -31,17 +31,11 @@ jobs:
           lake build YMOriginal.Original24_PublishedFPSingleQ
           lake build YMOriginal.Original24_FromPublishedBalabanLocalNorm
           lake build YMOriginal.Original24_FixedDMainCore
-      - name: Compile corrected Original30 OS chain
+      - name: Compile physical Original30 and C-stage main chain
         run: |
           lake build YMOriginal.Original34_OSII_ExternalInterface
           lake build YMOriginal.Original30_AnalyticToE0prime
-          lake build YMOriginal.Original30_AllVolumeJointSchwartz
-          lake build YMOriginal.Original30_AllVolumeJointHierarchy
-          lake build YMOriginal.Original30_AllVolumeProbabilityHierarchy
-          lake build YMOriginal.Original30_FiniteSpeciesAllVolume
-          lake build YMOriginal.Original30_SourceCocycleBudget21
-          lake build YMOriginal.Original30_DriftRenormalizedSourceBudget21
-          lake build YMOriginal.Original30_DriftJointAllVolume21
+          lake build YMOriginal.Original30_PolymerSourceMoments
           lake build YMOriginal.Original30_V116JointCutoffVolume
           lake build YMOriginal.Original30_V118LadderCauchy
           lake build YMOriginal.Original15_OsterwalderSeilerPublished
