@@ -32,6 +32,7 @@ jobs:
           lake build YMOriginal.Original30_PolymerSourceMoments
           lake build YMOriginal.Original30_LocalSourcePolymerMoments
           lake build YMOriginal.Original30_LocalSourceShellBudget
+          lake build YMOriginal.Original30_ExternalRootAnalyticMoments
           lake build YMOriginal.Original30_WilsonSourceDerivatives
           lake build YMOriginal.Original30_JointSourceDictionary
           lake build YMOriginal.Original30_SourceJointUniformBound
