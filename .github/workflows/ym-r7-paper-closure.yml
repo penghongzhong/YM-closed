@@ -42,6 +42,7 @@ jobs:
             YMOriginal/R7_PointwiseNativeToBlockNorm.lean
             YMOriginal/R7_BPHZSourceTransport.lean
             YMOriginal/R7_I7TransferCluster.lean
+            YMOriginal/R7_PublishedFPActualCriterion.lean
           )
           for f in "${files[@]}"; do
             if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' "$f"; then exit 1; fi
@@ -60,6 +61,7 @@ jobs:
           import YMOriginal.R7_PointwiseNativeToBlockNorm
           import YMOriginal.R7_BPHZSourceTransport
           import YMOriginal.R7_I7TransferCluster
+          import YMOriginal.R7_PublishedFPActualCriterion
           #print YMUIC.Original24.r7_pointwise_native_to_block_norm
           #print axioms YMUIC.Original24.r7_pointwise_native_to_block_norm
           #print YMUIC.R7.bphz_source_transport_summable
@@ -70,6 +72,8 @@ jobs:
           #print axioms YMUIC.R7.transferIterate_norm_le
           #print YMUIC.R7.transfer_contraction_pairing_le
           #print axioms YMUIC.R7.transfer_contraction_pairing_le
+          #print YMUIC.Original24.r7_actual_two_root_fp_criterion
+          #print axioms YMUIC.Original24.r7_actual_two_root_fp_criterion
           EOF
           lake env lean -DwarningAsError=true verification/r7-paper-closure/Audit.lean | tee verification/r7-paper-closure/axioms.log
           if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/r7-paper-closure/axioms.log; then exit 1; fi
