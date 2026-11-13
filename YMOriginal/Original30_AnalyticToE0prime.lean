@@ -41,7 +41,7 @@ structure JointSourceAnalyticCertificate
   majorant : ∀ (r : ℕ) (f : YMUIC.Original34.JointTest r)
       (s : ℂ), s ∈ ball 0 radius →
     ‖source r f s‖ ≤
-      M * YMUIC.OSTensor.jointSchwartzControl r q (k * r) f
+      M * YMUIC.OSTensor.jointSchwartzControl r (q * r) (k * r) f
   coefficient : ∀ (r : ℕ) (f : YMUIC.Original34.JointTest r),
     H.S r f = (iteratedFDeriv ℂ r (source r f) 0)
       (fun _ : Fin r => (1 : ℂ))
@@ -62,13 +62,13 @@ theorem joint_source_analytic_implies_os_E0prime
   by_cases hr : r = 0
   · subst r
     have hnorm : ‖H.S 0 f‖ ≤
-        YMUIC.OSTensor.jointSchwartzControl 0 C.q (C.k * 0) f := by
+        YMUIC.OSTensor.jointSchwartzControl 0 (C.q * 0) (C.k * 0) f := by
       rw [C.normalizes f]
       have hpoint : ‖f (0 : EuclideanSpace ℝ (Fin 0))‖ ≤
           SchwartzMap.seminorm ℂ 0 0 f :=
         f.norm_le_seminorm ℂ (0 : EuclideanSpace ℝ (Fin 0))
       exact hpoint.trans
-        ((YMUIC.OSTensor.joint_schwartz_control 0 C.q (C.k * 0)).2
+        ((YMUIC.OSTensor.joint_schwartz_control 0 (C.q * 0) (C.k * 0)).2
           f 0 (by omega)).1
     have hp : 0 ≤ YMUIC.OSTensor.jointSchwartzControl
         0 C.q (C.k * 0) f := apply_nonneg _ _
@@ -117,7 +117,7 @@ theorem joint_source_analytic_implies_os_E0prime
         (C.M * P) := hfac
       _ = (C.M * (Real.exp 1 / C.radius) ^ r *
         (r.factorial : ℝ)) *
-        YMUIC.OSTensor.jointSchwartzControl r C.q (C.k * r) f := by
+        YMUIC.OSTensor.jointSchwartzControl r (C.q * r) (C.k * r) f := by
         dsimp [P]
         ring
 
