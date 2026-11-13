@@ -105,57 +105,130 @@ theorem published_single_q_weighted_sum
   exact published_single_q_weighted_term
     N chi rootP rootQ support z lam eps hlam heps (k + 1)
 
-/-- Fully explicit physical FP inequality, avoiding any unfolding of the
-named criterion during the main proof. -/
-theorem published_single_q_explicit_physical_FP
-    (FP : PublishedFernandezProcacciSingleQ)
-    {Γ : Type*} [Fintype Γ]
-    (N chi : ℕ)
-    (rootP rootQ : Finset (PeriodicBlock N))
-    (support : Γ → Finset (PeriodicBlock N))
-    (z : Γ → ℂ) (d : Γ → ℕ)
-    (cGeo mu : ℝ)
-    (hgeom : 0 ≤ cGeo * mu) :
-    ∀ lam eps : ℝ, ∀ h : ℕ, 1 ≤ lam → 0 < eps →
-      (∑ k ∈ Finset.range (h - 2),
-        exactExtendedTwoRootTreeMajorant
-          (k + 1) N chi rootP rootQ support z *
-          lam ^ (k + 1) * eps) ≤
-      Real.exp
-        (actualPeriodicFirstRootSum N chi rootP
-          (actualSecondRootAugmentedSupport N support rootQ)
-          (actualSecondRootAugmentedActivity
-            (fun X => (lam : ℂ) * z X) eps)
-          (actualSecondRootAugmentedSize d rootQ.card)
-          cGeo mu h) - 1 := by
-  intro lam eps h hlam heps
-  have hlam0 : 0 ≤ lam := le_trans (by norm_num) hlam
-  have heps0 : 0 ≤ eps := heps.le
-  exact
-    (published_single_q_weighted_sum
-      N chi rootP rootQ support z lam eps hlam0 heps0 h).trans
-      (FP.finiteHeightBound N chi rootP rootQ support z d
-        cGeo mu lam eps h hgeom hlam heps)
 
-/-- The explicit theorem is definitionally the previously used named
-physical criterion.  This wrapper contains no unfolding tactic. -/
-theorem physicalExactTwoRootFPCriterion_of_published
+/-- Direct published-FP version of the full physical two-root series theorem.
+This bypasses the named `PhysicalExactTwoRootFPCriterion` wrapper entirely:
+the only external input is the universal single-q Fernández--Procacci bound,
+while the two-root-to-single-q comparison is internal Lean. -/
+theorem actual_original24_two_root_mayer_full_sum_from_published_FP
+    (Pub : PublishedPenroseExtendedTwoRoot)
     (FP : PublishedFernandezProcacciSingleQ)
-    {Γ : Type*} [Fintype Γ]
+    {Γ P T S : Type*}
+    [Fintype Γ] [Fintype T] [Fintype S]
     (N chi : ℕ)
     (rootP rootQ : Finset (PeriodicBlock N))
     (support : Γ → Finset (PeriodicBlock N))
     (z : Γ → ℂ) (d : Γ → ℕ)
-    (cGeo mu : ℝ)
-    (hgeom : 0 ≤ cGeo * mu) :
-    PhysicalExactTwoRootFPCriterion
-      N chi rootP rootQ support z d cGeo mu :=
-  published_single_q_explicit_physical_FP
-    FP N chi rootP rootQ support z d cGeo mu hgeom
+    (kappa mu cGeo aAct : ℝ)
+    (hgeom : 0 ≤ cGeo * mu)
+    (haAct : 0 < aAct)
+    (hdelta : 0 < kappa - cGeo * mu)
+    (hsize : ∀ X, (support X).card ≤ d X)
+    (hsmall :
+      4 * (((2 * chi + 1 : ℕ) ^ 4 : ℕ) : ℝ) * aAct ≤
+        kappa - cGeo * mu)
+    (hLocalNorm : ∀ Delta : PeriodicBlock N,
+      (∑ X ∈ actualThroughBlock support Delta,
+        ‖z X‖ * Real.exp (kappa * (d X : ℝ))) ≤ aAct)
+    (U : P → SU2)
+    (wp : T → List (List P)) (cp : T → ℂ)
+    (wq : S → List (List P)) (cq : S → ℂ)
+    (s t : ℂ) (radius Bp Bq : ℝ)
+    (hr : 0 ≤ radius) (hp0 : 0 ≤ Bp) (hq0 : 0 ≤ Bq)
+    (hs : ‖s‖ ≤ radius) (ht : ‖t‖ ≤ radius)
+    (hp : actualWilsonPolynomialBudget wp cp ≤ Bp)
+    (hq : actualWilsonPolynomialBudget wq cq ≤ Bq) :
+    ∃ C : ℝ, 0 ≤ C ∧
+      Summable (fun n : ℕ =>
+        actualTwoRootInsertion U wp cp wq cq s t *
+          actualExactTwoRootMayerTerm
+            (n + 1) N chi rootP rootQ support z) ∧
+      Summable (fun n : ℕ =>
+        ‖actualTwoRootInsertion U wp cp wq cq s t *
+          actualExactTwoRootMayerTerm
+            (n + 1) N chi rootP rootQ support z‖) ∧
+      (∑' n : ℕ,
+        ‖actualTwoRootInsertion U wp cp wq cq s t *
+          actualExactTwoRootMayerTerm
+            (n + 1) N chi rootP rootQ support z‖) ≤
+      ((Real.exp (radius * Bp) - 1) *
+         (Real.exp (radius * Bq) - 1)) * C * aAct := by
+  let K : ℝ := (Real.exp (radius * Bp) - 1) *
+    (Real.exp (radius * Bq) - 1)
+  have hkp : 0 ≤ Real.exp (radius * Bp) - 1 :=
+    sub_nonneg.mpr (Real.one_le_exp_iff.mpr (mul_nonneg hr hp0))
+  have hkq : 0 ≤ Real.exp (radius * Bq) - 1 :=
+    sub_nonneg.mpr (Real.one_le_exp_iff.mpr (mul_nonneg hr hq0))
+  have hK : 0 ≤ K := mul_nonneg hkp hkq
+  let w : ℕ → ℝ := fun n =>
+    exactExtendedTwoRootTreeMajorant
+      (n + 1) N chi rootP rootQ support z
+  have hw : ∀ n, 0 ≤ w n := by
+    intro n
+    exact actual_exact_two_root_positive_tree_weight
+      (n + 1) N chi rootP rootQ support z
+  have hFP' :
+      ∀ (lam eps : ℝ) (h : ℕ), 1 ≤ lam → 0 < eps →
+        (∑ n ∈ Finset.range (h - 2),
+          w n * lam ^ (n + 1) * eps ^ (1 : ℕ)) ≤
+        Real.exp
+          (actualPeriodicFirstRootSum N chi rootP
+            (actualSecondRootAugmentedSupport N support rootQ)
+            (actualSecondRootAugmentedActivity
+              (fun X => (lam : ℂ) * z X) eps)
+            (actualSecondRootAugmentedSize d rootQ.card)
+            cGeo mu h) - 1 := by
+    intro lam eps h hlam heps
+    have hs :=
+      published_single_q_weighted_sum
+        N chi rootP rootQ support z lam eps
+        (le_trans (by norm_num) hlam) heps.le h
+    have hpub :=
+      FP.finiteHeightBound N chi rootP rootQ support z d
+        cGeo mu lam eps h hgeom hlam heps
+    simpa only [pow_one, w] using hs.trans hpub
+  obtain ⟨C, hC, htree⟩ :=
+    original24_two_root_tree_O_aAct_from_U1_and_FP
+      N chi rootP rootQ support z d
+      kappa mu cGeo aAct haAct hdelta hsize hsmall hLocalNorm
+      (fun h => Finset.range (h - 2))
+      (fun n : ℕ => n + 1)
+      (fun _n : ℕ => 1)
+      w hw hFP'
+  have htreePrefix (h : ℕ) :
+      (∑ n ∈ Finset.range h, w n) ≤ C * aAct := by
+    have hb := htree (h + 2)
+    have hsub : h + 2 - 2 = h := by omega
+    simpa [hsub] using hb
+  let term : ℕ → ℂ := fun n =>
+    actualTwoRootInsertion U wp cp wq cq s t *
+      actualExactTwoRootMayerTerm (n + 1) N chi
+        rootP rootQ support z
+  have hTerm (n : ℕ) : ‖term n‖ ≤ K * w n := by
+    exact actual_exact_extended_marked_penrose
+      Pub (n + 1) N chi rootP rootQ support z
+      U wp cp wq cq s t radius Bp Bq hr hp0 hq0 hs ht hp hq
+  have hprefix (h : ℕ) :
+      (∑ n ∈ Finset.range h, ‖term n‖) ≤
+        (K * C) * aAct := by
+    calc
+      _ ≤ ∑ n ∈ Finset.range h, K * w n :=
+        Finset.sum_le_sum (fun n hn => hTerm n)
+      _ = K * (∑ n ∈ Finset.range h, w n) := by
+        rw [Finset.mul_sum]
+      _ ≤ K * (C * aAct) :=
+        mul_le_mul_of_nonneg_left (htreePrefix h) hK
+      _ = (K * C) * aAct := by ring
+  have hnorm : Summable (fun n : ℕ => ‖term n‖) :=
+    summable_of_sum_range_le (fun n => norm_nonneg (term n)) hprefix
+  have hsum : Summable term := summable_norm_iff.mp hnorm
+  refine ⟨C, hC, ?_, ?_, ?_⟩
+  · exact hsum
+  · exact hnorm
+  · exact hnorm.tsum_le_of_sum_range_le hprefix
 
 #print axioms published_single_q_weighted_term
 #print axioms published_single_q_weighted_sum
-#print axioms published_single_q_explicit_physical_FP
-#print axioms physicalExactTwoRootFPCriterion_of_published
+#print axioms actual_original24_two_root_mayer_full_sum_from_published_FP
 
 end YMUIC.Original24
