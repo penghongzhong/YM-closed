@@ -45,14 +45,14 @@ theorem transfer_contraction_pairing_le
     (hq : 0 ≤ q)
     (hT : ∀ x : H, ‖T x‖ ≤ q * ‖x‖)
     (n : ℕ) (x y : H) :
-    ‖(inner x (transferIterate T n y) : ℂ)‖
+    ‖(inner ℂ x (transferIterate T n y) : ℂ)‖
       ≤ q ^ n * ‖x‖ * ‖y‖ := by
-  have hinner : ‖(inner x (transferIterate T n y) : ℂ)‖ ≤
+  have hinner : ‖(inner ℂ x (transferIterate T n y) : ℂ)‖ ≤
       ‖x‖ * ‖transferIterate T n y‖ :=
     norm_inner_le_norm x (transferIterate T n y)
   have hit := transferIterate_norm_le T q hq hT n y
   calc
-    ‖(inner x (transferIterate T n y) : ℂ)‖
+    ‖(inner ℂ x (transferIterate T n y) : ℂ)‖
         ≤ ‖x‖ * ‖transferIterate T n y‖ := hinner
     _ ≤ ‖x‖ * (q ^ n * ‖y‖) :=
       mul_le_mul_of_nonneg_left hit (norm_nonneg x)
