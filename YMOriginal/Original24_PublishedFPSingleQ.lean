@@ -201,7 +201,6 @@ theorem actual_original24_two_root_mayer_full_sum_from_published_FP
             (actualSecondRootAugmentedSize d rootQ.card)
             cGeo mu h) - 1 := by
       exact FP.finiteHeightBound
-        (Γ := Γ)
         (N := N) (chi := chi)
         (rootP := rootP) (rootQ := rootQ)
         (support := support) (z := z) (d := d)
