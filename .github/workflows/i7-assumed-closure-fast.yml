@@ -42,7 +42,7 @@ jobs:
           lake build YMOriginal.Original30_SourceCocycleBudget21
           lake build YMOriginal.Original30_DriftRenormalizedSourceBudget21
           lake build YMOriginal.Original30_DriftJointAllVolume21
-          lake build YMOriginal.Original30_BoundedD4GramE0prime
+          lake build YMOriginal.Original30_V118LadderCauchy
           lake build YMOriginal.Original15_OsterwalderSeilerPublished
           lake build YMConditional.Original25_RotationMatching
           lake build YMConditional.Original28_ContinuumRP
