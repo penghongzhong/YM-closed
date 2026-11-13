@@ -40,6 +40,7 @@ jobs:
           lake env lean YMOriginal/Original30_FiniteSpeciesAllVolume.lean
           lake env lean YMOriginal/Original30_SourceCocycleBudget21.lean
           lake env lean YMOriginal/Original30_DriftRenormalizedSourceBudget21.lean
+          lake env lean YMOriginal/Original30_DriftJointAllVolume21.lean
           lake env lean YMOriginal/Original34_ManuscriptReconstruction.lean
       - name: Forbidden placeholder scan
         run: |
