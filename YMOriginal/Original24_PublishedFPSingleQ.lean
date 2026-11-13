@@ -29,10 +29,12 @@ finite-height KP recursion. The sign condition 0 <= cGeo * mu is explicit.
 /-- Universal published rooted-tree enumeration, specialized only to the
 finite single-q hard-core model. This is a typed external theorem
 interface, not a custom axiom and not a Yang--Mills analytic estimate. -/
-structure PublishedFernandezProcacciSingleQ : Prop where
+universe u
+
+structure PublishedFernandezProcacciSingleQ
+    (Γ : Type u) [Fintype Γ] : Prop where
   finiteHeightBound :
-    ∀ {Γ : Type*} [Fintype Γ]
-      (N chi : ℕ)
+    ∀ (N chi : ℕ)
       (rootP rootQ : Finset (PeriodicBlock N))
       (support : Γ → Finset (PeriodicBlock N))
       (z : Γ → ℂ) (d : Γ → ℕ)
@@ -114,10 +116,10 @@ This bypasses the named `PhysicalExactTwoRootFPCriterion` wrapper entirely:
 the only external input is the universal single-q Fernández--Procacci bound,
 while the two-root-to-single-q comparison is internal Lean. -/
 theorem actual_original24_two_root_mayer_full_sum_from_published_FP
-    (Pub : PublishedPenroseExtendedTwoRoot)
-    (FP : PublishedFernandezProcacciSingleQ)
     {Γ P T S : Type*}
     [Fintype Γ] [Fintype T] [Fintype S]
+    (Pub : PublishedPenroseExtendedTwoRoot)
+    (FP : PublishedFernandezProcacciSingleQ Γ)
     (N chi : ℕ)
     (rootP rootQ : Finset (PeriodicBlock N))
     (support : Γ → Finset (PeriodicBlock N))
