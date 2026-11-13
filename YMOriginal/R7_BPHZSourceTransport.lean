@@ -55,6 +55,7 @@ theorem bphz_source_inverse_absorbed
     (hL : 1 < L)
     (hrho0 : 0 ≤ rho)
     (hrhoL : rho < L)
+    (htheta0 : 0 < theta)
     (htheta : theta < 1) :
     Summable (fun m : ℕ =>
       (L ^ (-(1 - theta) : ℝ)) ^ m *
@@ -64,7 +65,7 @@ theorem bphz_source_inverse_absorbed
   have hL0 : 0 < L := lt_trans zero_lt_one hL
   obtain ⟨hqpos, hq1⟩ :=
     YMUIC.Original24.original24_four_dimensional_q_contracts
-      L theta hL (by linarith) htheta
+      L theta hL htheta0 htheta
   have hq0 : 0 ≤ q := hqpos.le
   have hs0 : 0 ≤ s := by
     dsimp [s]
