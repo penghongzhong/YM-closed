@@ -1,0 +1,82 @@
+name: YM R7 conditional paper-closure Lean
+on:
+  push:
+    branches: [ym-r7-paper-closure-lean-20261113]
+    paths:
+      - "YMOriginal/R7_*.lean"
+      - ".github/workflows/ym-r7-paper-closure.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  r7-core:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pinned Lean
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Pinned Mathlib
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Strict R7 kernel replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          files=(
+            YMOriginal/R7_PointwiseNativeToBlockNorm.lean
+            YMOriginal/R7_BPHZSourceTransport.lean
+            YMOriginal/R7_I7TransferCluster.lean
+          )
+          for f in "${files[@]}"; do
+            if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' "$f"; then exit 1; fi
+            mod="${f%.lean}"
+            mod="${mod//\//.}"
+            lake build +"${mod}:olean"
+            lake env lean -DwarningAsError=true "$f"
+          done
+      - name: Exact theorem types and axioms
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          mkdir -p verification/r7-paper-closure
+          cat > verification/r7-paper-closure/Audit.lean <<'EOF'
+          import YMOriginal.R7_PointwiseNativeToBlockNorm
+          import YMOriginal.R7_BPHZSourceTransport
+          import YMOriginal.R7_I7TransferCluster
+          #print YMUIC.Original24.r7_pointwise_native_to_block_norm
+          #print axioms YMUIC.Original24.r7_pointwise_native_to_block_norm
+          #print YMUIC.R7.bphz_source_transport_summable
+          #print axioms YMUIC.R7.bphz_source_transport_summable
+          #print YMUIC.R7.bphz_source_transport_le
+          #print axioms YMUIC.R7.bphz_source_transport_le
+          #print YMUIC.R7.transferIterate_norm_le
+          #print axioms YMUIC.R7.transferIterate_norm_le
+          #print YMUIC.R7.transfer_contraction_pairing_le
+          #print axioms YMUIC.R7.transfer_contraction_pairing_le
+          EOF
+          lake env lean -DwarningAsError=true verification/r7-paper-closure/Audit.lean | tee verification/r7-paper-closure/axioms.log
+          if grep -E 'sorryAx|^error:|YMUIC\.[^ ]+\.[^ ]+ : axiom' verification/r7-paper-closure/axioms.log; then exit 1; fi
+      - name: Preserve R7 receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-r7-paper-closure-proof
+          path: verification/r7-paper-closure/axioms.log
+          if-no-files-found: warn
