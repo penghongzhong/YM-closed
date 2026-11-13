@@ -24,7 +24,8 @@ original RG sectors, with fixed full-radius SU2 Wilson roots.
 
 Still explicit, NOT proved:
 - physical hard-core CMP history identification;
-- the actual n+2 two-root FP spanning-tree enumeration criterion;
+- the published single-q FP theorem is external; its actual two-root
+  specialization is now derived internally;
 - the original fixed-D source jets and RG counterterm identities.
 The manuscript B11 original environment is not yet fully certified.
 -/
