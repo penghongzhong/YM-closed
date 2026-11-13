@@ -5,6 +5,8 @@ set_option autoImplicit false
 noncomputable section
 
 namespace YMUIC.Original24
+open YMUIC.Wilson
+open YMUICV128.Section03
 
 /-!
 # Published Fernández--Procacci single-q enumeration interface
