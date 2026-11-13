@@ -1,6 +1,7 @@
 import YMOriginal.Original24_ExactWeightedTreeComparison
 
 set_option autoImplicit false
+set_option maxHeartbeats 800000
 noncomputable section
 
 namespace YMUIC.Original24
