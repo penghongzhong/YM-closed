@@ -5,6 +5,7 @@ set_option autoImplicit false
 noncomputable section
 
 namespace YMUIC.Original24
+-- polymer type pinned explicitly for the published interface
 open YMUIC.Wilson
 open YMUICV128.Section03
 
