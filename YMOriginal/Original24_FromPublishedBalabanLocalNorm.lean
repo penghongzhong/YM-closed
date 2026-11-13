@@ -89,29 +89,19 @@ theorem original24_complete_two_root_series_from_published_local_norm
   dsimp
   let U : ClosedLinkWalkAt (PeriodicBlock N) base → SU2 :=
     fun w => actualWalkHolonomy links base w.vertices
-  have hFPold : PhysicalExactTwoRootFPCriterion N chi
-      rootP rootQ support (fun X => D.oldR j X omega) d cGeo mu :=
-    physicalExactTwoRootFPCriterion_of_published
-      FP N chi rootP rootQ support (fun X => D.oldR j X omega)
-      d cGeo mu hgeom
-  have hFPnew : PhysicalExactTwoRootFPCriterion N chi
-      rootP rootQ support (fun X => D.newR j X omega) d cGeo mu :=
-    physicalExactTwoRootFPCriterion_of_published
-      FP N chi rootP rootQ support (fun X => D.newR j X omega)
-      d cGeo mu hgeom
   obtain ⟨Cold, hCold, hSummableOld, _hNormOld, hTotalOld⟩ :=
-    actual_original24_two_root_mayer_full_sum_from_U1_FP
-      Pub N chi rootP rootQ support
+    actual_original24_two_root_mayer_full_sum_from_published_FP
+      Pub FP N chi rootP rootQ support
       (fun X => D.oldR j X omega) d
-      kappa mu cGeo Aold hAold hdelta hsize hsmallOld
-      hLocalOld hFPold U wp cp wq cq s t radius Bp Bq
+      kappa mu cGeo Aold hgeom hAold hdelta hsize hsmallOld
+      hLocalOld U wp cp wq cq s t radius Bp Bq
       hr hp0 hq0 hs ht hp hq
   obtain ⟨Cnew, hCnew, hSummableNew, _hNormNew, hTotalNew⟩ :=
-    actual_original24_two_root_mayer_full_sum_from_U1_FP
-      Pub N chi rootP rootQ support
+    actual_original24_two_root_mayer_full_sum_from_published_FP
+      Pub FP N chi rootP rootQ support
       (fun X => D.newR j X omega) d
-      kappa mu cGeo Anew hAnew hdelta hsize hsmallNew
-      hLocalNew hFPnew U wp cp wq cq s t radius Bp Bq
+      kappa mu cGeo Anew hgeom hAnew hdelta hsize hsmallNew
+      hLocalNew U wp cp wq cq s t radius Bp Bq
       hr hp0 hq0 hs ht hp hq
   exact ⟨Cold, Cnew, hCold, hCnew,
     hSummableOld, hSummableNew, hTotalOld, hTotalNew⟩
