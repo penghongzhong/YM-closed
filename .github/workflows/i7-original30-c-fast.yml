@@ -30,6 +30,9 @@ jobs:
           lake build YMOriginal.Original34_OSII_ExternalInterface
           lake build YMOriginal.Original30_AnalyticToE0prime
           lake build YMOriginal.Original30_PolymerSourceMoments
+          lake build YMOriginal.Original30_WilsonSourceDerivatives
+          lake build YMOriginal.Original30_JointSourceDictionary
+          lake build YMOriginal.Original30_SourceJointUniformBound
           lake build YMOriginal.Original30_V116JointCutoffVolume
           lake build YMOriginal.Original30_V118LadderCauchy
           lake build YMOriginal.Original15_OsterwalderSeilerPublished
