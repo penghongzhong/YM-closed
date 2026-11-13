@@ -37,8 +37,8 @@ simultaneously proves:
 Explicit unresolved upstream MATHEMATICAL inputs remain:
   * PublishedPenroseExtendedTwoRoot: exact universal hard-core
     Penrose tree graph inequality, clearly external;
-  * PhysicalExactTwoRootFPCriterion old/new: the actual,
-    not yet Lean-proved, physical FP finite-height enumeration;
+  * the published single-q Fernández--Procacci theorem is an explicit
+    external interface; the physical two-root specialization is Lean-derived;
   * real native shell count and original old/new U1Data
     background-to-physical-polymer identification;
   * the physical source lift / fixed-D jet map identifying the
