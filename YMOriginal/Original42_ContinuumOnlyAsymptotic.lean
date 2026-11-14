@@ -86,8 +86,8 @@ theorem original42_continuum_only_from_asymptotic_gram
     (err : Cut → ℝ)
     (cost : Finset J → (J → ℂ) → ℝ)
     (herr0 : Tendsto err l (𝓝 0))
-    (hcut : ∀ (k : Cut) (s : Finset J) (c : J → ℂ),
-      Qt k s c ≤ Real.exp (-t * d) * Q0 k s c +
+    (hcut : ∀ (s : Finset J) (c : J → ℂ),
+      ∀ᶠ k in l, Qt k s c ≤ Real.exp (-t * d) * Q0 k s c +
         err k * cost s c) :
     Original42ContinuumOnlyMain OmegaCont Acont
       (stagesFromOSHierarchy Phase Joint Local Nontrivial
