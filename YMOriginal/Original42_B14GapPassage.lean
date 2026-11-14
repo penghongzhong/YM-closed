@@ -70,7 +70,7 @@ theorem b14_continuum_gap_from_joint_gram_limits
           (𝓝 (q * ‖∑ j ∈ s, cf j • v j‖ ^ 2 -
             (⟪Tcont (∑ j ∈ s, cf j • v j),
               ∑ j ∈ s, cf j • v j⟫_ℂ).re)) :=
-      (h0.const_mul q).sub htlim
+      (Filter.Tendsto.const_mul q h0).sub htlim
     have hnonneg :
         0 ≤ q * ‖∑ j ∈ s, cf j • v j‖ ^ 2 -
           (⟪Tcont (∑ j ∈ s, cf j • v j),
