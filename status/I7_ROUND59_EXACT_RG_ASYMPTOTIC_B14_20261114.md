@@ -103,3 +103,95 @@ to list Yang–Mills existence and mass gap as UNSOLVED.
   asymptotic-limit implication ONLY; never counts as solving physical I7.
 - No published theorem is silently changed or weakened. Original42UICMain
   remains intact; continuum-only alternative target will have distinct name.
+
+## E. Strict latest main-chain verification and exact final-status clarification
+
+**Strict latest CI**: https://github.com/penghongzhong/YM-closed/actions/runs/43552243134
+SUCCESS, pinned Lean 4.35.0-rc3 / Mathlib 516d31250e96c4e8e76888c3d8e2e43a9642b9ee;
+only [propext, Classical.choice, Quot.sound], no sorry/admit/new axioms.
+
+1. YMOriginal/Original42_B14VanishingDefect.lean:
+   b14_continuum_gap_from_vanishing_cutoff_defect.
+   Its upgraded model condition is per-source **EVENTUAL**:
+     for all fixed finite s,c, eventually k in the same limit filter:
+       Qt(k,s,c) <= exp(-td) Q0(k,s,c) + err(k) cost(s,c).
+   The cutoff threshold may depend on s,c. err(k)->0 in the SAME filter.
+   No relative finite-cutoff I7 and no regulator-level uniform gap assumed.
+2. YMOriginal/Original42_ContinuumOnlyAsymptotic.lean:
+   Original42ContinuumOnlyMain,
+   original42_continuum_only_from_asymptotic_gram.
+   All original phase/OS/nontriviality stages survive, and the
+   continuum generator gap is **derived**, not passed as theorem input.
+   The old Original42UICMain remains unchanged (and still requires
+   per-regulator uniform gap, I7).
+
+This is an alternative conditional theorem with a different, explicitly
+weaker conclusion (only continuum gap), not acceptance of historical
+I7 or a silent alteration of the 39-environment inventory.
+
+## F. Precise critical physical dictionaries still OPEN
+
+1. **Same-theory OS/Hilbert pairing.** The typed PublishedOSII
+   structure only records an abstract WightmanTheory and a predicate
+   euclideanBoundaryOf W Hsch. It does NOT assign the actual reconstructed
+   Wightman Hamiltonian and physical Hilbert space to the independent
+   Acont/Tcont/v variables of the B14 proof. A genuine SU(2) Wilson
+   GNS/OS realization theorem must establish that these variables describe
+   the SAME Hsch produced by the actual Wilson state. An unrelated gapped
+   Hilbert space may satisfy the abstract B14 theorem but is not a mass
+   gap for the Yang--Mills Wightman theory.
+2. **Fixed physical time.** B08 only bounds the terminal time
+     2 a_*(k) in [2 c_-/Lambda_YM, 2 c_+/Lambda_YM].
+   It does NOT automatically assert that a_*(k) converges to a particular
+   fixed t/2. A valid source dictionary should either show
+   cofinal convergence or choose a universal later physical time
+   t>=sup_k 2a_*(k), with a positive spectral semigroup and compatible
+   microscopic time rounding, then prove the same-net Qt limit at that t.
+3. **True terminal R-budget.** U1 gives 0<g_j<=gamma and old/new-R
+   prefactors controlled by g_j^kappa0 and exp(-p0(g_j)); it does
+   NOT imply g_(K(k))->0 at the stopping scale. Hence terminal R-error
+   need not vanish with cutoff. To use B14, absorb any persistent terminal
+   error *relatively* with a quantified contraction budget
+     qIR + deltaTerminal <1,
+   and leave only a genuinely cutoff-vanishing absolute error
+     epsUV(k) cost(s,c), epsUV(k)->0.
+   Neither strict qIR nor the relative deltaTerminal bound has been
+   established for the full nonperturbative Wilson coarse action.
+4. **Source renormalization.** cost(s,c) must remain cutoff independent
+   for each fixed physical renormalized Wilson-source family. Bare
+   coefficient norms may diverge with lattice normalization; Original30's
+   fixed-K polynomial-budget interface is not automatically a proof
+   of such uniformity at the fully renormalized level.
+
+This is why the alternative formal proof is conditional and why
+published UV polymer smallness does not by itself close the dynamics.
+
+## G. Exact final countermodel to the UV-only shortcut
+
+Choose any nontrivial factorized probability theory with coarse
+variables B and fine variables Z independent, and let the Wilson-test
+analogue F depend only on B. Then P=E[·|B] satisfies (I-P)F=0, so the
+fine/UV conditional covariance vanishes IDENTICALLY, at every time.
+The coarse sector may nevertheless have a positive selfadjoint transfer
+with eigenvalues exp(-1/j), j>=1, accumulating at 1, and hence no
+uniform gap. This is a logical nonimplication, not an SU(2) YM model.
+
+Therefore even perfect control of the ultraviolet residual cannot
+replace an independent estimate of nonperturbative coarse infrared
+mixing. This remains the unique dynamical RED of the bypass route.
+
+## H. Final closure tree ledger
+
+Existing conditional 39/39 PASS preserved.
+Round55-58 new strict algebra/scalar certificates: 12 PASS.
+Round59 exact coarse/fine Hilbert identity: 1 PASS (CI 43551652163).
+Round59 B14 vanishing-defect proof: 1 PASS (CI 43552243134).
+Round59 distinct continuum-only conditional bookend: 1 PASS (same CI).
+Original physical I7: OPEN.
+Actual physical Wilson asymptotic Gram inequality with common q<1: OPEN.
+OS same-model physical Hamiltonian realization: OPEN.
+Unconditional SU2 Yang--Mills mass gap: OPEN.
+
+Do not combine these new auxiliary theorem counts into the historical
+39-environment denominator. No claim that the actual Clay existence
+and mass-gap problem has been solved.
