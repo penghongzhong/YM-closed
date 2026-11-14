@@ -31,7 +31,7 @@ theorem bounded_external_root_activity_bound
     (z : Γ → ℂ) (L : Γ → E →L[ℂ] ℂ)
     (length : Γ → ℕ)
     (A B kappa rho : ℝ)
-    (hA : 0 ≤ A) (hB : 0 ≤ B) (hrho : 0 < rho)
+    (hA : 0 ≤ A) (hB : 0 ≤ B) (_hrho : 0 < rho)
     (hz : ∀ γ, ‖z γ‖ ≤ A * Real.exp (-kappa * (length γ : ℝ)))
     (hL : ∀ γ, ‖L γ‖ ≤ B) :
     ∀ γ J, J ∈ ball (0 : E) rho →
