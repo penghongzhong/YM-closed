@@ -7,6 +7,7 @@ on:
     paths:
       - ".github/workflows/i7-mandelstam-20261114.yml"
       - "YMOriginal/OriginalI7_MandelstamMatrix.lean"
+      - "YMOriginal/OriginalI7_MandelstamSU2.lean"
   workflow_dispatch:
 
 permissions:
@@ -35,13 +36,15 @@ jobs:
           test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
           lake exe cache get
           lake build YMOriginal.OriginalI7_MandelstamMatrix
+          lake build YMOriginal.OriginalI7_MandelstamSU2
           lake env lean -DwarningAsError=true YMOriginal/OriginalI7_MandelstamMatrix.lean | tee i7-mandelstam.log
+          lake env lean -DwarningAsError=true YMOriginal/OriginalI7_MandelstamSU2.lean | tee -a i7-mandelstam.log
           if grep -E 'sorryAx|^error:' i7-mandelstam.log; then exit 1; fi
       - name: Forbid placeholders and unsafe admissions
         shell: bash
         run: |
           set -euo pipefail
-          ! grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/OriginalI7_MandelstamMatrix.lean
+          ! grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/OriginalI7_MandelstamMatrix.lean YMOriginal/OriginalI7_MandelstamSU2.lean
       - name: Preserve audit log
         if: always()
         uses: actions/upload-artifact@v4
