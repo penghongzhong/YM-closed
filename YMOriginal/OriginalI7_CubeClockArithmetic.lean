@@ -31,7 +31,7 @@ theorem terminal_clock_exact_sqrt
   have hx :
       -2*nStar*((-Real.log alpha)/(4*nStar)) =
         Real.log alpha/2 := by
-    field_simp
+    field_simp [ne_of_gt hn]
     ring
   rw [hx]
   have he : (Real.exp (Real.log alpha / 2)) ^ 2 = alpha := by
