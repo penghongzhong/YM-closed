@@ -120,11 +120,11 @@ theorem actual_word_physical_box_OS_E0prime
       U words coeff (locations r) f K hK hbudget
   have hcontrol :
       SchwartzMap.seminorm ℂ 0 0 f ≤
-        YMUIC.OSTensor.jointSchwartzControl r 0 (0 * r) f :=
-    ((YMUIC.OSTensor.joint_schwartz_control r 0 (0 * r)).2
+        YMUIC.OSTensor.jointSchwartzControl r (0 * r) (0 * r) f :=
+    ((YMUIC.OSTensor.joint_schwartz_control r (0 * r) (0 * r)).2
       f 0 (by omega)).1
   have hp : 0 ≤
-      YMUIC.OSTensor.jointSchwartzControl r 0 (0 * r) f :=
+      YMUIC.OSTensor.jointSchwartzControl r (0 * r) (0 * r) f :=
     apply_nonneg _ _
   have hfactorial : (1 : ℝ) ≤ (Nat.factorial r : ℝ) := by
     have hn : 1 ≤ Nat.factorial r := by
@@ -138,7 +138,7 @@ theorem actual_word_physical_box_OS_E0prime
     (fun _ : WilsonBoxPlaquettes N => ((a ^ 4 : ℝ) : ℂ))
     U words coeff (locations r) f‖ ≤
     1 * C ^ r * (Nat.factorial r : ℝ) *
-      YMUIC.OSTensor.jointSchwartzControl r 0 (0 * r) f
+      YMUIC.OSTensor.jointSchwartzControl r (0 * r) (0 * r) f
   calc
     ‖actualWordJointDistribution r
       (fun _ : WilsonBoxPlaquettes N => ((a ^ 4 : ℝ) : ℂ))
@@ -152,12 +152,12 @@ theorem actual_word_physical_box_OS_E0prime
     _ ≤ C ^ r * SchwartzMap.seminorm ℂ 0 0 f :=
       mul_le_mul_of_nonneg_right hpow (apply_nonneg _ _)
     _ ≤ C ^ r *
-      YMUIC.OSTensor.jointSchwartzControl r 0 (0 * r) f :=
+      YMUIC.OSTensor.jointSchwartzControl r (0 * r) (0 * r) f :=
       mul_le_mul_of_nonneg_left hcontrol hpowPos
     _ ≤ 1 * C ^ r * (Nat.factorial r : ℝ) *
-      YMUIC.OSTensor.jointSchwartzControl r 0 (0 * r) f := by
+      YMUIC.OSTensor.jointSchwartzControl r (0 * r) (0 * r) f := by
       have hmult : 0 ≤ C ^ r *
-        YMUIC.OSTensor.jointSchwartzControl r 0 (0 * r) f :=
+        YMUIC.OSTensor.jointSchwartzControl r (0 * r) (0 * r) f :=
         mul_nonneg hpowPos hp
       have hf :=
         mul_le_mul_of_nonneg_right hfactorial hmult
