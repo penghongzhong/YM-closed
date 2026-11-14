@@ -195,3 +195,78 @@ Unconditional SU2 Yang--Mills mass gap: OPEN.
 Do not combine these new auxiliary theorem counts into the historical
 39-environment denominator. No claim that the actual Clay existence
 and mass-gap problem has been solved.
+
+## I. Limit-order improvement: fixed physical t, no finite-k all-time bootstrap
+
+The Round58 finite-regulator route required infinitely many dyadic time
+moments at EACH cutoff, and any nondecaying error floor obstructed
+n->infinity.
+
+The Round59 continuum route instead fixes ONE physical time t>0 and
+a finite family s,c, and sends the joint regulator-volume index k along
+the SAME filter. A source error err(k) cost(s,c) is harmless as soon as
+err(k)->0, even if it does not decay with time at fixed k.
+
+This is a genuine logical weakening, not a new dynamical estimate.
+A simple strictness example: H_k=C^2 with
+T_k=diag(q,1-1/k), 0<q<1, and physical test vector e1 only.
+The full regulator generator has gap approaching zero because of e2,
+so no uniform regulator I7 holds. But the continuum test family e1
+has Tcont=qI on Hcont=C and the exact Gram limit is gapped. This toy
+example is NOT Yang–Mills; it shows that the continuum physical target
+need not require every regulator-level excitation to stay gapped.
+
+## J. More physical source-matched variant
+
+New source YMOriginal/Original42_SameHierarchyAsymptotic.lean:
+  original42_continuum_only_from_same_schwinger_gram.
+
+Unlike a purely abstract bookend, this variant forces both finite-cutoff
+Gram forms Q0/Qt to be evaluations of the SAME cutoff Schwinger
+hierarchies Hcut at positive-time polynomial test inputs p0 and pt,
+and requires their limits to be the SAME Hsch entering
+Original34ManuscriptInputs and PublishedOSII. The two exact matching
+identities hMatch0/hMatcht identify these continuum Euclidean
+pairings with the Hilbert norm and continuum physical-time transfer
+pairings. Their source dictionary and the same-net Schwinger
+convergence are genuine physical/model inputs, not yet derived from
+the actual Wilson measure.
+
+This eliminates the *formal possibility of attaching a wholly unrelated
+gapped Hilbert model to the U-I-C Schwinger hierarchy*, but does
+not by itself prove that all physically relevant positive-time
+test polynomials are exhausted or that Hcont is the physical
+reconstructed Hamiltonian for Yang–Mills. Full OS/GNS realization
+and source exhaustiveness remain model obligations.
+
+New exact same-hierarchy Lean CI gate:
+https://github.com/penghongzhong/YM-closed/actions/runs/43552682497
+Do not count it as kernel passed until Success is confirmed.
+
+## K. Final single physical RED
+
+For a chosen fixed physical time t and every finite physical
+renormalized Wilson test family s,c, prove in the actual same
+cutoff-volume lattice source net:
+
+  eventually k:
+    Qt(k,s,c) <= q Q0(k,s,c) + err(k) cost(s,c),
+  q<1, err(k)->0, cost(s,c)<infty cutoff independent.
+
+Quantitative RG synthesis may take the form
+
+  q=qIR+deltaTerminal<1,
+  err(k)=epsUV(k)->0.
+
+The strict qIR and terminal relative error margin for the COMPLETE
+interacting infrared measure remain OPEN. The existing U1
+g_j<=gamma bound does not imply the terminal R contribution vanishes.
+
+Time registration must ensure Qt(k,s,c) at a single fixed positive
+physical t converges to the physical OS Tcont(t), despite B08 terminal
+times 2a_*(k) varying in a compact positive interval. Positivity of
+exp(-tH) may allow comparison at a common later time, but the same
+source and limit dictionary has to be proved, not assumed.
+
+The original historic 39/39 conditional inventory remains unchanged.
+Physical I7 and unconditional Yang–Mills mass gap remain OPEN.
