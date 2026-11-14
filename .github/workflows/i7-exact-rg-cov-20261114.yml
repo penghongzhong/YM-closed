@@ -1,0 +1,51 @@
+name: I7 exact RG coarse/fine covariance Hilbert identity (strict)
+
+on:
+  push:
+    branches:
+      - ym-i7-exact-rg-covariance-20261114
+    paths:
+      - "YMOriginal/OriginalI7_ExactCoarseFineInner.lean"
+      - ".github/workflows/i7-exact-rg-cov-20261114.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cube-clock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Lean
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Fetch official Mathlib and compile
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+          lake build YMOriginal.OriginalI7_ExactCoarseFineInner
+          lake env lean -DwarningAsError=true YMOriginal/OriginalI7_ExactCoarseFineInner.lean | tee i7-exact-rg-cov.log
+          if grep -E 'sorryAx|^error:' i7-exact-rg-cov.log; then exit 1; fi
+      - name: Placeholder scan
+        shell: bash
+        run: |
+          set -euo pipefail
+          ! grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/OriginalI7_ExactCoarseFineInner.lean
+      - name: Store audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: i7-exact-rg-cov-${{ github.sha }}
+          path: i7-exact-rg-cov.log
+          if-no-files-found: warn
