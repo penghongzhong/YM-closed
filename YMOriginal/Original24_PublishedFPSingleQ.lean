@@ -113,9 +113,9 @@ theorem published_single_q_weighted_sum
 
 
 /-- Direct published-FP version of the full physical two-root series theorem.
-This bypasses the named `PhysicalExactTwoRootFPCriterion` wrapper entirely:
-the only external input is the universal single-q Fernández--Procacci bound,
-while the two-root-to-single-q comparison is internal Lean. -/
+The only new work here is the finite-height physical FP criterion; the
+full connected-series argument is reused from the already compiled
+Original24 theorem. -/
 theorem actual_original24_two_root_mayer_full_sum_from_published_FP
     {Γ P T S : Type*}
     [Fintype Γ] [Fintype T] [Fintype S]
@@ -159,95 +159,21 @@ theorem actual_original24_two_root_mayer_full_sum_from_published_FP
             (n + 1) N chi rootP rootQ support z‖) ≤
       ((Real.exp (radius * Bp) - 1) *
          (Real.exp (radius * Bq) - 1)) * C * aAct := by
-  let K : ℝ := (Real.exp (radius * Bp) - 1) *
-    (Real.exp (radius * Bq) - 1)
-  have hkp : 0 ≤ Real.exp (radius * Bp) - 1 :=
-    sub_nonneg.mpr (Real.one_le_exp_iff.mpr (mul_nonneg hr hp0))
-  have hkq : 0 ≤ Real.exp (radius * Bq) - 1 :=
-    sub_nonneg.mpr (Real.one_le_exp_iff.mpr (mul_nonneg hr hq0))
-  have hK : 0 ≤ K := mul_nonneg hkp hkq
-  let w : ℕ → ℝ := fun n =>
-    exactExtendedTwoRootTreeMajorant
-      (n + 1) N chi rootP rootQ support z
-  have hw : ∀ n, 0 ≤ w n := by
-    intro n
-    exact actual_exact_two_root_positive_tree_weight
-      (n + 1) N chi rootP rootQ support z
-  have hFP' :
-      ∀ (lam eps : ℝ) (h : ℕ), 1 ≤ lam → 0 < eps →
-        (∑ n ∈ Finset.range (h - 2),
-          w n * lam ^ (n + 1) * eps ^ (1 : ℕ)) ≤
-        Real.exp
-          (actualPeriodicFirstRootSum N chi rootP
-            (actualSecondRootAugmentedSupport N support rootQ)
-            (actualSecondRootAugmentedActivity
-              (fun X => (lam : ℂ) * z X) eps)
-            (actualSecondRootAugmentedSize d rootQ.card)
-            cGeo mu h) - 1 := by
+  have hFP : PhysicalExactTwoRootFPCriterion
+      N chi rootP rootQ support z d cGeo mu := by
     intro lam eps h hlam heps
     have hs :=
       published_single_q_weighted_sum
         N chi rootP rootQ support z lam eps
         (le_trans (by norm_num) hlam) heps.le h
-    have hpub :
-        (∑ k ∈ Finset.range (h - 2),
-          actualSingleQWeightedTreeMajorant
-            (k + 1) N chi rootP rootQ support z *
-            lam ^ (k + 1) * eps) ≤
-        Real.exp
-          (actualPeriodicFirstRootSum N chi rootP
-            (actualSecondRootAugmentedSupport N support rootQ)
-            (actualSecondRootAugmentedActivity
-              (fun X => (lam : ℂ) * z X) eps)
-            (actualSecondRootAugmentedSize d rootQ.card)
-            cGeo mu h) - 1 := by
-      exact FP.finiteHeightBound
-        (N := N) (chi := chi)
-        (rootP := rootP) (rootQ := rootQ)
-        (support := support) (z := z) (d := d)
-        (cGeo := cGeo) (mu := mu)
-        (lam := lam) (eps := eps) (h := h)
-        hgeom hlam heps
-    simpa only [pow_one, w] using hs.trans hpub
-  obtain ⟨C, hC, htree⟩ :=
-    original24_two_root_tree_O_aAct_from_U1_and_FP
-      N chi rootP rootQ support z d
-      kappa mu cGeo aAct haAct hdelta hsize hsmall hLocalNorm
-      (fun h => Finset.range (h - 2))
-      (fun n : ℕ => n + 1)
-      (fun _n : ℕ => 1)
-      w hw hFP'
-  have htreePrefix (h : ℕ) :
-      (∑ n ∈ Finset.range h, w n) ≤ C * aAct := by
-    have hb := htree (h + 2)
-    have hsub : h + 2 - 2 = h := by omega
-    simpa [hsub] using hb
-  let term : ℕ → ℂ := fun n =>
-    actualTwoRootInsertion U wp cp wq cq s t *
-      actualExactTwoRootMayerTerm (n + 1) N chi
-        rootP rootQ support z
-  have hTerm (n : ℕ) : ‖term n‖ ≤ K * w n := by
-    exact actual_exact_extended_marked_penrose
-      Pub (n + 1) N chi rootP rootQ support z
-      U wp cp wq cq s t radius Bp Bq hr hp0 hq0 hs ht hp hq
-  have hprefix (h : ℕ) :
-      (∑ n ∈ Finset.range h, ‖term n‖) ≤
-        (K * C) * aAct := by
-    calc
-      _ ≤ ∑ n ∈ Finset.range h, K * w n :=
-        Finset.sum_le_sum (fun n hn => hTerm n)
-      _ = K * (∑ n ∈ Finset.range h, w n) := by
-        rw [Finset.mul_sum]
-      _ ≤ K * (C * aAct) :=
-        mul_le_mul_of_nonneg_left (htreePrefix h) hK
-      _ = (K * C) * aAct := by ring
-  have hnorm : Summable (fun n : ℕ => ‖term n‖) :=
-    summable_of_sum_range_le (fun n => norm_nonneg (term n)) hprefix
-  have hsum : Summable term := summable_norm_iff.mp hnorm
-  refine ⟨C, hC, ?_, ?_, ?_⟩
-  · exact hsum
-  · exact hnorm
-  · exact hnorm.tsum_le_of_sum_range_le hprefix
+    have hpublished :=
+      FP.finiteHeightBound N chi rootP rootQ support z d
+        cGeo mu lam eps h hgeom hlam heps
+    exact hs.trans hpublished
+  exact actual_original24_two_root_mayer_full_sum_from_U1_FP
+    Pub N chi rootP rootQ support z d
+    kappa mu cGeo aAct haAct hdelta hsize hsmall hLocalNorm hFP
+    U wp cp wq cq s t radius Bp Bq hr hp0 hq0 hs ht hp hq
 
 #print axioms published_single_q_weighted_term
 #print axioms published_single_q_weighted_sum
