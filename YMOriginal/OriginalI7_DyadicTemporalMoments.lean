@@ -35,7 +35,9 @@ theorem dyadic_power_bound_forces_rate
     induction k with
     | zero => norm_num
     | succ k ih =>
-      have hone : 1 ≤ 2 ^ k := by positivity
+      have hone : 1 ≤ 2 ^ k := by
+        have hpos : 0 < (2 : ℕ) ^ k := by positivity
+        omega
       calc
         k + 1 ≤ 2 ^ k + 1 := Nat.add_le_add_right ih 1
         _ ≤ 2 ^ k + 2 ^ k := Nat.add_le_add_left hone _
