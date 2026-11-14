@@ -24,6 +24,19 @@ Let \(\alpha\to\infty\) to obtain \(C(t)\le q V\). Then \(t\downarrow0\) gives \
 
 This is **not** a counterexample to Yang--Mills. It rules out the **interpretation** of uniform original I7 as a contraction for the shrinking microscopic time \(2a_\alpha\) whenever the same observables have a nontrivial strongly continuous limit. Original16_FromI7.lean uses NonnegativeHeatCalculus at time \(2a\); the manuscript must establish whether this \(a\) is microscopic or a fixed physical-time parameter. If microscopic, the target must be repaired; never infer a cutoff-independent microscopic one-step deficit from a finite physical gap.
 
+
+## Important manuscript clock audit (2026-11-14)
+
+The September v133 manuscript explicitly defines the **terminal scale**
+`a_* = L^{K_*} a_0`, `T_* = exp(-2 a_* H)`, with
+`c_- Lambda_YM^{-1} <= a_* <= c_+ Lambda_YM^{-1}`.
+Thus the original I7 is already at fixed macroscopic RG-terminal time:
+**the microscopic-clock no-go of Section 1 is NOT an objection to the actual manuscript**.
+It is a guard against *misidentifying* `a_*` with the bare lattice spacing `a_0`.
+Keep the original `2*a_*` time normalization; the proposed fixed-time route
+is a sufficient-criterion reformulation, not a necessary change to Original16.
+The genuine red gap is the physical Wilson IR decay uniform in cutoff and observable.
+
 ## 2. Exactly sufficient diagonal criterion at fixed physical time
 
 Fix \(\tau>0\), independent of regulator. For each \(\alpha\), let \(H_\alpha\ge0\) on the nonvacuum physical Hilbert space \(\mathcal H_\alpha^\circ\) and \(T_{\alpha,\tau}=e^{-\tau H_\alpha}\). Assume \(0\le T_{\alpha,\tau}\le I\) and a dense centered Wilson-word family \(\{v_{\alpha,w}\}_{w\in W_\alpha}\).
