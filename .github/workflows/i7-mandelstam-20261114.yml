@@ -1,0 +1,51 @@
+name: I7 Mandelstam two-by-two Lean kernel gate
+
+on:
+  push:
+    branches:
+      - "ym-i7-physical-clock-diagonal-20261114"
+    paths:
+      - ".github/workflows/i7-mandelstam-20261114.yml"
+      - "YMOriginal/OriginalI7_MandelstamMatrix.lean"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  i7-mandelstam:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Lean
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Get pinned Mathlib and build target
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+          lake build YMOriginal.OriginalI7_MandelstamMatrix
+          lake env lean -DwarningAsError=true YMOriginal/OriginalI7_MandelstamMatrix.lean | tee i7-mandelstam.log
+          if grep -E 'sorryAx|^error:' i7-mandelstam.log; then exit 1; fi
+      - name: Forbid placeholders and unsafe admissions
+        shell: bash
+        run: |
+          set -euo pipefail
+          ! grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/OriginalI7_MandelstamMatrix.lean
+      - name: Preserve audit log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: i7-mandelstam-${{ github.sha }}
+          path: i7-mandelstam.log
+          if-no-files-found: warn
