@@ -58,8 +58,8 @@ theorem b14_continuum_gap_from_vanishing_cutoff_defect
     (err : Cut → ℝ)
     (cost : Finset J → (J → ℂ) → ℝ)
     (herr0 : Tendsto err l (𝓝 0))
-    (hcut : ∀ (k : Cut) (s : Finset J) (c : J → ℂ),
-      Qt k s c ≤ Real.exp (-t * d) * Q0 k s c +
+    (hcut : ∀ (s : Finset J) (c : J → ℂ),
+      ∀ᶠ k in l, Qt k s c ≤ Real.exp (-t * d) * Q0 k s c +
         err k * cost s c) :
     ((d : ℝ) : EReal) ≤ generatorGap Acont := by
   let q : ℝ := Real.exp (-t * d)
@@ -96,8 +96,8 @@ theorem b14_continuum_gap_from_vanishing_cutoff_defect
           (⟪Tcont (∑ j ∈ s, cf j • v j),
             ∑ j ∈ s, cf j • v j⟫_ℂ).re := by
       apply ge_of_tendsto hdiff
-      exact Filter.Eventually.of_forall
-        (fun k => sub_nonneg.mpr (hcut k s cf))
+      exact (hcut s cf).mono
+        (fun k hk => sub_nonneg.mpr hk)
     exact sub_nonneg.mp hnonneg
   have hleft : Continuous (fun x : H => (⟪Tcont x, x⟫_ℂ).re) :=
     Complex.continuous_re.comp (Tcont.continuous.inner continuous_id)
