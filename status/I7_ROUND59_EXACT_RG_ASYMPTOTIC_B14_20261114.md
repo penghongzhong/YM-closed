@@ -239,9 +239,9 @@ test polynomials are exhausted or that Hcont is the physical
 reconstructed Hamiltonian for Yang–Mills. Full OS/GNS realization
 and source exhaustiveness remain model obligations.
 
-New exact same-hierarchy Lean CI gate:
+New exact same-hierarchy Lean CI:
 https://github.com/penghongzhong/YM-closed/actions/runs/43552682497
-Do not count it as kernel passed until Success is confirmed.
+**SUCCESS**: `original42_continuum_only_from_same_schwinger_gram` compiled under pinned Lean 4.35.0-rc3 / Mathlib 516d31250e96c4e8e76888c3d8e2e43a9642b9ee with only `[propext, Classical.choice, Quot.sound]`, no `sorry`/`admit`/new axioms. It is a model-input-conditional theorem, NOT a proved physical RG estimate.
 
 ## K. Final single physical RED
 
@@ -270,3 +270,68 @@ source and limit dictionary has to be proved, not assumed.
 
 The original historic 39/39 conditional inventory remains unchanged.
 Physical I7 and unconditional Yang–Mills mass gap remain OPEN.
+
+## L. Stronger reuse of the original old/recent two-limit technique, without pretending to prove IR contraction
+
+The repository's already-accepted
+`YMConditional/Original25_TwoScaleLimit.lean` proves
+`fixed_cut_limit_bound` and `equal_limits_of_old_recent`:
+for any fixed history cut N, a geometric old-history tail remains
+while the recent error vanishes along the SAME cutoff-volume net;
+only AFTER removing this cutoff does one send N->infinity.
+Its application there is rotation matching, NOT I7.
+
+The analogous, potentially weaker *actual model* hypothesis for the
+new continuum-only B14 is the following. Fix a single physical
+time t>0, q in (0,1), and each finite physical renormalized source
+family (s,c). Write the actual full physical Gram excess:
+  D_k(s,c) := Qt(k,s,c) - q Q0(k,s,c).
+
+**Two-limit model target T59**: there exist
+  0<=rho<1, A(s,c)<infinity, and
+  for each N in Nat a finite C_N(s,c),
+together with a cutoff-scale parameter xi(k)->0, such that
+for every *fixed* N,s,c,
+  eventually k in the SAME joint regulator-volume filter:
+    D_k(s,c) <= A(s,c)*rho^N + C_N(s,c)*xi(k).
+The constant C_N may depend arbitrarily on N,s,c, and no
+factorization `err(k)*cost(s,c)` for all k is assumed.
+
+**Exact paper deduction**: same-net Gram convergence gives
+  D_k(s,c) -> D_cont(s,c)
+  = Re< Tcont x,x> - q||x||^2.
+Fix N and take the joint cutoff/volume limit:
+  D_cont(s,c) <= A(s,c)*rho^N.
+Then take N->infinity to obtain D_cont(s,c)<=0. By density,
+  Tcont<=qI and generatorGap(Acont)>=-log(q)/t,
+provided the same physical OS Hilbert/Schwinger pairing and positive
+heat spectral calculus are established.
+
+This is more flexible than the first uniform additive-defect interface,
+and recycles the exact N-first / cutoff-second proof bookkeeping
+already Lean-checked in Original25. T59 is a rigorous PAPER
+implication, NOT an independently kernel-accepted new theorem.
+In particular **the crucial strict q<1 has still not been proved** on
+the full physical Wilson IR sector. Moreover, the Original25 old/recent
+bounds for rotations are NOT automatically the required bounds for
+the physical Gram excess; an exact model dictionary is still absent.
+
+A source-uniform `A` is NOT necessary for this continuum-only
+criterion, as the finite source (s,c) is held fixed before taking
+either limit. However the common `q<1` must be fixed independently
+of s,c. Non-uniform source-dependent q would not give an operator gap.
+
+## M. Updated strict status (after same-hierarchy CI)
+
+- Historical 39/39 **CONDITIONAL**, unchanged.
+- Round55–58 prior auxiliary Lean certificates: 12 accepted.
+- Round59 coarse/fine Hilbert projection identity: 1 strict PASS,
+  CI 43551652163.
+- Round59 asymptotic B14, continuum-only bookend, source-matched
+  same-Schwinger bookend: 3 strict PASS,
+  last CI 43552682497.
+- Physical I7: OPEN.
+- True full-Wilson strict IR contraction q<1 (or T59): OPEN.
+- Actual OS reconstruction identifying the exact same physical
+  Hamiltonian and dense test space: OPEN model dictionary.
+- No unconditional 4D Yang--Mills mass gap is established.
