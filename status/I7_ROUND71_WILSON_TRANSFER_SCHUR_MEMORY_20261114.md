@@ -329,3 +329,151 @@ independent "external published theorem".
 │       original16/42 conditional final path,
 │       ONLY THEN new Lean verification
 └── I7 PAPER OPEN, NO NEW LEAN, no Clay solution.
+
+
+## G. New rigorous representation-tail lemma:
+## high-spin Wilson transfer can be controlled directly, BUT dressed magnetic links mix bands
+
+For n>=1, the modified Bessel power series is
+  I_n(beta)=sum_(k=0)^infinity
+       (beta/2)^(n+2k)/[k! (n+k)!].
+The elementary factorial bound
+  (n+k)! >= n! (n+1)^k
+therefore proves, for EVERY beta>0,
+  (beta/2)^n/n!
+    <= I_n(beta)
+    <=[(beta/2)^n/n!]
+       exp[beta²/(4(n+1))].              (71.4)
+
+At fixed beta>0, Stirling implies
+  -log rho_j(beta)
+     = (2j+1) log(2j+1)+O_beta(j)
+as j->infinity. Hence
+  lim_(j->infinity)
+     [-log rho_j(beta)]/[j(j+1)] =0.    (71.5)
+
+This is a stronger limitation than simply comparing
+j=1/2 and j=1: the exact finite-time Wilson kinetic
+generator −log K_beta is NOT globally bounded below
+by any positive constant times the SU2 Laplacian
+Casimir generator across ALL representations.
+A proof of form-small perturbation of the KS
+Laplacian on the ENTIRE infinite representation
+spectrum cannot rely on such an inequality.
+
+However the TRANSFER itself becomes strongly
+suppressed for high representations. With beta>=1,
+choose n=2j+1>=e*beta. Since n!>=(n/e)^n
+and I_1(beta)>=I_1(1)>0, equation (71.4) yields
+  rho_j(beta)
+     <=I_1(1)^(-1)
+          exp[-c (2j+1)],
+  c=log 2−1/(4e²)=0.6593133597507921...>0.  (71.6)
+
+For any finite number E of independent spatial
+SU2 links, write K_E=⊗_(e∈E) K_beta,e.
+Let P_{<=J} project onto Peter-Weyl tensor
+sectors in which EVERY j_e has
+  2j_e+1 < n0,
+where n0=ceil(e beta) (or a larger integer).
+Let Q_{>J}=I-P_{<=J}. Because all rho_j<=1,
+if any j_e has 2j_e+1>=n0 then
+  ||Q_{>J} K_E Q_{>J}||
+     <= r_tail(beta,n0)
+     :=I_1(1)^(-1) exp(-c n0).          (71.7)
+The bound is independent of the total number
+of spatial links E and the spatial volume.
+One can take min(1,r_tail) if beta is small.
+For beta=1 and n0=ceil(e), this crude bound
+is ~0.244806, compared to exact j=1 channel
+rho_1(1)~0.039225. It is not sharp but is
+fully analytic and volume-independent.
+
+**Remaining obstruction is precisely the
+magnetic dressing and Gauss/OS matching.**
+Write actual finite-space Wilson temporal transfer
+  T_raw=P_G D K_E D P_G,
+  D=M_beta^(1/2)>0,
+  and normalize by its top eigenvalue lambda0>0.
+For any gauge-invariant v in the cutoff/high-spin
+Q_{>J} and w=Dv, the exact quadratic-form
+identity/inequality is
+  <v,T_raw v>=<w,K_E w>
+   <=||P_{<=J}w||²+
+           r_tail||Q_{>J}w||².
+Thus, in operator norms,
+  ||Q T_raw Q||
+  <=||P_{<=J} D Q||²+
+       r_tail ||Q_{>J} D Q||²,             (71.8)
+where Q=Q_{>J} and all relevant
+projectors are gauge compatible.
+
+But P_{<=J} D Q need NOT be small:
+the magnetic multiplication mixes electric
+representations. Already for one SU2 loop
+  chi_(1/2) chi_0=chi_(1/2)
+so a magnetic character multiplication links
+the vacuum sector directly to spin 1/2.
+The magnetic D norm and lambda0 normalization
+can also scale exponentially with the total
+spatial plaquette number, so (71.8) cannot
+be promoted to a volume-uniform FULL Wilson
+physical transfer compression without a
+true local / ground-state-dressed inequality.
+
+This gives a concrete possible future method:
+  - high-spin kinetic transfers by exact Bessel tail,
+  - low-spin full nonperturbative sector handled at
+    terminal physical scale,
+  - magnetic band mixing treated by exact source
+    / local spectral comparison,
+  - all steps with the SAME true Wilson/OS Gauss
+    and B08 terminal-clock normalization.
+It is a conditional research path, NOT an
+I7 proof or a bound on the true terminal
+coarse self-energy.
+
+The character coefficient formula also appears
+in independent standard lattice-gauge notes,
+e.g. https://static.uni-graz.at/fileadmin/_Persoenliche_Webseite/maas_axel/lattice2020.pdf
+and classic group/character expansions;
+the finite-time transfer vs KS issue appears
+in Creutz 1977 and Carena et al 2021 as
+cited in Section A.
+
+## H. Comparison with the precise historical verification status
+
+YMOriginal/Original15_OsterwalderSeilerPublished.lean
+exposes ONLY
+  positive : T.IsPositive,
+  vacuumFixed : T Ω=Ω
+from the published transfer construction.
+It does not assert or prove any finite-isotropic-time
+identification with local KS electric+magnetic
+Hamiltonian, or a full Wilson-to-effective
+nonlocal RG Hamiltonian source dictionary.
+
+Original24_BalabanTwoRootRealFullSeries.lean
+still bounds ONLY specified old/new-R connected
+Mayer activities under external/model inputs,
+not the exact Feshbach
+  Sigma_k(1)=B_k(I−C_k)^(-1)B_k*
+for the actual OS physical transfer, and not
+the magnetic high/low spin mixing in (71.8).
+
+The central unresolved question is:
+  can the complete true nonperturbative
+  4D SU2 Wilson terminal transfer satisfy
+  the uniform positive *coarse effective
+  Dirichlet margin* from (71.3)
+after integrating all time/space fine returns?
+
+This is at least as hard as I7 itself unless
+new genuinely model-specific RG/positive-
+transfer operator estimates are proved.
+No answer is inferred from toy Markov,
+Bessel tails alone or old/new-R convergence.
+
+**Round71 final: Original I7 PAPER OPEN.
+Historical 39/39 CONDITIONAL.
+NO NEW Lean or CI per user instruction.**
