@@ -148,7 +148,7 @@ Equivalently the effective action is
   S_eff=
    −β Σ_(p∩M=∅)tr U_p/2
    +Σ_(e∈M) Delta S_6(E_{6,e})
-   −|M| log Z(6β) + constant.           (73.6)
+   −|M| log Z(6β) + constant.           (73.6*)
 
 This is an honest **positive-density, full
 four-dimensional SU(2) Wilson decimation**.
@@ -330,7 +330,7 @@ Even if every individual staple tends to I
 at rate β^(-1/2), the relative mismatch
 need not tend to1. Taking all xi_p=v,
 |v|=2, gives the limit
-  3^(-3/2)*exp(8/3)≈2.7704 >1.
+  3^(-3/2)*exp(8/3)≈2.76972554 >1.
 So not only rare far-from-identity
 configurations, but some nontrivial
 weak-field scaling windows invalidate a
@@ -435,3 +435,149 @@ Yang–Mills Mass Gap", v7 (2026),
 https://hexagonmath.org/2610.00341v7,
 explicitly states the full continuum-tuning
 physical cube estimate remains UNPROVED.
+
+
+## 10. NEW exact LOCAL HARNACK control for the TRUE finite Wilson transfer ground state (volume independent)
+
+Work on any finite spatial 3D lattice
+with the full (before gauge projection)
+Wilson transfer
+  T = D K D,
+  K=⊗_(spatial links e) K_beta,e,
+  D(U)=exp[(β/4)Σ_(spatial p)tr U_p].
+The strictly positive, compact, symmetric
+integral kernel has a unique positive
+Perron eigenfunction ψ:
+  λ0 ψ(U)=D(U) ∫ K(U,V)D(V)ψ(V)dV.
+Gauge equivariance and uniqueness make
+ψ gauge invariant, so this is also the
+physical gauge-invariant vacuum when
+restricting to the Gauss sector.
+
+Fix two configurations U,U' that differ
+ONLY on a single spatial link e. Let
+d=||u_e−u'_e||_{R4}∈[0,2].
+In 3D, the interior spatial link belongs
+to exactly FOUR spatial plaquettes.
+With all other links held fixed,
+  log D(U)=(β/2)u_e·h_e +const,
+  ||h_e||<=4.
+Therefore
+  |log D(U)−log D(U')|<=2βd.           (73.9a)
+
+For any integration variable V,
+the full product temporal Wilson kernel
+differs only by the one-link factor:
+  K(U,V)/K(U',V)
+    =exp[β(u_e−u'_e)·v_e].
+Thus uniformly in V,
+  e^(−βd)<=K(U,V)/K(U',V)<=e^(βd).    (73.9b)
+
+Multiplying this ratio bound by the
+strictly positive D(V)ψ(V) and integrating,
+then using the Perron eigenfunction
+equation, yields EXACTLY
+  |log ψ(U)−log ψ(U')|<=3βd.           (73.9)
+
+No spectral-gap assumption, no global
+Haar density comparison and no input
+about the time continuum limit is used.
+The estimate is independent of the
+number of spatial links and plaquettes
+at any fixed β. At boundary links with
+fewer spatial faces, the constant is
+smaller.
+
+Now the true stationary vacuum slice
+measure is π(U)=ψ(U)^2 dHaar^E.
+For any fixed remaining spatial links,
+the conditional density in U_e has
+ratio between any two link values
+bounded by e^(12β) because d<=2:
+  sup p_e/inf p_e<=e^(12β).
+After conditional Haar normalization,
+  e^(−12β)<=p_e(u)<=e^(12β)           (73.10)
+for all u∈SU2 and all other links,
+independent of spatial volume.
+
+With the SU2 Haar Laplace/Poincare
+first nonzero eigenvalue 3/4, the
+conditional ground-slice one-link
+Poincare bound also follows by a
+standard Holley–Stroock weighted
+comparison:
+  Var_(π_e)(f)
+     <=(4/3)e^(12β)
+                ∫||∇_e f||² dπ_e.     (73.11)
+Here ∇_e and −Δ_e must share the SU2
+Casimir normalization λ1=3/4.
+
+This is an ACTUAL finite-volume
+Wilson physical-ground-state result.
+It avoids the e^(−c volume) losses
+of the previous GLOBAL density method.
+But its constant degenerates at bare
+UV weak coupling β(a0)→infinity, and
+it is only a SINGLE-LINK conditional
+Poincare inequality, NOT a global
+physical-time OS transfer gap.
+
+### Exact local conditional update of the TRUE Doob Markov transfer
+
+From Round72, P(U,dV) =
+  K(U,V) w(V)/(Kw)(U)dV, w=Dψ.
+Fix initial U and all next-slice
+links V_(f≠e). The conditional
+density of the remaining next
+link v_e is proportional to
+  k_beta(u_e,v_e) w(v_e,V_-).
+The logarithm of k changes by
+at most β d(v,v').
+Since log w=log D+log ψ, its
+one-link Lipschitz bound is at
+most (2+3)βd=5βd.
+Hence the true one-step next-link
+conditional kernel, GIVEN all
+other next-slice values, has
+  |log density(v)−log density(v')|
+      <=6β ||v−v'|| <=12β.
+Its normalized density relative
+to Haar is therefore >=e^(−12β),
+a VOLUME-independent local
+one-step refresh lower bound.
+
+As in low-temperature spin systems,
+all single-site conditional
+refresh probabilities can be
+positive and volume-independent
+while global spatial-time mixing
+still slows to zero due to collective
+metastability or boundary sectors.
+A Dobrushin/large-block condition
+on dependencies of the ACTUAL
+Doob w or another true IR H2
+estimate is still required.
+
+These are paper identities; they
+do NOT establish original 4D SU2
+physical I7, nor a cutoff-uniform
+η* at the B08 physical clock.
+
+## 11. Updated shortest physical main chain
+
+🟢 real full 4D Wilson 1/32 independent-link decimation exact
+🟢 SU2 all-background one-star nonlinear pairwise alignment coercivity
+🟢 exact true finite-time Wilson magnetic ratio sup=e^(2β)
+🟢 exact actual physical vacuum local-Harnack,
+   one-link conditional density and local Poincare,
+   volume-uniform for each fixed beta
+🟡 iterate exact RG with reflection/positive-time
+   source, Gauss, Bianchi and all-volume control
+🔴 full 4D cubic nonperturbative physical-time
+   Dirichlet/OS transfer gap η*>=η0>0 uniformly
+   as β(a0)→infinity and physical volume grows
+→ only then original I7 paper closure
+→ only then new Lean acceptance.
+
+Historical 39/39 CONDITIONAL unchanged.
+I7 PAPER OPEN. NO NEW LEAN / CI.
