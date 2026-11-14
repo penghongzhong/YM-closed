@@ -1,0 +1,168 @@
+name: YM compensated-frame Wilson RG algebra (Lean 4.35 official pin)
+on:
+  push:
+    branches: [ym-original30-compensated-frame-20261029]
+    paths:
+      - "YM/Wilson/CompensatedFrame21.lean"
+      - "YM/Wilson/DualPairingAllD.lean"
+      - "YM/Wilson/WordSource.lean"
+      - "YM/Wilson/CandidateGramRoots21.lean"
+      - "YM/Wilson/CandidateGramPolynomial21.lean"
+      - "YM/Wilson/OrderedDualSourceRG21.lean"
+      - "YM/Wilson/CandidateGramSourceInsertion21.lean"
+      - "YM/Wilson/CandidateGramTrace21.lean"
+      - "YM/Wilson/CompositeOrderedDualRG21.lean"
+      - "YM/Wilson/DriftControlledResidual21.lean"
+      - "YM/Wilson/DriftLeftOrderedRG21.lean"
+      - "YM/Wilson/InverseSquareBudget.lean"
+      - "YM/Wilson/DualSourceRGUniform21.lean"
+      - ".github/workflows/ym-compensated-frame.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compensated-source-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Lean
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(tr -d '\r\n' < lean-toolchain)" = "leanprover/lean4:v4.35.0-rc3"
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lean --version
+      - name: Fetch pinned mathlib
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          lake update
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
+          lake exe cache get
+      - name: Compile actual source dependency roots in one Lake DAG
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          if grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YM/Wilson/*.lean; then exit 1; fi
+          lake build \
+            +YM.Wilson.DualSourceRGUniform21:olean \
+            +YM.Wilson.DriftControlledResidual21:olean \
+            +YM.Wilson.CompensatedFrame21:olean \
+            +YM.Wilson.CandidateGramSourceInsertion21:olean \
+            +YM.Wilson.CandidateGramTrace21:olean \
+            +YM.Wilson.CompositeOrderedDualRG21:olean \
+            +YM.Wilson.DriftLeftOrderedRG21:olean
+      - name: Exact theorem signatures and axiom audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          source "$HOME/.elan/env"
+          cat > YMFrameAudit.lean <<'LEAN'
+          import YM.Wilson.DualSourceRGUniform21
+          import YM.Wilson.DualPairingAllD
+          import YM.Wilson.CompensatedFrame21
+          import YM.Wilson.WordSource
+          import YM.Wilson.CandidateGramRoots21
+          import YM.Wilson.CandidateGramPolynomial21
+          import YM.Wilson.OrderedDualSourceRG21
+          import YM.Wilson.CandidateGramSourceInsertion21
+          import YM.Wilson.CandidateGramTrace21
+          import YM.Wilson.CompositeOrderedDualRG21
+          import YM.Wilson.DriftControlledResidual21
+          import YM.Wilson.DriftLeftOrderedRG21
+          import YM.Wilson.InverseSquareBudget
+          set_option pp.universes true
+          #print YMUIC.Wilson.dual_source_chain_uniform_column
+          #print YMUIC.Wilson.dual_source_wilson_rg_uniform
+          #print YMUIC.Wilson.compensated_source_chain_factorization
+          #print YMUIC.Wilson.compensated_source_chain_uniform_column
+          #print YMUIC.Wilson.compensated_wilson_source_uniform
+          #print YMUIC.Wilson.inverse_square_one_step_ym
+          #print YMUIC.Wilson.inverse_square_prefix_bound_ym
+          #print YMUIC.Wilson.left_rg_prefix_column
+          #print YMUIC.Wilson.weak_stop_prefix_product_exp
+          #print YMUIC.Wilson.left_rg_prefix_uniform
+          #print YMUIC.Wilson.drift_controlled_left_rg_uniform
+          #print YMUIC.Wilson.source_cocycle_chain_prefix_column
+          #print YMUIC.Wilson.source_cocycle_chain_prefix_uniform
+          #print YMUIC.Wilson.drift_controlled_residual_cocycle_uniform
+          #print YMUIC.Wilson.drift_controlled_candidate_source_uniform
+          #print YMUIC.Wilson.candidate_gram_root_trace_dictionary
+          #print YMUIC.Wilson.fixed_composite_gram_paired_rg_bound
+          #print YMUIC.Wilson.fixed_composite_gram_paired_rg_uniform
+          #print YMUIC.Wilson.candidate_gram_insertion_small_source
+          #print YMUIC.Wilson.candidate_gram_insertion_all_regulators
+          #print YMUIC.Wilson.source_rg_action_identity
+          #print YMUIC.Wilson.source_rg_action_compose
+          #print YMUIC.Wilson.source_paired_left_ordered_rg_chain
+          #print YMUIC.Wilson.paired_candidate_gram_left_rg_uniform
+          #print YMUIC.Wilson.candidate_gram_monomial_abs_le
+          #print YMUIC.Wilson.candidate_gram_polynomial_bound
+          #print YMUIC.Wilson.candidate_gram_polynomial_schwartz_bound
+          #print YMUIC.Wilson.candidate_gram_root_bounds
+          #print YMUIC.Wilson.candidate_gram_pairs_injective
+          #print YMUIC.Wilson.candidate_gram_schwartz_uniform
+          #print YMUIC.Wilson.mixed_candidate_gram_uniform
+          #print YMUIC.Wilson.wilson_word_combination_bound
+          #print YMUIC.Wilson.wilson_word_schwartz_source_bound
+          #print YMUIC.Wilson.source_primal_dual_pairing_allD
+          #print YMUIC.Wilson.paired_wilson_source_uniform_without_cocycle_norm
+          #print axioms YMUIC.Wilson.dual_source_chain_uniform_column
+          #print axioms YMUIC.Wilson.dual_source_wilson_rg_uniform
+          #print axioms YMUIC.Wilson.compensated_source_chain_factorization
+          #print axioms YMUIC.Wilson.compensated_source_chain_uniform_column
+          #print axioms YMUIC.Wilson.compensated_wilson_source_uniform
+          #print axioms YMUIC.Wilson.finite_difference_sum_ym
+          #print axioms YMUIC.Wilson.inverse_square_one_step_ym
+          #print axioms YMUIC.Wilson.inverse_square_prefix_bound_ym
+          #print axioms YMUIC.Wilson.left_rg_prefix_column
+          #print axioms YMUIC.Wilson.weak_stop_prefix_product_exp
+          #print axioms YMUIC.Wilson.left_rg_prefix_uniform
+          #print axioms YMUIC.Wilson.drift_controlled_left_rg_uniform
+          #print axioms YMUIC.Wilson.source_cocycle_chain_prefix_column
+          #print axioms YMUIC.Wilson.source_cocycle_chain_prefix_uniform
+          #print axioms YMUIC.Wilson.drift_controlled_residual_cocycle_uniform
+          #print axioms YMUIC.Wilson.drift_controlled_candidate_source_uniform
+          #print axioms YMUIC.Wilson.candidate_gram_root_trace_dictionary
+          #print axioms YMUIC.Wilson.fixed_composite_gram_paired_rg_bound
+          #print axioms YMUIC.Wilson.fixed_composite_gram_paired_rg_uniform
+          #print axioms YMUIC.Wilson.candidate_gram_insertion_small_source
+          #print axioms YMUIC.Wilson.candidate_gram_insertion_all_regulators
+          #print axioms YMUIC.Wilson.source_rg_action_identity
+          #print axioms YMUIC.Wilson.source_rg_action_compose
+          #print axioms YMUIC.Wilson.source_paired_left_ordered_rg_chain
+          #print axioms YMUIC.Wilson.paired_candidate_gram_left_rg_uniform
+          #print axioms YMUIC.Wilson.candidate_gram_monomial_abs_le
+          #print axioms YMUIC.Wilson.candidate_gram_polynomial_budget_nonneg
+          #print axioms YMUIC.Wilson.candidate_gram_polynomial_bound
+          #print axioms YMUIC.Wilson.candidate_gram_polynomial_schwartz_bound
+          #print axioms YMUIC.Wilson.candidate_gram_polynomial_schwartz_sub
+          #print axioms YMUIC.Wilson.candidate_gram_root_bounds
+          #print axioms YMUIC.Wilson.candidate_gram_pairs_order
+          #print axioms YMUIC.Wilson.candidate_gram_pairs_injective
+          #print axioms YMUIC.Wilson.candidate_gram_root21_abs_le_four
+          #print axioms YMUIC.Wilson.candidate_gram_schwartz_uniform
+          #print axioms YMUIC.Wilson.mixed_candidate_gram_uniform
+          #print axioms YMUIC.Wilson.wilson_word_root_bounds
+          #print axioms YMUIC.Wilson.wilson_word_combination_bound
+          #print axioms YMUIC.Wilson.wilson_word_schwartz_source_bound
+          #print axioms YMUIC.Wilson.source_primal_dual_pairing_allD
+          #print axioms YMUIC.Wilson.paired_wilson_source_uniform_without_cocycle_norm
+          LEAN
+          lake env lean -DwarningAsError=true YMFrameAudit.lean | tee frame-audit.log
+          if grep -E 'sorryAx|^error:' frame-audit.log; then exit 1; fi
+      - name: Preserve audit log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ym-compensated-frame-${{ github.sha }}
+          path: frame-audit.log
+          if-no-files-found: warn
+          retention-days: 30

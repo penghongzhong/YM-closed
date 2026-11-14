@@ -25,6 +25,8 @@ jobs:
         run: |
           lake update
           lake exe cache get
+          test -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Tactic/CategoryTheory/BicategoryCoherence.olean || \
+            lake build Mathlib.Tactic.CategoryTheory.BicategoryCoherence
       - name: Raw compile every Lean file and audit axioms
         id: raw
         continue-on-error: true
