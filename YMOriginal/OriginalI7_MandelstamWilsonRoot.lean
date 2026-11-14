@@ -24,22 +24,18 @@ theorem su2_trace_im_zero (U : SU2) :
   have hInv : Matrix.trace ((U⁻¹ : SU2) : M2) =
       Matrix.trace (U : M2) := by
     rw [su2_matrix_inverse_eq_adjugate U]
-    simp [Matrix.trace_fin_two, Matrix.adjugate_fin_two]
+    simp [Matrix.trace_fin_two, Matrix.adjugate_fin_two] <;> ring
   have hStar : Matrix.trace ((U⁻¹ : SU2) : M2) =
       star (Matrix.trace (U : M2)) := by
     change Matrix.trace (star (U : M2)) =
       star (Matrix.trace (U : M2))
-    simpa only [star_eq_conjTranspose] using
+    simpa only [Matrix.star_eq_conjTranspose] using
       Matrix.trace_conjTranspose (U : M2)
-  have hConj : Complex.conj (Matrix.trace (U : M2)) =
-      Matrix.trace (U : M2) := by
-    calc
-      Complex.conj (Matrix.trace (U : M2)) =
-          star (Matrix.trace (U : M2)) := by
-            rw [Complex.star_def]
-      _ = Matrix.trace ((U⁻¹ : SU2) : M2) := hStar.symm
-      _ = Matrix.trace (U : M2) := hInv
-  exact Complex.conj_eq_iff_im.mp hConj
+  have hStarFix : star (Matrix.trace (U : M2)) =
+      Matrix.trace (U : M2) := hStar.symm.trans hInv
+  have hIm := congrArg Complex.im hStarFix
+  simp only [Complex.star_def, Complex.conj_im] at hIm
+  linarith
 
 /-- Actual repository Wilson root fusion; no complex-root substitution.
 For two closed SU(2) holonomies, both right-hand products are again
