@@ -45,8 +45,11 @@ New source YMOriginal/OriginalI7_DyadicTemporalMoments.lean contains:
 
 Only scalar arithmetic is claimed. Actual hJensen requires a common
 positive selfadjoint Wilson transfer; physical hDecay is still the RED.
-The new CI gate must report Success and #print axioms only standard
-[propext, Classical.choice, Quot.sound] before promotion.
+STRICT RESULT: GitHub Actions https://github.com/penghongzhong/YM-closed/actions/runs/43547373282
+= SUCCESS (Lean 4.35.0-rc3 / pinned Mathlib). Both theorem sources compile
+with warningAsError; #print axioms only [propext, Classical.choice,
+Quot.sound]. No sorry, admit or added axiom. This does not validate the
+physical Wilson input hDecay or hJensen.
 
 ## C. Further permission: subexponential word-dependent amplitudes
 
@@ -123,8 +126,8 @@ correlation. No fictitious dyadic squaring bootstrap is permitted.
 ## F. Exact status
 
 PAPER CLOSED: scalar sparse-times and polynomial-prefactor spectral lemma.
-LEAN: pending official strict CI for the scalar source. No Lean claim about
-actual full physical Yang–Mills.
+LEAN: two NEW scalar theorems STRICT CI SUCCESS 43547373282. No Lean claim
+about actual full physical Yang–Mills.
 ORIGINAL: 39/39 only CONDITIONAL, with named published and model inputs.
 REMAINING RED: true fixed-physical-time SU2 Wilson OS-reflected sparse
 diagonal autocorrelation with one cutoff- and word-uniform positive exponent.
