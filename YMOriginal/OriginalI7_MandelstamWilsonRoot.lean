@@ -24,7 +24,8 @@ theorem su2_trace_im_zero (U : SU2) :
   have hInv : Matrix.trace ((U⁻¹ : SU2) : M2) =
       Matrix.trace (U : M2) := by
     rw [su2_matrix_inverse_eq_adjugate U]
-    simp [Matrix.trace_fin_two, Matrix.adjugate_fin_two] <;> ring
+    simp [Matrix.trace_fin_two, Matrix.adjugate_fin_two]
+    ring
   have hStar : Matrix.trace ((U⁻¹ : SU2) : M2) =
       star (Matrix.trace (U : M2)) := by
     change Matrix.trace (star (U : M2)) =
