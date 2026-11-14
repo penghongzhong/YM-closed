@@ -4,19 +4,19 @@ Date 2026-11-14; state I7 OPEN. This note corrects the bare unreflected-covarian
 
 ## 1. Correct finite-regulator OS Hilbert space
 
-For a reflection-positive, time-translation invariant, infinite-time SU(2) Wilson measure mu, let A_+ be the bounded, continuous, gauge-invariant cylinder functions supported in the nonnegative-time halfspace. Let Theta denote OS reflection (including complex conjugation in its definition). Set
+For a reflection-positive, time-translation invariant, infinite-time SU(2) Wilson measure mu, let A_+ be the bounded, continuous, gauge-invariant cylinder functions supported in the nonnegative-time halfspace. Let Theta denote the LINEAR pullback of functions under time reflection, with complex conjugation written explicitly as the bar operation; thus Theta itself does NOT conjugate coefficients. Set
 
   <[F],[G]>_OS := integral conj(Theta F) * G dmu,
 
-with the sign/conjugation conventions adjusted to the exact OS definition. Its null-space quotient completion is H_OS, with vacuum vector [1]. The transfer T_tau is the positive self-adjoint contraction induced by physical forward translation through a fixed positive time tau (typically use an even lattice step).
+using the explicit linear-reflection convention (the equivalent antilinear OS reflection is F |-> conj(Theta F)). Its null-space quotient completion is H_OS, with vacuum vector [1]. The transfer T_tau is the positive self-adjoint contraction induced by physical forward translation through a fixed positive time tau (typically use an even lattice step).
 
 For a positive-time loop W_gamma, define the centered vector
   v_gamma = [W_gamma - mu(W_gamma)].
 
 The exact diagonal temporal moments are
   <v_gamma, T_tau^n v_gamma>_OS
-   = integral (Theta(W_gamma-mu W_gamma))^*
-           (Translate_(n tau)(W_gamma-mu W_gamma)) dmu.
+   = integral conj(Theta(W_gamma-mu W_gamma))
+           * (Translate_(n tau)(W_gamma-mu W_gamma)) dmu.
 
 If W_gamma is time-zero localized this reduces to the usual slice correlation, but for a general positive-time Wilson loop the reflected first factor is essential. DO NOT use an unreflected Cov(W_gamma, Translate W_gamma) without proving equivalence.
 
@@ -29,8 +29,8 @@ Choose any connected finite subgraph of the positive-time halfspace containing s
 By the Mandelstam product formula (Lean matrix and SU2 complex forms certified in this branch), products of based loop traces reduce to finite linear combinations of *single* based loop traces. Hence their real linear span with constants is uniformly dense in each finite graph's gauge-invariant continuous cylinder functions. Arbitrary continuous positive-time gauge-invariant cylinder observables may be approximated within their finite supports.
 
 The OS seminorm is bounded by the uniform norm:
-  ||[F]||_OS^2 = integral (Theta F)^* F dmu
-               <= integral |(Theta F)^* F| dmu
+  ||[F]||_OS^2 = integral conj(Theta F) * F dmu
+               <= integral |conj(Theta F) * F| dmu
                <= ||F||_infinity^2.
 Thus uniform approximation implies OS Hilbert approximation. Consequently
   closure span_C{[1], [W_gamma] : gamma positive-time based loop}=H_OS.
