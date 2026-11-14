@@ -7,6 +7,7 @@ on:
     paths:
       - "YMOriginal/Original42_B14VanishingDefect.lean"
       - "YMOriginal/Original42_ContinuumOnlyAsymptotic.lean"
+      - "YMOriginal/Original42_SameHierarchyAsymptotic.lean"
       - ".github/workflows/i7-b14-vanishing-20261114.yml"
   workflow_dispatch:
 
@@ -37,14 +38,16 @@ jobs:
           lake exe cache get
           lake build YMOriginal.Original42_B14VanishingDefect
           lake build YMOriginal.Original42_ContinuumOnlyAsymptotic
+          lake build YMOriginal.Original42_SameHierarchyAsymptotic
           lake env lean -DwarningAsError=true YMOriginal/Original42_B14VanishingDefect.lean | tee i7-b14-vanishing.log
           lake env lean -DwarningAsError=true YMOriginal/Original42_ContinuumOnlyAsymptotic.lean | tee -a i7-b14-vanishing.log
+          lake env lean -DwarningAsError=true YMOriginal/Original42_SameHierarchyAsymptotic.lean | tee -a i7-b14-vanishing.log
           if grep -E 'sorryAx|^error:' i7-b14-vanishing.log; then exit 1; fi
       - name: Placeholder scan
         shell: bash
         run: |
           set -euo pipefail
-          ! grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original42_B14VanishingDefect.lean YMOriginal/Original42_ContinuumOnlyAsymptotic.lean
+          ! grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original42_B14VanishingDefect.lean YMOriginal/Original42_ContinuumOnlyAsymptotic.lean YMOriginal/Original42_SameHierarchyAsymptotic.lean
       - name: Store audit
         if: always()
         uses: actions/upload-artifact@v4
