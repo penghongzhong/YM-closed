@@ -103,3 +103,60 @@ cannot be silently promoted to accepted published input.
 Accepted: 1 new conditional-to-cube Lean arithmetic theorem.
 Paper: exact Wilson Gibbs boundary tilt identity.
 UNPROVED: physical RED57, physical I7, unconditional Clay result.
+
+## E. Main-line decision after checking worst-boundary quantifiers
+
+B57/RED57 is a useful *stronger sufficient criterion* with a strict Lean
+arithmetic bridge; it is not the weakest route to the paper's final mass
+gap. The supremum over ALL exterior conditions is a significant mismatch
+with the existing Bałaban/RG **annealed** Wilson-source expansions, whose
+expectation is taken over the full physical measure and whose amplitudes
+are rooted, not dual-Lipschitz worst-boundary operator norms.
+
+The primary shortest-chain red therefore remains the **true diagonal OS
+single-loop time correlation** from Rounds 54–55:
+
+  exists m*>0, forall cutoff k and centered based Wilson loop gamma,
+  exists C_(k,gamma)<infinity, forall n in Nat,
+  0 <= <v_(k,gamma), T_(k,2a*)^n v_(k,gamma)>
+     <= C_(k,gamma) exp(-2 m* a* n),
+
+where the common positive physical m* must be uniform in k, gamma and
+volume, but each C may depend on k and gamma. The exact OS-reflection
+dictionary and the infinite-time limit are essential. A positive spectral
+transfer and the single-loop density argument then yield I7 without ever
+estimating conditional worst-boundary D.
+
+Use the new B57 route **only if** one finds an actual Wilson
+dual-Lipschitz/conditional coupling that closes it more efficiently than
+an annealed spectral moment estimate. Do not turn the B57 sufficient
+criterion into another competing theorem-inventory obligation.
+
+## F. Exact multiplicative RG budget (paper-level)
+
+For a one-loop symbolic UV coupling g_j^2 = 1/(A+t*j), A,t>0,
+  sum_(j=0)^K g_j^2 diverges as log K,
+  sum_(j=0)^infinity g_j^4 converges.
+
+Consequently an unavoidable per-scale multiplicative loss
+  prod_j (1+c*g_j^2)
+is unbounded as the number of UV scales grows, whereas
+  prod_j (1+c*g_j^4)
+is uniformly bounded for c>=0 (use log(1+x)<=x).
+
+Thus any full Wilson-to-IR source transport through arbitrarily deep RG
+must absorb the entire O(g_j^2) term into the running coupling or field
+normalization, leaving summable O(g_j^4) remainders. This is the precise
+second-order obstacle emphasized by Remark 345(c) in the 2026 preprint.
+Even summable loss alone would not establish the needed positive IR decay
+rate: the coarsest effective sector still requires a genuinely
+nonperturbative input.
+
+## Final audit
+
+- 39/39 original conditional ledger unchanged.
+- 7 accepted SU2 algebraic, 2 accepted cube-clock, 1 new boundary-response
+  scalar Lean theorem (strict CI 43545555640).
+- Physical Wilson self-correlation exponent: OPEN.
+- Physical worst-boundary RED57: OPEN.
+- Complete physical I7: OPEN.
