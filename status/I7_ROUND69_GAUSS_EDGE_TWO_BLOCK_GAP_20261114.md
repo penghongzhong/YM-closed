@@ -485,3 +485,70 @@ one-loop running ceases to be quantitatively justified in the
 region where a strong-coupling criterion might begin.
 
 **Therefore actual I7 PAPER OPEN. NO LEAN executed.**
+
+
+## L. Exact conditional law of mixed SU2 Wilson trace (stronger than 75% projection)
+
+With A,B independent Haar SU2, write
+  X=tr A=2a0,  Y=tr B=2b0, Z=tr(AB).
+Fix X=x,Y=y in (-2,2). Conditional on x,y, the
+directions of the imaginary quaternion components
+a,b are independent uniform orientations on S².
+Thus their normalized dot product u in [-1,1]
+is UNIFORM (in 3 real dimensions), and
+  Z=xy/2 - 2 sqrt(1-x²/4)sqrt(1-y²/4)*u.
+
+Therefore the full conditional law is uniform on
+  [xy/2 - 0.5 sqrt((4-x²)(4-y²)),
+   xy/2 + 0.5 sqrt((4-x²)(4-y²))].
+The conditional mean and variance are EXACT:
+  E(Z|X,Y)=XY/2,
+  Var(Z|X,Y)=(4-X²)(4-Y²)/12.              (69.18)
+At X=Y=0, Z is Unif[-2,2] with variance4/3.
+Averaging over Haar marginal distributions gives
+  E Var(Z|X,Y)=(3*3)/12=3/4,
+matching the orthogonal projection calculation in §A.
+
+This reveals a FULL CONTINUOUS boundary relative-orientation
+degree of freedom, not an exceptional measure-zero phenomenon.
+At weak g the raw variance can decrease as A,B->I,
+but after physical source renormalization F/g²
+the §E variance stays O(1) in the independent
+two-block oscillator reference model.
+
+The conditional law is a strict SU2 Haar statement,
+not a conditional law under the true interacting 4D
+SU2 Wilson/OS measure.
+
+## M. Final paper-only audit (no physical closure)
+
+This round's actual new rigour:
+1. exact SU2 Gauss-gluing representation and mixed-loop
+   75% Haar source norm omitted by separate-block
+   singlet projection, with explicit conditional law;
+2. preservation of a genuine extended-Hilbert gap
+   under compact gauge projection, plus exact opposite
+   counterexample showing the extended requirement stronger;
+3. an interacting two-loop Gauss-invariant compact SU2
+   model with explicit strong-coupling gap
+   [(3/2)g²-4/g²]/a, g⁴>8/3;
+4. compact two-loop all-positive-g gap by standard
+   nondegenerate-well semiclassical spectral convergence,
+   with weak g limiting extended/physical gaps
+   sqrt2/a, 2sqrt2/a;
+5. a finite-range interacting multi-loop strong-g
+   toy class with Yarotsky-stable volume-uniform gap
+   under its published small-norm threshold;
+6. precise vast-volume obstruction from the
+   O(|Λ|) interacting vacuum-energy shift.
+
+Actual 4D physical input STILL MISSING: genuine
+nonperturbative RG terminal Hamiltonian + OS transfer
+IDENTIFICATION, complete Gauss boundary sectors,
+uniform reference block gap and strict stability
+local interaction norm, correct fixed physical
+time and all centered Wilson Gram families.
+
+I7: OPEN. Historical 39/39 CONDITIONAL unchanged.
+No new Lean code, no CI. Do not state that any
+toy model settles the Clay problem.
