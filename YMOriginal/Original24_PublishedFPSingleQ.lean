@@ -5,6 +5,7 @@ set_option autoImplicit false
 noncomputable section
 
 namespace YMUIC.Original24
+-- short chain: published single-q FP is consumed directly by the physical full-series theorem
 -- polymer type pinned explicitly for the published interface
 open YMUIC.Wilson
 open YMUICV128.Section03
