@@ -6,6 +6,7 @@ on:
       - ym-i7-b14-vanishing-error-20261114
     paths:
       - "YMOriginal/Original42_B14VanishingDefect.lean"
+      - "YMOriginal/Original42_ContinuumOnlyAsymptotic.lean"
       - ".github/workflows/i7-b14-vanishing-20261114.yml"
   workflow_dispatch:
 
@@ -35,13 +36,15 @@ jobs:
           test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = "516d31250e96c4e8e76888c3d8e2e43a9642b9ee"
           lake exe cache get
           lake build YMOriginal.Original42_B14VanishingDefect
+          lake build YMOriginal.Original42_ContinuumOnlyAsymptotic
           lake env lean -DwarningAsError=true YMOriginal/Original42_B14VanishingDefect.lean | tee i7-b14-vanishing.log
+          lake env lean -DwarningAsError=true YMOriginal/Original42_ContinuumOnlyAsymptotic.lean | tee -a i7-b14-vanishing.log
           if grep -E 'sorryAx|^error:' i7-b14-vanishing.log; then exit 1; fi
       - name: Placeholder scan
         shell: bash
         run: |
           set -euo pipefail
-          ! grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original42_B14VanishingDefect.lean
+          ! grep -nE '^[[:space:]]*(sorry|admit|axiom|unsafe|partial)([[:space:]]|$)' YMOriginal/Original42_B14VanishingDefect.lean YMOriginal/Original42_ContinuumOnlyAsymptotic.lean
       - name: Store audit
         if: always()
         uses: actions/upload-artifact@v4
