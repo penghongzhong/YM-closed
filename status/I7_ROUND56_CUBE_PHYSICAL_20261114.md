@@ -102,5 +102,5 @@ If this RED estimate is independently established and the cited cube-to-gap tran
 - Main branch unchanged; new isolated branch.
 - Original conditional proof count 39/39 unchanged.
 - Round55 seven SU(2) algebra lemmas accepted.
-- New cube-clock numerical lemma: CI requested; do not promote until it succeeds and shows standard axiom dependencies.
+- New cube-clock numerical lemma: CI 43542468543 SUCCESS, strict Lean 4.35.0-rc3 / pinned Mathlib 516d31250e96c4e8e76888c3d8e2e43a9642b9ee. `terminal_clock_exact_sqrt` and `uniform_terminal_bound_from_cube_gap` kernel compiled; `#print axioms` only `[propext, Classical.choice, Quot.sound]`. This is scalar arithmetic only, NOT a proof of D(n,alpha) or physical I7.
 - I7 is explicitly OPEN.
