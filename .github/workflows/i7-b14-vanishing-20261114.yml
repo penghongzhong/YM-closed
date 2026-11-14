@@ -1,4 +1,4 @@
-name: B14: cutoff-vanishing Gram defect implies continuum generator gap (strict)
+name: "B14 vanishing-defect continuum gap (strict)"
 
 on:
   push:
