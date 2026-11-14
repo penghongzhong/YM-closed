@@ -38,7 +38,7 @@ theorem b14_continuum_gap_from_joint_gram_limits
     (Q0 Qt : Cut → Finset J → (J → ℂ) → ℝ)
     (hQ0lim : ∀ (s : Finset J) (c : J → ℂ),
       Tendsto (fun k => Q0 k s c) l
-        (𝓝 ‖∑ j ∈ s, c j • v j‖ ^ 2))
+        (𝓝 (‖∑ j ∈ s, c j • v j‖ ^ 2)))
     (hQtlim : ∀ (s : Finset J) (c : J → ℂ),
       Tendsto (fun k => Qt k s c) l
         (𝓝 (⟪Tcont (∑ j ∈ s, c j • v j),
@@ -96,7 +96,6 @@ theorem b14_continuum_gap_from_joint_gram_limits
     dsimp [q]
     rw [Real.log_exp]
     field_simp [ne_of_gt ht]
-    ring
   exact heq ▸ hzlower
 
 #print axioms b14_continuum_gap_from_joint_gram_limits
