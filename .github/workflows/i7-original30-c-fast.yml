@@ -47,6 +47,7 @@ jobs:
           lake build YMConditional.Original33_CutoffPassage
           lake build YMConditional.Original40_ToContinuum
           lake build YMOriginal.Original34_ManuscriptReconstruction
+          lake build YMOriginal.Original42_B14GapPassage
           lake build YMOriginal.Original42_ConditionalMaster
           lake build YMOriginal.Original42_BookendCertificate
       - name: Forbidden placeholder scan
