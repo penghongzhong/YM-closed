@@ -243,3 +243,46 @@ parameter region but cannot establish a uniform analytic q.
 **Final Round61 result: physical I7 OPEN, but the UV tail and
 nonperturbative terminal block are now sharply separated, with
 numerically calibrated spectral/geometry bottlenecks.**
+
+
+## 9. New anti-shortcut: global Haar density lower bounds lose the gap even in an exactly solvable SU2 toy
+
+For the exact SU(2) class convolution kernel
+  k_beta(U)=exp(beta*tr(U)/2)/Z_beta,
+with beta>0, the normalized Haar partition function satisfies
+  exp(-beta)<=Z_beta<=exp(beta).
+Consequently
+  k_beta(U)>=exp(-2 beta)=eps_beta.
+Doeblin/Haar splitting gives on the mean-zero subspace the CRUDE
+  ||T_beta|| <= 1-eps_beta,
+i.e. a certified margin only eps_beta=exp(-2 beta).
+But the ACTUAL EXACT mean-zero spectral norm is
+  q_exact=I_2(beta)/I_1(beta),
+whose margin is approximately 3/(2 beta) at large beta.
+
+Numerical discrepancy:
+ beta=2: exact margin 0.56687, crude margin 0.0183156, factor 31;
+ beta=4: exact margin 0.34195, crude margin 0.00033546, factor 1.02e3;
+ beta=8: exact margin 0.18075, crude margin 1.13e-7, factor 1.61e6;
+ beta=16: exact margin 0.092185, crude margin 1.27e-14, factor 7.28e12.
+
+If one takes V independent SU(2) sites and tensorizes the physical
+convolution operator, its exact global non-vacuum spectral norm
+remains q_exact, independent of V, because one local excitation
+attains that norm. However using the *global joint density*
+minorization gives only eps_beta^V=exp(-2 beta V),
+which is utterly useless in large volume.
+
+Therefore a proof of I7 based solely on global sup/inf of the
+full blocked Wilson density, or on a global Haar minorization
+with volume-extensive action oscillation, is quantitatively
+destined to lose the needed uniform volume margin even when
+a spectral gap exists. This is a strict mathematical toy no-go
+for the METHOD, not for the SU2 physical mass gap.
+
+Recommended replacement: work with local spectral comparisons,
+tensorization, conditional-Poincare/Dobrushin interdependence or
+an OS-compatible transfer Schur estimate that is stable in
+spatial volume. Even these methods still need the actual
+nonperturbative SU2 coarse-sector q_IR<1; their existence is
+not proved by this toy.
