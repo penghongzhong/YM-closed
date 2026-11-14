@@ -68,6 +68,23 @@ Strong-coupling Dobrushin coefficients for bare Wilson SU(2) at small beta canno
 
 This new criterion is STRONGER than original I7 but genuinely local in physical units. It can be attacked by a constructive finite-cube coupling or multiscale Log-Sobolev argument, if a noncircular full-measure estimate is found.
 
+
+## 3a. Explicit scale-loss audit for the naive uniform cube perturbation
+
+The independent 2026 preprint repository `creelie/4Y-M`, file `YangMills/StrongCoupling/CubeOpen.lean`, certifies the elementary *conditional perturbation arithmetic*:
+
+  alpha' = alpha*exp(Omega)*(1+2*Omega)+96*s*Omega,
+  Omega = 48*M*D*N*epsilon,
+  alpha'<1  =>  epsilon < (1-alpha)/(4608*s*M*D*N).
+
+At the matched 4D cube side `n_cube=2*n_*` the number of period-two translates is `N=(n_cube/2)^4=n_*^4`. Thus with fixed positive constants s,M,D, and a base alpha<1 away from 1, this **specific global action-tilt perturbation mechanism** needs
+
+  epsilon = O(n_*^(-4)) = O((a_0/a_*)^4).
+
+But a generic weak-coupling `g(a_0)^p` input, with `g(a_0)^2~1/log(1/a_0)`, supplies at best a logarithmic bound `O(log(1/a_0)^(-p/2))`, which alone is far too weak to imply `O(a_0^4)`. A stronger scale-localized or measure-adapted method is required; this does **not** exclude sharper physical perturbation estimates or cancellations. It is a mismatch of available *upper bounds*, not a general nonexistence theorem.
+
+Consequently, a naive use of OldR/NewR U1 pointwise weak-g prefactors as the whole-cube action perturbation cannot certify `D(n_cube,alpha)` in the limit. The full multiscale effective field, cancellation, bad-field islands and residual gauge chart all remain essential.
+
 ## 4. Explicit red theorem to prove, not assume
 
 For every UV spacing a0, tuned coupling beta(a0), spatial/time volume and exhaustion, choose the B08 n_*(a0). For a common alpha<1, prove in the physical SU2 Wilson conditional law
