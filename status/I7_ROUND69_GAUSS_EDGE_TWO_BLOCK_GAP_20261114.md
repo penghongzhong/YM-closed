@@ -202,14 +202,11 @@ common-conjugation invariant，按B节投影
 W唯一零点是A=B=I。
 在该点附近取单位四元数向量坐标
 A=(sqrt(1-|x|²),x), B=(sqrt(1-|y|²),y)：
-  W(x,y)=|x|²+|y|²+|x+y|²+O((|x|+|y|)^4)
-（在多项式展开中存在三次/四次项，但不影响正Hessian；
-局部等号的 O(x^4) 若含非零三次项应改为 O(x^3)；
-严格使用 W=quadratic+O((|x|+|y|)^3)，见下一句）。
-精确需要仅
   W(x,y)=|x|²+|y|²+|x+y|²
-               +O((|x|+|y|)^3),
-其Hessian严格正定。
+              +O((|x|+|y|)^4),
+其中 x,y 是 SU2 的四元数向量坐标，
+a0=sqrt(1-|x|²), b0=sqrt(1-|y|²)；
+所有余项的最低阶为四次，Hessian严格正定。
 SU2 round Laplacian下动能局部为
   -(h²/2)(Δ_x+Δ_y)+lower-order metric terms.
 
@@ -365,3 +362,126 @@ Clay数学研究所仍列该问题UNSOLVED。
   be checked for the real YM RG terminal model.
 - Clay CMI official Yang–Mills & the Mass Gap status remains unsolved,
   https://www.claymath.org/millennium/yang-mills-the-maths-gap/.
+
+
+## I. NEW: arbitrarily many interacting SU2 loop blocks in an actual published gap-stability regime
+
+Take a finite Λ⊂Z³, the full kinematic extended Hilbert
+  H_ext,Λ = ⊗_(z∈Λ) L²(SU2,dHaar).
+Let h_g as in §C (real compact 1-loop elliptic Hamiltonian on the
+FULL SU2 group, not its class-invariant subspace alone).
+Put
+  H_Λ = ∑_(z∈Λ) h_g(U_z)
+         + ∑_(<z,w>) [2/(g²a)](1-0.5tr(U_z U_w^{-1})).
+Every nearest-neighbour V_zw is a bounded positive multiplication
+operator with norm ≤4/(g²a) and is invariant under simultaneous
+SU2 conjugation of all U_z. The physical space is the diagonal
+gauge-invariant subspace, NOT the tensor product of individual
+class-invariant single-block spaces.
+
+The full one-site gap obeys
+  Δ_loc ≥(1/a)[(3/2)g²-2/g²],
+positive for g^4>4/3.
+Each site in Z³ has at most six neighbouring edges, hence the
+local interaction norm budget satisfies
+  sup_z ∑_(<z,w>) ||V_zw||
+     ≤24/(g²a).
+Relative to the certified on-site gap,
+  R(g) ≤ 24/[(3/2)g^4-2] →0 as g→∞.          (69.16)
+Numeric upper budgets:
+ g=2:1.090909; 3:0.200837;4:0.062827;
+ 5:0.025655;8:0.003908.
+
+The published Yarotsky weak bounded finite-range perturbation
+spectral-gap stability theorem (J.Math.Phys.45 (2004) 2134–2152,
+DOI 10.1063/1.1705718; related CMP261 (2006) 799–819)
+provides a strictly positive allowed local perturbation threshold
+ε_Y depending on range/dimension/other theorem constants.
+We do NOT assign it a guessed numerical value.
+Because R(g)→0, there exists g_0 sufficiently large such that
+for each fixed g≥g_0 the exact SU2 **loop-rotor toy**
+H_Λ has a unique gapped ground with a gap bounded below
+independently of finite Λ. The positive ground is
+diagonal-gauge-invariant, and §B shows this gap also bounds
+the gauge-invariant physical restriction.
+
+This is an honest **many-block + interacting + true compact SU2**
+toy theorem, stronger than the isolated/two-block examples.
+It is NOT the real 3+1D Kogut–Susskind Hamiltonian of 4D Wilson
+plaquettes and not the rigorously RG-pushed true Euclidean Wilson
+OS generator. The action contains onsite pinning Wilson class
+potentials and pairwise composite loops about a shared base;
+it lacks local sitewise gauge transformations, Gauss interface
+matching on a physical spatial graph, and global center/toroidal
+sectors in the sense of the original full I7.
+
+In physical time τ=2a, after dimensionless rescaling
+a H_Λ, any uniform dimensionless interacting gap
+δ_Y(g)>0 yields a true toy-transfer contraction
+  ||T_Λ|Ω^perp|| ≤exp(-2δ_Y(g))<1
+independent of the number of blocks and of the formal spacing a.
+**However** no equivalence between the toy transfer and the
+actual original T_* has been established.
+
+## J. Why nonnegative bounded interactions alone fail at unbounded volume
+
+For H0=∑_z h_z, each site unique ground and gap≥Δ,
+and V=∑_edge V_edge≥0, the crude min-max estimates give
+  E1(H0+V)≥E0(H0)+Δ,
+  E0(H0+V)≤E0(H0)+∑edge <Ω0,V_edge Ω0>.
+If each bond has nonzero O(1) product-vacuum energy,
+the last sum is O(|Λ|). Subtracting gives merely
+  gap(H0+V)≥Δ−O(|Λ|),
+which is vacuous in the thermodynamic limit.
+
+In the SU2 two-block toy product ground,
+  <Ω0,V_cross Ω0>
+     =[2/(g²a)](1-m_g²)>0
+at every finite g>0, because the unique elliptic
+ground has a strictly positive full-support density,
+so |m_g|<1.
+
+The instant shortcut used for frustration-free perturbations
+(V≥0 and V Ω0=0 implies gap(H0+V)≥Δ) is therefore
+NOT valid for this true Wilson mixed-loop interaction.
+Yarotsky's weak-interaction theorem controls a DRESSED
+interacting ground and avoids this extensive naive shift.
+The same vacuum-renormalization difficulty is essential in
+real 4D YM; UV old/new-R polymer estimates alone do not supply
+the dressed nonperturbative terminal vacuum or its gap.
+
+## K. The unique actual I7 physical bridge, now sharply isolated
+
+To promote the preceding controlled interacting toy mechanism to
+the actual historical I7, one must derive in the **same**
+4D SU2 Wilson/OS model a terminal physical-clock representation
+  H^(actual)_Λ(a0)
+   =∑_z h_z^(actual)(a0)+∑_X Φ_X^(actual)(a0)
+on a boundary-extended state space with exact Gauss
+projection and full physical centered Wilson family.
+
+Then independently certify:
+  (i) each actual terminal h_z has a unique ground and a
+      positive uniform gap Δ_* in PHYSICAL units,
+      not just an isolated toy plaquette gap;
+  (ii) the COMPLETE actual Φ_X, including true IR effective
+      action, temporal memory, cross-boundary spin channels,
+      large-field islands and all counterterms, satisfies
+      the precise local perturbation threshold of an
+      applicable published stability theorem, uniformly over
+      all cutoff/volume/RG depth;
+  (iii) the physical OS transfer at the original fixed
+      terminal time equals exp(-τ H^(actual)) and preserves
+      the relevant same-Net Schwinger/Gram source dictionary,
+      including mixed based loops AB, AB^{-1}, torons,
+      and all physical sectors.
+
+Nothing in the current actual Bałaban old/new-R published U1
+hypotheses, the 39/39 CONDITIONAL ledger, or the toy
+Yarotsky application proves (i)–(iii).
+Bare g(a0)->0 does not imply the terminal physical coupling
+g_eff is above the unspecified g0 of the stability theorem;
+one-loop running ceases to be quantitatively justified in the
+region where a strong-coupling criterion might begin.
+
+**Therefore actual I7 PAPER OPEN. NO LEAN executed.**
